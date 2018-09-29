@@ -1,0 +1,49 @@
+$color1: rgba(192, 50, 33, 1);
+$scheme-white: rgba(247, 247, 255, 1);
+$color3: rgba(242, 208, 164, 1);
+$scheme-gray: rgba(84, 94, 117, 1);
+$color5: rgba(63, 130, 109, 1);
+
+$home-base-background: $scheme-white;
+$page-background: $scheme-gray;
+
+body {
+  background: $page-background;
+}
+
+.home-base {
+  display: grid;
+  
+  grid-template-columns: repeat(4, 40px);
+  grid-template-rows: repeat(4, 40px);
+  gap: 1px;
+  
+  &__square {
+    background-color: $home-base-background;
+  }
+}
+
+.player {
+  width: 40px;
+  height: 40px;
+  
+  svg path {
+    fill: #f00;
+  }
+  
+  &--north {
+    transform: rotate(0deg);
+  }
+  
+  &--east {
+    transform: rotate(90deg);
+  }
+  
+  &--south {
+    transform: rotate(180deg);
+  }
+  
+  &--west {
+    transform: rotate(270deg);
+  }
+}
