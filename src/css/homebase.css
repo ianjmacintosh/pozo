@@ -1,0 +1,24 @@
+body {
+  background: #545e75; }
+
+.home-base {
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  grid-template-rows: repeat(4, 40px);
+  gap: 1px; }
+  .home-base__square {
+    background-color: #f7f7ff; }
+
+.player {
+  width: 40px;
+  height: 40px; }
+  .player svg path {
+    fill: #f00; }
+  .player--north {
+    transform: rotate(0deg); }
+  .player--east {
+    transform: rotate(90deg); }
+  .player--south {
+    transform: rotate(180deg); }
+  .player--west {
+    transform: rotate(270deg); }
