@@ -16,7 +16,7 @@ function updateHomeBaseView(coords = [ 0, 0 ]) {
   homeBase.querySelectorAll("div.home-base__square")[get1dCoordsFrom2d(coords, homebase.state.size[0])].appendChild(player1);
 }
 
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", ({key}) => {
   const directionKeys = {
         "W": "up",
         "D": "right",
@@ -28,6 +28,8 @@ document.addEventListener("keydown", (event) => {
         "ARROWLEFT": "left",
     };
 
+  if (key.toUpperCase() in directionKeys) {
+    const direction = directionKeys[key.toUpperCase()];
 
   if (typeof direction !== "undefined") {
     homebase.state["1P"].coords = getNewCoords(direction);
