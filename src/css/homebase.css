@@ -22,18 +22,18 @@ body {
   fill: #f00;
 }
 
-.player--north {
+.player--up {
   transform: rotate(0deg);
 }
 
-.player--east {
+.player--right {
   transform: rotate(90deg);
 }
 
-.player--south {
+.player--down {
   transform: rotate(180deg);
 }
 
-.player--west {
+.player--left {
   transform: rotate(270deg);
 }

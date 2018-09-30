@@ -31,19 +31,19 @@ body {
     fill: #f00;
   }
   
-  &--north {
+  &--up {
     transform: rotate(0deg);
   }
   
-  &--east {
+  &--right {
     transform: rotate(90deg);
   }
   
-  &--south {
+  &--down {
     transform: rotate(180deg);
   }
   
-  &--west {
+  &--left {
     transform: rotate(270deg);
   }
 }

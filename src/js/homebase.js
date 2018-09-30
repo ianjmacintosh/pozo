@@ -4,7 +4,7 @@ homebase.state = {
 	"size": [ 4, 4 ], // How wide, how tall?
 	"1P": {
 		"coords": [	0, 0 ], // Where is 1P in the base? -- X, Y coords
-		"orientation": "N", // What direction is 1P facing?
+		"orientation": "up", // What direction is 1P facing?
 		"status": "A" // What color is 1P?
 	}
 };
@@ -18,23 +18,22 @@ function updateHomeBaseView(coords = [ 0, 0 ]) {
 
 document.addEventListener("keydown", (event) => {
   const directionKeys = {
-        "W": "north",
-        "D": "east",
-        "S": "south",
-        "A": "west",
-        "ARROWUP": "north",
-        "ARROWRIGHT": "east",
-        "ARROWDOWN": "south",
-        "ARROWLEFT": "west",
-    },
-        direction = directionKeys[event.key.toUpperCase()];
+        "W": "up",
+        "D": "right",
+        "S": "down",
+        "A": "left",
+        "ARROWUP": "up",
+        "ARROWRIGHT": "right",
+        "ARROWDOWN": "down",
+        "ARROWLEFT": "left",
+    };
+
 
   if (typeof direction !== "undefined") {
     homebase.state["1P"].coords = getNewCoords(direction);
     updateHomeBaseView(homebase.state["1P"].coords);
     
-    document.getElementById("js-player1").classList.remove("player--north", "player--east", "player--west", "player--south");
-    
+    document.getElementById("js-player1").classList.remove("player--up", "player--right", "player--left", "player--down");
     document.getElementById("js-player1").classList.add(`player--${direction}`);
   }
 })
@@ -46,10 +45,10 @@ function get1dCoordsFrom2d(coordinates) {
 
 function getNewCoords(direction) {
   let directions = {
-      "north":  [ 0, -1 ],
-      "east":   [ 1, 0 ],
-      "south":  [ 0, 1 ],
-      "west":   [ -1, 0 ]
+      "up":  [ 0, -1 ],
+      "right":   [ 1, 0 ],
+      "down":  [ 0, 1 ],
+      "left":   [ -1, 0 ]
     },
     currentCoords = homebase.state["1P"].coords,
     newCoords = [
