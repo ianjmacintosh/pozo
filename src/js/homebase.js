@@ -1,7 +1,7 @@
 let homebase = {};
 
 homebase.state = {
-	"size": [ 4, 4 ], // How wide, how tall?
+	"size": [ 4, 4 ], // How wide and tall is home base?
 	"1P": {
 		"coords": [	0, 0 ], // Where is 1P in the base? -- X, Y coords
 		"orientation": "up", // What direction is 1P facing?
@@ -13,7 +13,7 @@ function updateHomeBaseView(coords = [ 0, 0 ]) {
   let homeBase = document.getElementById("js-home-base"),
       player1 = document.getElementById("js-player1");
   
-  homeBase.querySelectorAll("div.home-base__square")[get1dCoordsFrom2d(coords)].appendChild(player1);
+  homeBase.querySelectorAll("div.home-base__square")[get1dCoordsFrom2d(coords, homebase.state.size[0])].appendChild(player1);
 }
 
 document.addEventListener("keydown", (event) => {
@@ -38,10 +38,7 @@ document.addEventListener("keydown", (event) => {
   }
 })
 
-function get1dCoordsFrom2d(coordinates) {
-  let gridSize = [ 4, 4 ];
-  return coordinates[0] + (coordinates[1] * gridSize[0]);
-}
+const get1dCoordsFrom2d = (coords, gridWidth) => coords[0] + (coords[1] * gridWidth);
 
 function getNewCoords(direction) {
   let directions = {
