@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ianjmacintosh/pozo.git"
+    "url": "git@github.com:ianjmacintosh/pozo.git"
   },
   "author": "Ian MacIntosh",
   "license": "ISC",
