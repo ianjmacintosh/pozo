@@ -31,8 +31,7 @@ document.addEventListener("keydown", ({key}) => {
   if (key.toUpperCase() in directionKeys) {
     const direction = directionKeys[key.toUpperCase()];
 
-  if (typeof direction !== "undefined") {
-    homebase.state["1P"].coords = getNewCoords(direction);
+    homebase.state["1P"].coords = getNewCoords(direction, homebase.state["1P"].coords, homebase.state.size);
     updateHomeBaseView(homebase.state["1P"].coords);
     
     document.getElementById("js-player1").classList.remove("player--up", "player--right", "player--left", "player--down");
@@ -42,22 +41,21 @@ document.addEventListener("keydown", ({key}) => {
 
 const get1dCoordsFrom2d = (coords, gridWidth) => coords[0] + (coords[1] * gridWidth);
 
-function getNewCoords(direction) {
+function getNewCoords(direction, oldCoords, gridSize) {
   let directions = {
       "up":  [ 0, -1 ],
       "right":   [ 1, 0 ],
       "down":  [ 0, 1 ],
       "left":   [ -1, 0 ]
     },
-    currentCoords = homebase.state["1P"].coords,
     newCoords = [
-      currentCoords[0] + directions[direction][0], 
-      currentCoords[1] + directions[direction][1]
+      oldCoords[0] + directions[direction][0],
+      oldCoords[1] + directions[direction][1]
     ];
   
-  if (newCoords[0] + 1 > homebase.state.size[0] || newCoords[0] < 0 ||
-     newCoords[1] + 1 > homebase.state.size[1] || newCoords[1] < 0) {
-    return currentCoords;
+  if (newCoords[0] + 1 > gridSize[0] || newCoords[0] < 0 ||
+     newCoords[1] + 1 > gridSize[1] || newCoords[1] < 0) {
+    return oldCoords;
   } else {
     return newCoords;
   }
