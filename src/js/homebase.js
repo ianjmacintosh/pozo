@@ -13,7 +13,9 @@ function updateHomeBaseView(coords = [ 0, 0 ]) {
   let homeBase = document.getElementById("js-home-base"),
       player1 = document.getElementById("js-player1");
   
-  homeBase.querySelectorAll("div.home-base__square")[get1dCoordsFrom2d(coords, homebase.state.size[0])].appendChild(player1);
+  homeBase.querySelectorAll("div.home-base__square")[
+    get1dCoordsFrom2d(coords, homebase.state.size[0])
+  ].appendChild(player1);
 }
 
 document.addEventListener("keydown", ({key}) => {
@@ -42,21 +44,26 @@ document.addEventListener("keydown", ({key}) => {
 const get1dCoordsFrom2d = (coords, gridWidth) => coords[0] + (coords[1] * gridWidth);
 
 function getNewCoords(direction, oldCoords, gridSize) {
-  let directions = {
-      "up":  [ 0, -1 ],
-      "right":   [ 1, 0 ],
-      "down":  [ 0, 1 ],
-      "left":   [ -1, 0 ]
-    },
-    newCoords = [
-      oldCoords[0] + directions[direction][0],
-      oldCoords[1] + directions[direction][1]
-    ];
+  // Instructions for how to modify coords for each direction
+  const directionChanges = {
+      "up": [ 0, -1 ],
+      "right": [ 1, 0 ],
+      "down": [ 0, 1 ],
+      "left": [ -1, 0 ]
+    };
   
-  if (newCoords[0] + 1 > gridSize[0] || newCoords[0] < 0 ||
-     newCoords[1] + 1 > gridSize[1] || newCoords[1] < 0) {
-    return oldCoords;
-  } else {
-    return newCoords;
-  }
+  // Apply the direction changes to the current coord
+  // I'm a little surprised there isn't a better `Array()` method to support this
+  return oldCoords.map(
+    function getCoordsWithinBounds(coord, i) {
+      // I'm surprised there isn't a `Math()` method that combines `Math.max()` and `Math.min()`
+      return Math.min( // Use whatever's smaller: the maximum coord or the new coord
+        gridSize[i] - 1,
+        Math.max( // Use whatever's bigger: 0 or the new coord
+          0,
+          coord + directionChanges[direction][i]
+        )
+      )
+    }
+  );
 }
