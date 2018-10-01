@@ -4,8 +4,6 @@ homebase.state = {
 	"size": [ 4, 4 ], // How wide and tall is home base?
 	"1P": {
 		"coords": [	0, 0 ], // Where is 1P in the base? -- X, Y coords
-		"orientation": "up", // What direction is 1P facing?
-		"status": "A" // What color is 1P?
 	}
 };
 
