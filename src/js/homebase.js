@@ -7,15 +7,6 @@ homebase.state = {
 	}
 };
 
-function updateHomeBaseView(coords = [ 0, 0 ]) {
-  let homeBase = document.getElementById("js-home-base"),
-      player1 = document.getElementById("js-player1");
-  
-  homeBase.querySelectorAll("div.home-base__square")[
-    get1dCoordsFrom2d(coords, homebase.state.size[0])
-  ].appendChild(player1);
-}
-
 document.addEventListener("keydown", ({key}) => {
   const keyMappings = {
         "w": "up",
@@ -54,6 +45,15 @@ function updatePlayerOrientation(playerElement, direction) {
     "player--down"
   );
   playerElement.classList.add(`player--${direction}`);
+}
+
+function updatePlayerPosition(coords = [ 0, 0 ]) {
+  let homeBase = document.getElementById("js-home-base"),
+      player1 = document.getElementById("js-player1");
+  
+  homeBase.querySelectorAll("div.home-base__square")[
+    get1dCoordsFrom2d(coords, homebase.state.size[0])
+  ].appendChild(player1);
 }
 
 function getNewCoords(direction, oldCoords, gridSize) {
