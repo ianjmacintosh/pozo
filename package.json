@@ -1,0 +1,24 @@
+{
+  "name": "pozo",
+  "version": "1.0.0",
+  "description": "A fast-paced puzzle game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:scss": "node-sass src/scss/ -o src/css/ --output-style expanded"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ianjmacintosh/pozo.git"
+  },
+  "author": "Ian MacIntosh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianjmacintosh/pozo/issues"
+  },
+  "homepage": "https://github.com/ianjmacintosh/pozo#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "node-sass": "^4.9.3"
+  }
+}
