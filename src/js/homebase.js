@@ -38,14 +38,23 @@ document.addEventListener("keydown", ({key}) => {
     const direction = keyMappings[key];
 
     homebase.state["1P"].coords = getNewCoords(direction, homebase.state["1P"].coords, homebase.state.size);
-    updateHomeBaseView(homebase.state["1P"].coords);
-    
-    document.getElementById("js-player1").classList.remove("player--up", "player--right", "player--left", "player--down");
-    document.getElementById("js-player1").classList.add(`player--${direction}`);
+
+    updatePlayerOrientation(document.getElementById("js-player1"), direction);
+    updatePlayerPosition(homebase.state["1P"].coords);
   }
 })
 
 const get1dCoordsFrom2d = (coords, gridWidth) => coords[0] + (coords[1] * gridWidth);
+
+function updatePlayerOrientation(playerElement, direction) {
+  playerElement.classList.remove(
+    "player--up",
+    "player--right",
+    "player--left",
+    "player--down"
+  );
+  playerElement.classList.add(`player--${direction}`);
+}
 
 function getNewCoords(direction, oldCoords, gridSize) {
   // Instructions for how to modify coords for each direction
