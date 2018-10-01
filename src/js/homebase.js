@@ -19,19 +19,25 @@ function updateHomeBaseView(coords = [ 0, 0 ]) {
 }
 
 document.addEventListener("keydown", ({key}) => {
-  const directionKeys = {
+  const keyMappings = {
+        "w": "up",
+        "d": "right",
+        "s": "down",
+        "a": "left",
+
         "W": "up",
         "D": "right",
         "S": "down",
         "A": "left",
-        "ARROWUP": "up",
-        "ARROWRIGHT": "right",
-        "ARROWDOWN": "down",
-        "ARROWLEFT": "left",
+
+        "ArrowUp": "up",
+        "ArrowRight": "right",
+        "ArrowDown": "down",
+        "ArrowLeft": "left",
     };
 
-  if (key.toUpperCase() in directionKeys) {
-    const direction = directionKeys[key.toUpperCase()];
+  if (key in keyMappings) {
+    const direction = keyMappings[key];
 
     homebase.state["1P"].coords = getNewCoords(direction, homebase.state["1P"].coords, homebase.state.size);
     updateHomeBaseView(homebase.state["1P"].coords);
