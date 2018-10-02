@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ianjmacintosh/pozo#readme",
   "dependencies": {},
   "devDependencies": {
-    "node-sass": "^4.9.3"
+    "node-sass": "^4.9.3",
+    "prettier": "1.14.3"
   }
 }
