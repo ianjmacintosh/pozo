@@ -1,0 +1,69 @@
+/** App styles */
+main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+/** Field styles */
+.field {
+  border: solid 1px #0f0;
+  display: flex;
+}
+
+.north-field,
+.south-field {
+  flex-direction: row;
+}
+
+.west-field,
+.east-field {
+  flex-direction: column;
+}
+
+.north-field {
+  grid-column: 2;
+  grid-row: 1;
+}
+.west-field {
+  grid-column: 1;
+  grid-row: 2;
+}
+.east-field {
+  grid-column: 3;
+  grid-row: 2;
+}
+.south-field {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/** Queue styles */
+.queue {
+  display: flex;
+  list-style: none;
+}
+
+.north-field .queue {
+  flex-direction: column;
+}
+
+.west-field .queue {
+  flex-direction: row;
+}
+
+.east-field .queue {
+  flex-direction: row-reverse;
+}
+
+.south-field .queue {
+  flex-direction: column-reverse;
+}
+
+/** Homebase styles */
+
+.homebase {
+  border: solid 1px #00f;
+  grid-column: 2;
+  grid-row: 2;
+}
