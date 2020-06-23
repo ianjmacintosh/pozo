@@ -2,7 +2,15 @@ import React from "react";
 
 class Queue extends React.Component {
   render() {
-    return <div>Queue goes here</div>;
+    return (
+      <ul className="queue">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+      </ul>
+    );
   }
 }
 

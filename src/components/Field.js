@@ -5,8 +5,7 @@ import Queue from "./Queue";
 class Field extends React.Component {
   render() {
     return (
-      <div>
-        Field goes here
+      <div className={`field ${this.props.className}`}>
         <Queue />
         <Queue />
         <Queue />

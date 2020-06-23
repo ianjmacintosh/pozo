@@ -5,7 +5,7 @@ import Hero from "./Hero";
 class Homebase extends React.Component {
   render() {
     return (
-      <div style={{ border: "solid 1px red" }}>
+      <div className="homebase">
         Homebase goes here
         <Hero />
       </div>

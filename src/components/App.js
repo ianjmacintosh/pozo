@@ -7,23 +7,21 @@ import Homebase from "./Homebase";
 import Counter from "./Counter";
 
 function App() {
-  // Components:
-  // Scoreboard
-  // Field
-  //   Queue
-  //     Monster
-  // Homebase
-  //   Hero
-  // Counter
   return (
     <div className="App">
-      <Scoreboard />
-      <Field />
-      <Field />
-      <Field />
-      <Field />
-      <Homebase />
-      <Counter />
+      <header>
+        <Scoreboard />
+      </header>
+      <main>
+        <Field className="north-field" />
+        <Field className="west-field" />
+        <Field className="east-field" />
+        <Field className="south-field" />
+        <Homebase />
+      </main>
+      <footer>
+        <Counter />
+      </footer>
     </div>
   );
 }
