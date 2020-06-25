@@ -29,17 +29,25 @@ class App extends React.Component {
       },
       east: [[], [], [], []],
       south: [[], [], [], []],
+      base: {
+        size: 4,
+      },
     },
     hero: {
       color: 0,
-      x: 0,
-      y: 2,
+      x: 1,
+      y: 1,
       orientation: "north",
     },
     streaking: true,
     score: 200,
     monstersRemaining: 28,
   };
+
+  componentDidMount() {
+    window.addEventListener("keydown", this.walk);
+  }
+
   setStage = (settings) => {
     // Number of monsters in stage (e.g., 50)
     // Rate of monster creation (interval at which a new monster created; e.g., 3)
@@ -69,6 +77,58 @@ class App extends React.Component {
     // Congratulate user, show score, then call App.setStage with settings for next level
     console.log(`🏁 Congratulations! You completed the stage 🏁`);
   };
+
+  // Walk accepts a direction, and calls move
+  walk = ({ key }) => {
+    // Each movement updates app state for hero x & y
+    const keyMappings = {
+      w: "up",
+      d: "right",
+      s: "down",
+      a: "left",
+
+      W: "up",
+      D: "right",
+      S: "down",
+      A: "left",
+
+      ArrowUp: "up",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+    };
+
+    if (key in keyMappings) {
+      const direction = keyMappings[key],
+        directionChanges = {
+          up: [0, -1],
+          right: [1, 0],
+          down: [0, 1],
+          left: [-1, 0],
+        },
+        baseSize = this.state.board.base.size;
+
+      // Update hero coordinates based on direction movement
+      let hero = { ...this.state.hero };
+
+      hero.direction = direction;
+
+      // Each coordinate must be between 1 and 4 (inclusive)
+      hero.x += directionChanges[direction][0];
+      hero.x = Math.max(1, hero.x);
+      hero.x = Math.min(baseSize, hero.x);
+
+      hero.y += directionChanges[direction][1];
+      hero.y = Math.max(1, hero.y);
+      hero.y = Math.min(baseSize, hero.y);
+
+      this.setState({ hero });
+
+      console.log(this.state.hero);
+      // CSS variables get updated to move Hero within grid (grid-row & grid-column to reflect x and y)
+    }
+  };
+
   render() {
     return (
       <div className="App">
