@@ -7,6 +7,39 @@ import Homebase from "./Homebase";
 import Counter from "./Counter";
 
 class App extends React.Component {
+  state = {
+    board: {
+      north: {
+        // North and south queues will end the game when their length > 5
+        queueLengthLimit: 5,
+        queues: [
+          [
+            // Each item represents a monster where the value represents its color
+            0,
+          ],
+          [],
+          [],
+          [],
+        ],
+      },
+      west: {
+        // West and east queues will end the game when their length > 8
+        queueLengthLimit: 8,
+        queues: [[], [], [], []],
+      },
+      east: [[], [], [], []],
+      south: [[], [], [], []],
+    },
+    hero: {
+      color: 0,
+      x: 0,
+      y: 2,
+      orientation: "north",
+    },
+    streaking: true,
+    score: 200,
+    monstersRemaining: 28,
+  };
   setStage = (settings) => {
     // Number of monsters in stage (e.g., 50)
     // Rate of monster creation (interval at which a new monster created; e.g., 3)
