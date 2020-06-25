@@ -6,8 +6,11 @@ class Homebase extends React.Component {
   render() {
     return (
       <div className="homebase">
-        Homebase goes here
-        <Hero />
+        <Hero
+          direction={this.props.heroDirection}
+          x={this.props.heroX}
+          y={this.props.heroY}
+        />
       </div>
     );
   }

@@ -125,7 +125,6 @@ class App extends React.Component {
       this.setState({ hero });
 
       console.log(this.state.hero);
-      // CSS variables get updated to move Hero within grid (grid-row & grid-column to reflect x and y)
     }
   };
 
@@ -140,7 +139,11 @@ class App extends React.Component {
           <Field className="west-field" />
           <Field className="east-field" />
           <Field className="south-field" />
-          <Homebase />
+          <Homebase
+            heroX={this.state.hero.x}
+            heroY={this.state.hero.y}
+            heroDirection={this.state.hero.direction}
+          />
         </main>
         <footer>
           <Counter />
