@@ -6,9 +6,16 @@ import Field from "./Field";
 import Homebase from "./Homebase";
 import Counter from "./Counter";
 
+const colorMap = {
+  0: "cyan",
+  1: "magenta",
+  2: "yellow",
+  3: "black",
+};
+
 class App extends React.Component {
   state = {
-    board: {
+    fields: {
       north: {
         // North and south queues will end the game when their length > 5
         queueLengthLimit: 5,
@@ -27,11 +34,17 @@ class App extends React.Component {
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
-      east: [[], [], [], []],
-      south: [[], [], [], []],
-      base: {
-        size: 4,
+      east: {
+        queueLengthLimit: 8,
+        queues: [[], [], [], []],
       },
+      south: {
+        queueLengthLimit: 5,
+        queues: [[], [], [], []],
+      },
+    },
+    base: {
+      size: 4,
     },
     hero: {
       color: 0,
@@ -57,10 +70,12 @@ class App extends React.Component {
     console.log("Setting stage");
   };
 
-  addMonster = () => {
-    // Update state to add monster of randomColor to randomQueue of randomField
+  // Update state to add monster of randomColor to randomQueue of randomField
+  addMonster = (field = "north", queue = 0, color = 0) => {
     // Create new Monster component within the appropriate queue (this should be handled automatically)
-    console.log("Add a monster to a random queue");
+    console.log(
+      `Adding a ${colorMap[color]} monster to ${field} queue #${queue}`
+    );
   };
 
   strike = () => {
@@ -106,7 +121,7 @@ class App extends React.Component {
           down: [0, 1],
           left: [-1, 0],
         },
-        baseSize = this.state.board.base.size;
+        baseSize = this.state.base.size;
 
       // Update hero coordinates based on direction movement
       let hero = { ...this.state.hero };
@@ -135,10 +150,22 @@ class App extends React.Component {
           <Scoreboard />
         </header>
         <main>
-          <Field className="north-field" />
-          <Field className="west-field" />
-          <Field className="east-field" />
-          <Field className="south-field" />
+          <Field
+            className="north-field"
+            queues={this.state.fields.north.queues}
+          />
+          <Field
+            className="west-field"
+            queues={this.state.fields.west.queues}
+          />
+          <Field
+            className="east-field"
+            queues={this.state.fields.east.queues}
+          />
+          <Field
+            className="south-field"
+            queues={this.state.fields.south.queues}
+          />
           <Homebase
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}
