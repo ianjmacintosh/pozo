@@ -6,9 +6,16 @@ import Field from "./Field";
 import Homebase from "./Homebase";
 import Counter from "./Counter";
 
+const colorMap = {
+  0: "cyan",
+  1: "magenta",
+  2: "yellow",
+  3: "black",
+};
+
 class App extends React.Component {
   state = {
-    board: {
+    fields: {
       north: {
         // North and south queues will end the game when their length > 5
         queueLengthLimit: 5,
@@ -27,11 +34,17 @@ class App extends React.Component {
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
-      east: [[], [], [], []],
-      south: [[], [], [], []],
-      base: {
-        size: 4,
+      east: {
+        queueLengthLimit: 8,
+        queues: [[], [], [], []],
       },
+      south: {
+        queueLengthLimit: 5,
+        queues: [[], [], [], []],
+      },
+    },
+    base: {
+      size: 4,
     },
     hero: {
       color: 0,
@@ -57,10 +70,29 @@ class App extends React.Component {
     console.log("Setting stage");
   };
 
-  addMonster = () => {
-    // Update state to add monster of randomColor to randomQueue of randomField
+  // Update state to add monster of randomColor to randomQueue of randomField
+  addMonster = (direction = "north", queueNumber = 0, colorNumber = 0) => {
+    // Update the state for the given queue to add a monster to it
+    console.log(
+      `Adding a ${colorMap[colorNumber]} monster to ${direction} queue #${queueNumber}`
+    );
+    // Make a copy of the field
+    let fields = this.state.fields;
+
+    // Add a monster to the front of it
+    fields[direction].queues[queueNumber].push(colorNumber);
+
+    // Update the state
+    this.setState({ fields });
+
+    // Determine if we're over the max queue length and if so, end the stage
+    if (
+      fields[direction].queues[queueNumber].length >
+      fields[direction].queueLengthLimit
+    ) {
+      this.endStage();
+    }
     // Create new Monster component within the appropriate queue (this should be handled automatically)
-    console.log("Add a monster to a random queue");
   };
 
   strike = () => {
@@ -106,7 +138,7 @@ class App extends React.Component {
           down: [0, 1],
           left: [-1, 0],
         },
-        baseSize = this.state.board.base.size;
+        baseSize = this.state.base.size;
 
       // Update hero coordinates based on direction movement
       let hero = { ...this.state.hero };
@@ -135,10 +167,10 @@ class App extends React.Component {
           <Scoreboard />
         </header>
         <main>
-          <Field className="north-field" />
-          <Field className="west-field" />
-          <Field className="east-field" />
-          <Field className="south-field" />
+          <Field direction="north" queues={this.state.fields.north.queues} />
+          <Field direction="west" queues={this.state.fields.west.queues} />
+          <Field direction="east" queues={this.state.fields.east.queues} />
+          <Field direction="south" queues={this.state.fields.south.queues} />
           <Homebase
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}

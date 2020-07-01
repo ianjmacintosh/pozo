@@ -45,19 +45,42 @@ main {
 }
 
 .north-field .queue {
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 
 .west-field .queue {
-  flex-direction: row;
-}
-
-.east-field .queue {
   flex-direction: row-reverse;
 }
 
+.east-field .queue {
+  flex-direction: row;
+}
+
 .south-field .queue {
-  flex-direction: column-reverse;
+  flex-direction: column;
+}
+
+/** Monster styles */
+.monster span {
+  display: block;
+  height: 40px;
+  width: 40px;
+}
+
+.monster.color-0 span {
+  background: cyan;
+}
+
+.monster.color-1 span {
+  background: magenta;
+}
+
+.monster.color-2 span {
+  background: yellow;
+}
+
+.monster.color-3 span {
+  background: black;
 }
 
 /** Homebase styles */
