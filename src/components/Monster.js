@@ -8,7 +8,14 @@ class Monster extends React.Component {
   };
 
   render() {
-    return <div style={{ border: "solid 1px blue" }}>Monster goes here</div>;
+    return (
+      <div
+        className={`monster color-${this.props.color}`}
+        style={{ border: "solid 1px blue" }}
+      >
+        {this.props.color}
+      </div>
+    );
   }
 }
 

@@ -71,11 +71,28 @@ class App extends React.Component {
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
-  addMonster = (field = "north", queue = 0, color = 0) => {
-    // Create new Monster component within the appropriate queue (this should be handled automatically)
+  addMonster = (direction = "north", queueNumber = 0, colorNumber = 0) => {
+    // Update the state for the given queue to add a monster to it
     console.log(
-      `Adding a ${colorMap[color]} monster to ${field} queue #${queue}`
+      `Adding a ${colorMap[colorNumber]} monster to ${direction} queue #${queueNumber}`
     );
+    // Make a copy of the field
+    let fields = this.state.fields;
+
+    // Add a monster to the front of it
+    fields[direction].queues[queueNumber].push(colorNumber);
+
+    // Update the state
+    this.setState({ fields });
+
+    // Determine if we're over the max queue length and if so, end the stage
+    if (
+      fields[direction].queues[queueNumber].length >
+      fields[direction].queueLengthLimit
+    ) {
+      this.endStage();
+    }
+    // Create new Monster component within the appropriate queue (this should be handled automatically)
   };
 
   strike = () => {
@@ -150,22 +167,10 @@ class App extends React.Component {
           <Scoreboard />
         </header>
         <main>
-          <Field
-            className="north-field"
-            queues={this.state.fields.north.queues}
-          />
-          <Field
-            className="west-field"
-            queues={this.state.fields.west.queues}
-          />
-          <Field
-            className="east-field"
-            queues={this.state.fields.east.queues}
-          />
-          <Field
-            className="south-field"
-            queues={this.state.fields.south.queues}
-          />
+          <Field direction="north" queues={this.state.fields.north.queues} />
+          <Field direction="west" queues={this.state.fields.west.queues} />
+          <Field direction="east" queues={this.state.fields.east.queues} />
+          <Field direction="south" queues={this.state.fields.south.queues} />
           <Homebase
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}

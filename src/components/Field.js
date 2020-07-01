@@ -5,11 +5,10 @@ import Queue from "./Queue";
 class Field extends React.Component {
   render() {
     return (
-      <div className={`field ${this.props.className}`}>
-        <Queue />
-        <Queue />
-        <Queue />
-        <Queue />
+      <div className={`field ${this.props.direction}-field`}>
+        {this.props.queues.map((key, index) => (
+          <Queue key={index} contents={this.props.queues[index]} />
+        ))}
       </div>
     );
   }
