@@ -89,6 +89,14 @@ class App extends React.Component {
     console.log("Setting stage");
   };
 
+  monsterTimer = null;
+
+  start = () => {
+    this.monsterTimer = window.setInterval(() => {
+      console.log("Test");
+    }, 1000);
+  };
+
   // Update state to add monster of randomColor to randomQueue of randomField
   addMonster = (direction = "north", queueNumber = 0, colorNumber = 0) => {
     // Update the state for the given queue to add a monster to it
@@ -127,6 +135,7 @@ class App extends React.Component {
   endStage = () => {
     // Congratulate user, show score, then call App.setStage with settings for next level
     console.log(`🏁 Congratulations! You completed the stage 🏁`);
+    clearInterval(this.monsterTimer);
   };
 
   // Walk accepts a direction, and calls move
