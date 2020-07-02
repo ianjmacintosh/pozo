@@ -76,8 +76,12 @@ class App extends React.Component {
     window.addEventListener("keydown", this.walk);
   }
 
-  setStage = (settings) => {
+  setStage = (stageNumber) => {
+    const stageSettings = stages[stageNumber];
+
     // Number of monsters in stage (e.g., 50)
+    this.setState({ stageSettings });
+
     // Rate of monster creation (interval at which a new monster created; e.g., 3)
     // Wave duration (interval at which rate accelerates; e.g., 10)
     // Rate of acceleration (multiplier to apply to rate; e.g. 0.75)
