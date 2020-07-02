@@ -91,3 +91,21 @@ main {
   grid-column: 2;
   grid-row: 2;
 }
+
+/** Hero styles */
+
+.hero--0 svg path {
+  fill: cyan;
+}
+
+.hero--1 svg path {
+  fill: magenta;
+}
+
+.hero--2 svg path {
+  fill: yellow;
+}
+
+.hero--3 svg path {
+  fill: black;
+}
