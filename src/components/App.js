@@ -149,9 +149,26 @@ class App extends React.Component {
     // Create new Monster component within the appropriate queue (this should be handled automatically)
   };
 
-  strike = () => {
-    // Read hero coords and direction to determine which queue to strike
-    // Call Queue.strike() on appropriate queue
+  strike = (field, queue, strikeColor) => {
+    // Handler reads hero coords and direction to determine which queue to strike
+    let fields = { ...this.state.fields },
+      targetQueue = fields[field].queues[queue],
+      monsterColor = targetQueue[0];
+
+    if (strikeColor === monsterColor) {
+      console.log("Matches the color!");
+      targetQueue.shift();
+      this.setState({ fields });
+    }
+    // Otherwise, color does not match monster color
+    else {
+      console.log("Does not match the color!");
+      //   Report streak end via App.endStreak()
+      this.endStreak();
+
+      //   Update hero color via Hero.changeColor()
+      this.changeColor(monsterColor);
+    }
     console.log(`Strike at the right queue!`);
   };
 
