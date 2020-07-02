@@ -13,8 +13,23 @@ const colorMap = {
   3: "black",
 };
 
+const stages = [
+  {
+    monsters: 10,
+    creationRate: 3,
+    waveDuration: 10,
+    rateMultiplier: 1.25,
+  },
+];
+
 class App extends React.Component {
   state = {
+    stageSettings: {
+      monsters: 0,
+      creationRate: 0,
+      waveDuration: 0,
+      rateMultiplier: 0,
+    },
     fields: {
       north: {
         // North and south queues will end the game when their length > 5
