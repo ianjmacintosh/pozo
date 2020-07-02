@@ -7,7 +7,7 @@ class Homebase extends React.Component {
     return (
       <div className="homebase">
         <Hero
-          direction={this.props.heroDirection}
+          orientation={this.props.heroOrientation}
           x={this.props.heroX}
           y={this.props.heroY}
           color={this.props.heroColor}

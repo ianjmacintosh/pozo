@@ -16,10 +16,10 @@ const colorMap = {
 };
 
 const directionMap = {
-  0: "north",
-  1: "west",
-  2: "east",
-  3: "south",
+  0: "up",
+  1: "left",
+  2: "right",
+  3: "down",
 };
 
 const stages = [
@@ -41,21 +41,21 @@ class App extends React.Component {
       rateMultiplier: 0,
     },
     fields: {
-      north: {
+      up: {
         // North and south queues will end the game when their length > 5
         queueLengthLimit: 5,
         queues: [[], [], [], []],
       },
-      west: {
+      left: {
         // West and east queues will end the game when their length > 8
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
-      east: {
+      right: {
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
-      south: {
+      down: {
         queueLengthLimit: 5,
         queues: [[], [], [], []],
       },
@@ -105,7 +105,7 @@ class App extends React.Component {
           color = this.state.hero.color;
 
         // If the hero is pointed north or south, use X coord for queue
-        if (direction === "north" || direction === "south") {
+        if (direction === "up" || direction === "down") {
           queue = this.state.hero.x - 1;
         }
 
@@ -246,7 +246,7 @@ class App extends React.Component {
     // Update hero coordinates based on direction movement
     let hero = { ...this.state.hero };
 
-    hero.direction = direction;
+    hero.orientation = direction;
 
     // Each coordinate must be between 1 and 4 (inclusive)
     hero.x += directionChanges[direction][0];
@@ -269,14 +269,14 @@ class App extends React.Component {
           <Scoreboard />
         </header>
         <main>
-          <Field direction="north" queues={this.state.fields.north.queues} />
-          <Field direction="west" queues={this.state.fields.west.queues} />
-          <Field direction="east" queues={this.state.fields.east.queues} />
-          <Field direction="south" queues={this.state.fields.south.queues} />
+          <Field direction="up" queues={this.state.fields.up.queues} />
+          <Field direction="left" queues={this.state.fields.left.queues} />
+          <Field direction="right" queues={this.state.fields.right.queues} />
+          <Field direction="down" queues={this.state.fields.down.queues} />
           <Homebase
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}
-            heroDirection={this.state.hero.direction}
+            heroOrientation={this.state.hero.orientation}
             heroColor={this.state.hero.color}
           />
         </main>
