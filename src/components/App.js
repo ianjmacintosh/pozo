@@ -1,16 +1,25 @@
 import React from "react";
 
-import "../css/App.css";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
 import Homebase from "./Homebase";
 import Counter from "./Counter";
+import { getRandomInt } from "../helpers";
+
+import "../css/App.css";
 
 const colorMap = {
   0: "cyan",
   1: "magenta",
   2: "yellow",
   3: "black",
+};
+
+const directionMap = {
+  0: "north",
+  1: "west",
+  2: "east",
+  3: "south",
 };
 
 const stages = [
@@ -34,15 +43,7 @@ class App extends React.Component {
       north: {
         // North and south queues will end the game when their length > 5
         queueLengthLimit: 5,
-        queues: [
-          [
-            // Each item represents a monster where the value represents its color
-            0,
-          ],
-          [],
-          [],
-          [],
-        ],
+        queues: [[], [], [], []],
       },
       west: {
         // West and east queues will end the game when their length > 8
@@ -93,7 +94,11 @@ class App extends React.Component {
 
   start = () => {
     this.monsterTimer = window.setInterval(() => {
-      console.log("Test");
+      this.addMonster(
+        directionMap[getRandomInt(0, 3)],
+        getRandomInt(0, 3),
+        getRandomInt(0, 3)
+      );
     }, 1000);
   };
 

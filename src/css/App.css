@@ -80,6 +80,7 @@ main {
 }
 
 .monster.color-3 span {
+  color: white;
   background: black;
 }
 
