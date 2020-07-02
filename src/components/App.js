@@ -202,23 +202,18 @@ class App extends React.Component {
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
     }
-    // Otherwise, color does not match monster color
-    else {
-      console.log("Does not match the color!");
-      //   Report streak end via App.endStreak()
+    // If there's a monster in the queue struck
+    else if (targetQueue.length > 0) {
+      // Report streak end via App.endStreak()
       this.endStreak();
 
-      // If we're firing at an empty queue, don't do anything
-      if (typeof monsterColor === "undefined") {
-        return;
-      } else {
-        // Otherwise
-        //   Update hero color
-        this.changeColor(monsterColor);
-        //   Update monster color
-        targetQueue[0] = strikeColor;
-        this.setState({ fields });
-      }
+      //   Update hero color
+      this.changeColor(monsterColor);
+
+      //   Update monster color
+      targetQueue[0] = strikeColor;
+
+      this.setState({ fields });
     }
   };
 
