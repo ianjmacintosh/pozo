@@ -4,9 +4,7 @@ class Monster extends React.Component {
   render() {
     return (
       <li className={`monster color-${this.props.color}`}>
-        <span>
-          {this.props.color} in {this.props.queue}
-        </span>
+        <span>{this.props.color}</span>
       </li>
     );
   }
