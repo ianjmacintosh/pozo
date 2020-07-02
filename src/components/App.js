@@ -164,7 +164,14 @@ class App extends React.Component {
     clearInterval(this.waveTimer);
     // Congratulate user, show score, then call App.setStage with settings for next level
     console.log(`🏁 Congratulations! You completed the stage 🏁`);
-    clearInterval(this.monsterTimer);
+  };
+
+  changeColor = (newColor) => {
+    const hero = { ...this.state.hero };
+    hero.color = newColor;
+
+    // Update app state for hero color
+    this.setState({ hero });
   };
 
   // Walk accepts a direction, and calls move
@@ -232,6 +239,7 @@ class App extends React.Component {
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}
             heroDirection={this.state.hero.direction}
+            heroColor={this.state.hero.color}
           />
         </main>
         <footer>

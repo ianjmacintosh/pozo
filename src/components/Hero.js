@@ -1,15 +1,10 @@
 import React from "react";
 
 class Hero extends React.Component {
-  changeColor = (newColor) => {
-    // Update app state for hero color
-    console.log(`Now I'm ${newColor}`);
-  };
-
   render() {
     return (
       <div
-        className={`hero hero--${this.props.direction}`}
+        className={`hero hero--${this.props.direction} hero--${this.props.color}`}
         style={{
           "--hero-x": this.props.x,
           "--hero-y": this.props.y,

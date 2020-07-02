@@ -10,6 +10,7 @@ class Homebase extends React.Component {
           direction={this.props.heroDirection}
           x={this.props.heroX}
           y={this.props.heroY}
+          color={this.props.heroColor}
         />
       </div>
     );
