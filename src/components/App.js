@@ -159,6 +159,7 @@ class App extends React.Component {
       console.log("Matches the color!");
       targetQueue.shift();
       this.setState({ fields });
+      this.strike(field, queue, strikeColor);
     }
     // Otherwise, color does not match monster color
     else {
@@ -167,7 +168,9 @@ class App extends React.Component {
       this.endStreak();
 
       //   Update hero color via Hero.changeColor()
-      this.changeColor(monsterColor);
+      if (monsterColor) {
+        this.changeColor(monsterColor);
+      }
     }
     console.log(`Strike at the right queue!`);
   };
