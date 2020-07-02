@@ -75,8 +75,46 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    window.addEventListener("keydown", this.walk);
+    window.addEventListener("keydown", this.handleKeypress);
   }
+
+  handleKeypress = ({ key }) => {
+    // Each movement updates app state for hero x & y
+    const keyMappings = {
+      w: "up",
+      d: "right",
+      s: "down",
+      a: "left",
+      " ": "strike",
+
+      W: "up",
+      D: "right",
+      S: "down",
+      A: "left",
+
+      ArrowUp: "up",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+    };
+
+    if (key in keyMappings) {
+      if (keyMappings[key] === "strike") {
+        let direction = this.state.hero.orientation,
+          queue = this.state.hero.y - 1,
+          color = this.state.hero.color;
+
+        // If the hero is pointed north or south, use X coord for queue
+        if (direction === "north" || direction === "south") {
+          queue = this.state.hero.x - 1;
+        }
+
+        this.strike(direction, queue, color);
+      } else {
+        this.walk(keyMappings[key]);
+      }
+    }
+  };
 
   setStage = (stageNumber) => {
     const stageSettings = stages[stageNumber];
@@ -195,53 +233,33 @@ class App extends React.Component {
   };
 
   // Walk accepts a direction, and calls move
-  walk = ({ key }) => {
+  walk = (direction) => {
     // Each movement updates app state for hero x & y
-    const keyMappings = {
-      w: "up",
-      d: "right",
-      s: "down",
-      a: "left",
+    const directionChanges = {
+        up: [0, -1],
+        right: [1, 0],
+        down: [0, 1],
+        left: [-1, 0],
+      },
+      baseSize = this.state.base.size;
 
-      W: "up",
-      D: "right",
-      S: "down",
-      A: "left",
+    // Update hero coordinates based on direction movement
+    let hero = { ...this.state.hero };
 
-      ArrowUp: "up",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-    };
+    hero.direction = direction;
 
-    if (key in keyMappings) {
-      const direction = keyMappings[key],
-        directionChanges = {
-          up: [0, -1],
-          right: [1, 0],
-          down: [0, 1],
-          left: [-1, 0],
-        },
-        baseSize = this.state.base.size;
+    // Each coordinate must be between 1 and 4 (inclusive)
+    hero.x += directionChanges[direction][0];
+    hero.x = Math.max(1, hero.x);
+    hero.x = Math.min(baseSize, hero.x);
 
-      // Update hero coordinates based on direction movement
-      let hero = { ...this.state.hero };
+    hero.y += directionChanges[direction][1];
+    hero.y = Math.max(1, hero.y);
+    hero.y = Math.min(baseSize, hero.y);
 
-      hero.direction = direction;
+    this.setState({ hero });
 
-      // Each coordinate must be between 1 and 4 (inclusive)
-      hero.x += directionChanges[direction][0];
-      hero.x = Math.max(1, hero.x);
-      hero.x = Math.min(baseSize, hero.x);
-
-      hero.y += directionChanges[direction][1];
-      hero.y = Math.max(1, hero.y);
-      hero.y = Math.min(baseSize, hero.y);
-
-      this.setState({ hero });
-
-      console.log(this.state.hero);
-    }
+    console.log(this.state.hero);
   };
 
   render() {
