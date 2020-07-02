@@ -33,6 +33,7 @@ const stages = [
 
 class App extends React.Component {
   state = {
+    currentStage: 0,
     stageSettings: {
       monsters: 0,
       creationRate: 0,
@@ -91,6 +92,7 @@ class App extends React.Component {
   };
 
   monsterTimer = null;
+  waveTimer = null;
 
   start = () => {
     this.monsterTimer = window.setInterval(() => {
@@ -99,7 +101,27 @@ class App extends React.Component {
         getRandomInt(0, 3),
         getRandomInt(0, 3)
       );
-    }, 1000);
+    }, this.state.stageSettings.creationRate * 1000);
+
+    this.waveTimer = window.setInterval(() => {
+      let stageSettings = this.state.stageSettings;
+      stageSettings.creationRate =
+        stageSettings.creationRate / stageSettings.rateMultiplier;
+      console.log(
+        `A new monster will now be created every ${stageSettings.creationRate} seconds`
+      );
+
+      this.setState({ stageSettings });
+      clearInterval(this.monsterTimer);
+
+      this.monsterTimer = window.setInterval(() => {
+        this.addMonster(
+          directionMap[getRandomInt(0, 3)],
+          getRandomInt(0, 3),
+          getRandomInt(0, 3)
+        );
+      }, this.state.stageSettings.creationRate * 1000);
+    }, this.state.stageSettings.waveDuration * 1000);
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -138,6 +160,8 @@ class App extends React.Component {
   };
 
   endStage = () => {
+    clearInterval(this.monsterTimer);
+    clearInterval(this.waveTimer);
     // Congratulate user, show score, then call App.setStage with settings for next level
     console.log(`🏁 Congratulations! You completed the stage 🏁`);
     clearInterval(this.monsterTimer);
