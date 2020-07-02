@@ -3,6 +3,8 @@ import React from "react";
 import Monster from "./Monster";
 
 class Queue extends React.Component {
+  queueNumber = this.key;
+
   strike = (color) => {
     // Call Monster.strike() on front monster on appropriate queue, handling passing-through
     console.log("Striking the queue with " + color);
@@ -19,7 +21,7 @@ class Queue extends React.Component {
     return (
       <ul className="queue">
         {this.props.contents.map((key, index) => {
-          return <Monster color={key} key={index} />;
+          return <Monster color={key} key={index} queue={this.queueNumber} />;
         })}
       </ul>
     );

@@ -188,6 +188,9 @@ class App extends React.Component {
   };
 
   strike = (field, queue, strikeColor) => {
+    console.log(
+      `Striking at ${field} queue #${queue} with color ${strikeColor}`
+    );
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
@@ -205,12 +208,18 @@ class App extends React.Component {
       //   Report streak end via App.endStreak()
       this.endStreak();
 
-      //   Update hero color via Hero.changeColor()
-      if (monsterColor) {
+      // If we're firing at an empty queue, don't do anything
+      if (typeof monsterColor === "undefined") {
+        return;
+      } else {
+        // Otherwise
+        //   Update hero color
         this.changeColor(monsterColor);
+        //   Update monster color
+        targetQueue[0] = strikeColor;
+        this.setState({ fields });
       }
     }
-    console.log(`Strike at the right queue!`);
   };
 
   endStreak = () => {
@@ -225,6 +234,7 @@ class App extends React.Component {
   };
 
   changeColor = (newColor) => {
+    console.log(`Changing color to ${newColor}`);
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
