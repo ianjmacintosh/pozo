@@ -8,32 +8,37 @@ main {
 /** Field styles */
 .field {
   border: solid 1px #0f0;
-  display: flex;
+  display: grid;
+  width: 160px;
+  height: 160px;
+  grid-gap: 0;
 }
 
-.north-field,
-.south-field {
-  flex-direction: row;
+.up-field,
+.down-field {
+  grid-template-columns: repeat(4, 40px);
+  height: 200px;
 }
 
-.west-field,
-.east-field {
-  flex-direction: column;
+.left-field,
+.right-field {
+  grid-template-rows: repeat(4, 40px);
+  width: 320px;
 }
 
-.north-field {
+.up-field {
   grid-column: 2;
   grid-row: 1;
 }
-.west-field {
+.left-field {
   grid-column: 1;
   grid-row: 2;
 }
-.east-field {
+.right-field {
   grid-column: 3;
   grid-row: 2;
 }
-.south-field {
+.down-field {
   grid-column: 2;
   grid-row: 3;
 }
@@ -42,22 +47,28 @@ main {
 .queue {
   display: flex;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.north-field .queue {
+.up-field .queue {
   flex-direction: column-reverse;
+  width: 40px;
 }
 
-.west-field .queue {
+.left-field .queue {
   flex-direction: row-reverse;
+  width: 40px;
 }
 
-.east-field .queue {
+.right-field .queue {
   flex-direction: row;
+  height: 40px;
 }
 
-.south-field .queue {
+.down-field .queue {
   flex-direction: column;
+  height: 40px;
 }
 
 /** Monster styles */

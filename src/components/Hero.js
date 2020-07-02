@@ -4,7 +4,7 @@ class Hero extends React.Component {
   render() {
     return (
       <div
-        className={`hero hero--${this.props.direction} hero--${this.props.color}`}
+        className={`hero hero--${this.props.orientation} hero--${this.props.color}`}
         style={{
           "--hero-x": this.props.x,
           "--hero-y": this.props.y,

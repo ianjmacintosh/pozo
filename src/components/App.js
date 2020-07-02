@@ -16,10 +16,10 @@ const colorMap = {
 };
 
 const directionMap = {
-  0: "north",
-  1: "west",
-  2: "east",
-  3: "south",
+  0: "up",
+  1: "left",
+  2: "right",
+  3: "down",
 };
 
 const stages = [
@@ -41,21 +41,21 @@ class App extends React.Component {
       rateMultiplier: 0,
     },
     fields: {
-      north: {
+      up: {
         // North and south queues will end the game when their length > 5
         queueLengthLimit: 5,
         queues: [[], [], [], []],
       },
-      west: {
+      left: {
         // West and east queues will end the game when their length > 8
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
-      east: {
+      right: {
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
-      south: {
+      down: {
         queueLengthLimit: 5,
         queues: [[], [], [], []],
       },
@@ -75,8 +75,46 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    window.addEventListener("keydown", this.walk);
+    window.addEventListener("keydown", this.handleKeypress);
   }
+
+  handleKeypress = ({ key }) => {
+    // Each movement updates app state for hero x & y
+    const keyMappings = {
+      w: "up",
+      d: "right",
+      s: "down",
+      a: "left",
+      " ": "strike",
+
+      W: "up",
+      D: "right",
+      S: "down",
+      A: "left",
+
+      ArrowUp: "up",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+    };
+
+    if (key in keyMappings) {
+      if (keyMappings[key] === "strike") {
+        let direction = this.state.hero.orientation,
+          queue = this.state.hero.y - 1,
+          color = this.state.hero.color;
+
+        // If the hero is pointed north or south, use X coord for queue
+        if (direction === "up" || direction === "down") {
+          queue = this.state.hero.x - 1;
+        }
+
+        this.strike(direction, queue, color);
+      } else {
+        this.walk(keyMappings[key]);
+      }
+    }
+  };
 
   setStage = (stageNumber) => {
     const stageSettings = stages[stageNumber];
@@ -150,6 +188,9 @@ class App extends React.Component {
   };
 
   strike = (field, queue, strikeColor) => {
+    console.log(
+      `Striking at ${field} queue #${queue} with color ${strikeColor}`
+    );
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
@@ -161,18 +202,19 @@ class App extends React.Component {
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
     }
-    // Otherwise, color does not match monster color
-    else {
-      console.log("Does not match the color!");
-      //   Report streak end via App.endStreak()
+    // If there's a monster in the queue struck
+    else if (targetQueue.length > 0) {
+      // Report streak end via App.endStreak()
       this.endStreak();
 
-      //   Update hero color via Hero.changeColor()
-      if (monsterColor) {
-        this.changeColor(monsterColor);
-      }
+      //   Update hero color
+      this.changeColor(monsterColor);
+
+      //   Update monster color
+      targetQueue[0] = strikeColor;
+
+      this.setState({ fields });
     }
-    console.log(`Strike at the right queue!`);
   };
 
   endStreak = () => {
@@ -187,6 +229,7 @@ class App extends React.Component {
   };
 
   changeColor = (newColor) => {
+    console.log(`Changing color to ${newColor}`);
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
@@ -195,53 +238,33 @@ class App extends React.Component {
   };
 
   // Walk accepts a direction, and calls move
-  walk = ({ key }) => {
+  walk = (direction) => {
     // Each movement updates app state for hero x & y
-    const keyMappings = {
-      w: "up",
-      d: "right",
-      s: "down",
-      a: "left",
+    const directionChanges = {
+        up: [0, -1],
+        right: [1, 0],
+        down: [0, 1],
+        left: [-1, 0],
+      },
+      baseSize = this.state.base.size;
 
-      W: "up",
-      D: "right",
-      S: "down",
-      A: "left",
+    // Update hero coordinates based on direction movement
+    let hero = { ...this.state.hero };
 
-      ArrowUp: "up",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-    };
+    hero.orientation = direction;
 
-    if (key in keyMappings) {
-      const direction = keyMappings[key],
-        directionChanges = {
-          up: [0, -1],
-          right: [1, 0],
-          down: [0, 1],
-          left: [-1, 0],
-        },
-        baseSize = this.state.base.size;
+    // Each coordinate must be between 1 and 4 (inclusive)
+    hero.x += directionChanges[direction][0];
+    hero.x = Math.max(1, hero.x);
+    hero.x = Math.min(baseSize, hero.x);
 
-      // Update hero coordinates based on direction movement
-      let hero = { ...this.state.hero };
+    hero.y += directionChanges[direction][1];
+    hero.y = Math.max(1, hero.y);
+    hero.y = Math.min(baseSize, hero.y);
 
-      hero.direction = direction;
+    this.setState({ hero });
 
-      // Each coordinate must be between 1 and 4 (inclusive)
-      hero.x += directionChanges[direction][0];
-      hero.x = Math.max(1, hero.x);
-      hero.x = Math.min(baseSize, hero.x);
-
-      hero.y += directionChanges[direction][1];
-      hero.y = Math.max(1, hero.y);
-      hero.y = Math.min(baseSize, hero.y);
-
-      this.setState({ hero });
-
-      console.log(this.state.hero);
-    }
+    console.log(this.state.hero);
   };
 
   render() {
@@ -251,14 +274,14 @@ class App extends React.Component {
           <Scoreboard />
         </header>
         <main>
-          <Field direction="north" queues={this.state.fields.north.queues} />
-          <Field direction="west" queues={this.state.fields.west.queues} />
-          <Field direction="east" queues={this.state.fields.east.queues} />
-          <Field direction="south" queues={this.state.fields.south.queues} />
+          <Field direction="up" queues={this.state.fields.up.queues} />
+          <Field direction="left" queues={this.state.fields.left.queues} />
+          <Field direction="right" queues={this.state.fields.right.queues} />
+          <Field direction="down" queues={this.state.fields.down.queues} />
           <Homebase
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}
-            heroDirection={this.state.hero.direction}
+            heroOrientation={this.state.hero.orientation}
             heroColor={this.state.hero.color}
           />
         </main>
