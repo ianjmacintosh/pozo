@@ -1,8 +1,8 @@
 /** App styles */
 main {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, min-content);
+  grid-template-rows: repeat(3, min-content);
 }
 
 /** Field styles */
@@ -49,6 +49,9 @@ main {
   list-style: none;
   margin: 0;
   padding: 0;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
 }
 
 .up-field .queue {
@@ -58,7 +61,7 @@ main {
 
 .left-field .queue {
   flex-direction: row-reverse;
-  width: 40px;
+  height: 40px;
 }
 
 .right-field .queue {
@@ -68,7 +71,7 @@ main {
 
 .down-field .queue {
   flex-direction: column;
-  height: 40px;
+  width: 40px;
 }
 
 /** Monster styles */
