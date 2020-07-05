@@ -4,6 +4,7 @@ import Scoreboard from "./Scoreboard";
 import Field from "./Field";
 import Homebase from "./Homebase";
 import Counter from "./Counter";
+import StartButton from "./StartButton";
 import { getRandomInt } from "../helpers";
 
 import "../css/App.css";
@@ -126,7 +127,7 @@ class App extends React.Component {
     // Wave duration (interval at which rate accelerates; e.g., 10)
     // Rate of acceleration (multiplier to apply to rate; e.g. 0.75)
     // In the example above: 50 monsters need to be eliminated to move to next stage. A new monster is provided every 3 seconds. Every 10 seconds, the duration decreases by 25% -- instead of monsters being created every 3 seconds, new monsters get created every 2.25 seconds. After 10 more seconds, a new monster gets created every 1.6875 seconds
-    console.log("Setting stage");
+    console.log(`Setting stage ${stageNumber}`);
   };
 
   monsterTimer = null;
@@ -287,6 +288,11 @@ class App extends React.Component {
         </main>
         <footer>
           <Counter />
+          <StartButton
+            currentStage={this.state.currentStage}
+            setStage={this.setStage}
+            start={this.start}
+          />
         </footer>
       </div>
     );
