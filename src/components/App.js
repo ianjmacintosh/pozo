@@ -43,12 +43,12 @@ class App extends React.Component {
     },
     fields: {
       up: {
-        // North and south queues will end the game when their length > 5
+        // Up and down queues will end the game when their length > 5
         queueLengthLimit: 5,
         queues: [[], [], [], []],
       },
       left: {
-        // West and east queues will end the game when their length > 8
+        // Left and right queues will end the game when their length > 8
         queueLengthLimit: 8,
         queues: [[], [], [], []],
       },
@@ -68,7 +68,7 @@ class App extends React.Component {
       color: 0,
       x: 1,
       y: 1,
-      orientation: "north",
+      orientation: "up",
     },
     streaking: true,
     score: 200,
@@ -171,7 +171,7 @@ class App extends React.Component {
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
-  addMonster = (direction = "north", queueNumber = 0, colorNumber = 0) => {
+  addMonster = (direction = "up", queueNumber = 0, colorNumber = 0) => {
     // Update the state for the given queue to add a monster to it
     console.log(
       `Adding a ${colorMap[colorNumber]} monster to ${direction} queue #${queueNumber}`
@@ -206,6 +206,7 @@ class App extends React.Component {
 
     if (strikeColor === monsterColor) {
       console.log("Matches the color!");
+      this.setState({ streaking: true });
       targetQueue.shift();
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
@@ -213,7 +214,9 @@ class App extends React.Component {
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
       // Report streak end via App.endStreak()
-      this.endStreak();
+      if (this.state.streaking) {
+        this.endStreak();
+      }
 
       //   Update hero color
       this.changeColor(monsterColor);
@@ -226,6 +229,7 @@ class App extends React.Component {
   };
 
   endStreak = () => {
+    this.setState({ streaking: false });
     console.log("Streak is over!");
   };
 
