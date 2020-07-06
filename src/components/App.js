@@ -206,6 +206,7 @@ class App extends React.Component {
 
     if (strikeColor === monsterColor) {
       console.log("Matches the color!");
+      this.setState({ streaking: true });
       targetQueue.shift();
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
@@ -213,7 +214,9 @@ class App extends React.Component {
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
       // Report streak end via App.endStreak()
-      this.endStreak();
+      if (this.state.streaking) {
+        this.endStreak();
+      }
 
       //   Update hero color
       this.changeColor(monsterColor);
@@ -226,6 +229,7 @@ class App extends React.Component {
   };
 
   endStreak = () => {
+    this.setState({ streaking: false });
     console.log("Streak is over!");
   };
 
