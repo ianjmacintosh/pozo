@@ -2,7 +2,11 @@ import React from "react";
 
 class Scoreboard extends React.Component {
   render() {
-    return <div>{this.props.score}</div>;
+    return (
+      <div>
+        <strong>Score</strong>: {this.props.score}
+      </div>
+    );
   }
 }
 

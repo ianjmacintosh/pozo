@@ -209,6 +209,7 @@ class App extends React.Component {
       targetQueue.shift();
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
+      this.updateScoreboard(1);
     }
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
@@ -252,8 +253,10 @@ class App extends React.Component {
       streak = 1;
 
     score += monsterCount * 100 * streak;
+
     // Scoreboard.update() manages streak tally? Need to figure out how to manage this
     console.log(`Eliminated ${monsterCount} monsters! Updating score...`);
+    this.setState({ score });
   };
 
   changeColor = (newColor) => {
