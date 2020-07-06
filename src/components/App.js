@@ -222,11 +222,22 @@ class App extends React.Component {
     console.log("Streak is over!");
   };
 
-  endStage = () => {
+  endStage = (playerDidWin) => {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
-    // Congratulate user, show score, then call App.setStage with settings for next level
-    console.log(`🏁 Congratulations! You completed the stage 🏁`);
+
+    if (playerDidWin) {
+      // Congratulate user, show score, then call App.setStage with settings for next level
+      alert(`🏁 Congratulations! You completed the stage 🏁`);
+      let currentStage = this.state.currentStage + 1;
+      this.setState({ currentStage });
+      if (stages[currentStage]) {
+        this.setStage(currentStage);
+      }
+      this.start();
+    } else {
+      alert("Sorry, because your base got invaded, you have lost the game");
+    }
   };
 
   changeColor = (newColor) => {
