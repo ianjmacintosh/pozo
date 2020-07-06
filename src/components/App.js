@@ -71,8 +71,8 @@ class App extends React.Component {
       orientation: "up",
     },
     streaking: true,
-    score: 200,
-    monstersRemaining: 28,
+    score: 0,
+    monstersRemaining: 0,
   };
 
   componentDidMount() {
@@ -210,6 +210,7 @@ class App extends React.Component {
       targetQueue.shift();
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
+      this.updateScoreboard(1);
     }
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
@@ -249,6 +250,17 @@ class App extends React.Component {
     } else {
       alert("Sorry, because your base got invaded, you have lost the game");
     }
+  };
+
+  updateScoreboard = (monsterCount) => {
+    let score = this.state.score,
+      streak = 1;
+
+    score += monsterCount * 100 * streak;
+
+    // Scoreboard.update() manages streak tally? Need to figure out how to manage this
+    console.log(`Eliminated ${monsterCount} monsters! Updating score...`);
+    this.setState({ score });
   };
 
   changeColor = (newColor) => {
@@ -294,7 +306,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header>
-          <Scoreboard />
+          <Scoreboard score={this.state.score} />
         </header>
         <main>
           <Field direction="up" queues={this.state.fields.up.queues} />

@@ -6,3 +6,5 @@
 - How should I store my CSS? Should I break it up into CSS files for each component?
 
 - What's the right way to handle cases where I need to set state and immediately perform a task afterwards based on that state?
+
+- Is it normal to have a ton of functions hanging off App.js? Seems bad
