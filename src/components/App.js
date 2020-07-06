@@ -70,7 +70,7 @@ class App extends React.Component {
       y: 1,
       orientation: "up",
     },
-    streaking: true,
+    streak: 0,
     score: 0,
     monstersRemaining: 0,
   };
@@ -205,17 +205,19 @@ class App extends React.Component {
       monsterColor = targetQueue[0];
 
     if (strikeColor === monsterColor) {
+      const streak = 1 + this.state.streak;
       console.log("Matches the color!");
-      this.setState({ streaking: true });
+      this.setState({ streak });
       targetQueue.shift();
+      this.updateScoreboard(1);
+
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
-      this.updateScoreboard(1);
     }
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
       // Report streak end via App.endStreak()
-      if (this.state.streaking) {
+      if (this.state.streak > 0) {
         this.endStreak();
       }
 
@@ -230,7 +232,7 @@ class App extends React.Component {
   };
 
   endStreak = () => {
-    this.setState({ streaking: false });
+    this.setState({ streak: 0 });
     console.log("Streak is over!");
   };
 
@@ -254,12 +256,15 @@ class App extends React.Component {
 
   updateScoreboard = (monsterCount) => {
     let score = this.state.score,
-      streak = 1;
+      streak = this.state.streak,
+      pointsToAdd = monsterCount * 100 * streak;
 
-    score += monsterCount * 100 * streak;
+    score += pointsToAdd;
 
     // Scoreboard.update() manages streak tally? Need to figure out how to manage this
-    console.log(`Eliminated ${monsterCount} monsters! Updating score...`);
+    console.log(
+      `Eliminated ${monsterCount} monster! Streak is ${streak}, adding ${pointsToAdd}...`
+    );
     this.setState({ score });
   };
 
