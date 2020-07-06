@@ -71,8 +71,8 @@ class App extends React.Component {
       orientation: "north",
     },
     streaking: true,
-    score: 200,
-    monstersRemaining: 28,
+    score: 0,
+    monstersRemaining: 0,
   };
 
   componentDidMount() {
@@ -247,6 +247,15 @@ class App extends React.Component {
     }
   };
 
+  updateScoreboard = (monsterCount) => {
+    let score = this.state.score,
+      streak = 1;
+
+    score += monsterCount * 100 * streak;
+    // Scoreboard.update() manages streak tally? Need to figure out how to manage this
+    console.log(`Eliminated ${monsterCount} monsters! Updating score...`);
+  };
+
   changeColor = (newColor) => {
     console.log(`Changing color to ${newColor}`);
     const hero = { ...this.state.hero };
@@ -290,7 +299,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header>
-          <Scoreboard />
+          <Scoreboard score={this.state.score} />
         </header>
         <main>
           <Field direction="up" queues={this.state.fields.up.queues} />
