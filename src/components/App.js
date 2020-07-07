@@ -174,9 +174,6 @@ class App extends React.Component {
   // Update state to add monster of randomColor to randomQueue of randomField
   addMonster = (direction = "up", queueNumber = 0, colorNumber = 0) => {
     // Update the state for the given queue to add a monster to it
-    console.log(
-      `Adding a ${colorMap[colorNumber]} monster to ${direction} queue #${queueNumber}`
-    );
     // Make a copy of the field
     let fields = this.state.fields;
 
@@ -196,10 +193,12 @@ class App extends React.Component {
     // Create new Monster component within the appropriate queue (this should be handled automatically)
   };
 
+  reportElimination = (monstersEliminated) => {
+    this.updateScoreboard(monstersEliminated);
+    this.updateCounter(monstersEliminated);
+  };
+
   strike = (field, queue, strikeColor) => {
-    console.log(
-      `Striking at ${field} queue #${queue} with color ${strikeColor}`
-    );
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
@@ -207,12 +206,10 @@ class App extends React.Component {
 
     if (strikeColor === monsterColor) {
       const streak = 1 + this.state.streak;
-      console.log("Matches the color!");
       this.setState({ streak });
       targetQueue.shift();
-      this.updateScoreboard(1);
-      this.updateCounter(1);
 
+      this.reportElimination(1);
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
     }
@@ -235,7 +232,6 @@ class App extends React.Component {
 
   endStreak = () => {
     this.setState({ streak: 0 });
-    console.log("Streak is over!");
   };
 
   endStage = (playerDidWin) => {
@@ -265,9 +261,6 @@ class App extends React.Component {
     score += pointsToAdd;
 
     // Scoreboard.update() manages streak tally? Need to figure out how to manage this
-    console.log(
-      `Eliminated ${monsterCount} monster! Streak is ${streak}, adding ${pointsToAdd}...`
-    );
     this.setState({ score });
   };
 
@@ -286,7 +279,6 @@ class App extends React.Component {
   };
 
   changeColor = (newColor) => {
-    console.log(`Changing color to ${newColor}`);
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
@@ -320,8 +312,6 @@ class App extends React.Component {
     hero.y = Math.min(baseSize, hero.y);
 
     this.setState({ hero });
-
-    console.log(this.state.hero);
   };
 
   render() {
