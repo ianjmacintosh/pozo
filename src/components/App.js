@@ -168,6 +168,7 @@ class App extends React.Component {
 
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
+    this.setState({ monstersRemaining: stageSettings.monsters });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -210,6 +211,7 @@ class App extends React.Component {
       this.setState({ streak });
       targetQueue.shift();
       this.updateScoreboard(1);
+      this.updateCounter(1);
 
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
@@ -246,9 +248,10 @@ class App extends React.Component {
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
       if (stages[currentStage]) {
-        this.setStage(currentStage);
+        this.start(currentStage);
+      } else {
+        alert("You finished the game too! No more stages left! 🍾");
       }
-      this.start();
     } else {
       alert("Sorry, because your base got invaded, you have lost the game");
     }
@@ -266,6 +269,20 @@ class App extends React.Component {
       `Eliminated ${monsterCount} monster! Streak is ${streak}, adding ${pointsToAdd}...`
     );
     this.setState({ score });
+  };
+
+  updateCounter = (monsterCount) => {
+    let monstersRemaining = this.state.monstersRemaining;
+    monstersRemaining -= monsterCount;
+    if (monstersRemaining <= 0) {
+      monstersRemaining = 0;
+    }
+
+    this.setState({ monstersRemaining }, () => {
+      if (monstersRemaining === 0) {
+        this.endStage(true);
+      }
+    });
   };
 
   changeColor = (newColor) => {
@@ -326,7 +343,7 @@ class App extends React.Component {
           />
         </main>
         <footer>
-          <Counter />
+          <Counter count={this.state.monstersRemaining} />
           <StartButton
             currentStage={this.state.currentStage}
             setStage={this.setStage}
