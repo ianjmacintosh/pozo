@@ -1,4 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
 /** App styles */
+html,
+body {
+  height: 100%;
+  background: #d6d1e5;
+}
+
+#root {
+  height: 100%;
+  display: grid;
+}
+
+.App {
+  margin: auto;
+}
+
 main {
   display: grid;
   grid-template-columns: repeat(3, min-content);
@@ -7,7 +24,7 @@ main {
 
 /** Field styles */
 .field {
-  border: solid 1px #0f0;
+  background: #f8f2f4;
   display: grid;
   width: 160px;
   height: 160px;
@@ -81,45 +98,76 @@ main {
   width: 40px;
 }
 
-.monster.color-0 span {
-  background: cyan;
+.monster.color-0 path {
+  fill: #3f84e5;
 }
 
-.monster.color-1 span {
-  background: magenta;
+.monster.color-1 path {
+  fill: #b20d30;
 }
 
-.monster.color-2 span {
-  background: yellow;
+.monster.color-2 path {
+  fill: #fcba04;
 }
 
-.monster.color-3 span {
-  color: white;
-  background: black;
+.monster.color-3 path {
+  fill: #050517;
 }
 
 /** Homebase styles */
-
 .homebase {
-  border: solid 1px #00f;
+  background: #f0e2e7;
   grid-column: 2;
   grid-row: 2;
 }
 
 /** Hero styles */
-
 .hero--0 svg path {
-  fill: cyan;
+  fill: #3f84e5;
 }
 
 .hero--1 svg path {
-  fill: magenta;
+  fill: #b20d30;
 }
 
 .hero--2 svg path {
-  fill: yellow;
+  fill: #fcba04;
 }
 
 .hero--3 svg path {
-  fill: black;
+  fill: #050517;
+}
+
+/** Scoreboard styles */
+.scoreboard {
+  font-size: 48px;
+  font-family: "Bebas Neue", cursive;
+  color: #3f84e5;
+}
+
+/** Counter styles */
+footer {
+  display: grid;
+  grid-auto-columns: max-content;
+  justify-content: end;
+  justify-items: end;
+}
+.counter {
+  font-size: 36px;
+  font-family: "Bebas Neue", cursive;
+  color: #b20d30;
+}
+
+button {
+  background: none;
+  cursor: pointer;
+  border: solid 2px #050517;
+  border-radius: 4px;
+  font-size: 24px;
+  font-family: "Bebas Neue", cursive;
+  transition: 300ms all;
+}
+
+button:hover {
+  background-color: #fcba04;
 }
