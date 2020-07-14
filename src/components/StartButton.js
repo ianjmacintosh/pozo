@@ -6,11 +6,7 @@ class StartButton extends React.Component {
     this.props.start(this.props.currentStage);
   };
   render() {
-    return (
-      <button onClick={this.handleStart}>
-        Start Stage {this.props.currentStage}
-      </button>
-    );
+    return <button onClick={this.handleStart}>Start</button>;
   }
 }
 
