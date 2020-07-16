@@ -200,6 +200,56 @@ class App extends React.Component {
   };
 
   strike = (field, queue, strikeColor) => {
+    // Find out direction to strike (up, left, down, right)
+    let x = 0,
+      y = 0,
+      squareSize = 40,
+      sizeOfQueue = this.state.fields[field].queueLengthLimit * squareSize,
+      heroToEdge = 0,
+      distanceToTravel = 0;
+
+    // Calculate distance from current location to end of target queue
+    // Calculate distance from hero to edge of base
+    switch (field) {
+      case "up":
+        // 1 should go just the distance of the queue
+        heroToEdge = (this.state.hero.y - 1) * squareSize;
+        break;
+
+      case "down":
+        heroToEdge = (4 - this.state.hero.y) * squareSize;
+        break;
+
+      case "left":
+        heroToEdge = (this.state.hero.x - 1) * squareSize;
+        break;
+
+      case "right":
+        heroToEdge = (4 - this.state.hero.x) * squareSize;
+        break;
+
+      default:
+        heroToEdge = 0;
+    }
+
+    distanceToTravel = heroToEdge + sizeOfQueue;
+
+    if (field === "up" || field === "left") {
+      distanceToTravel *= -1;
+    }
+    if (field === "up" || field === "down") {
+      y = distanceToTravel;
+    } else {
+      x = distanceToTravel;
+    }
+    // Animate that transition
+    gsap.to(".hero", {
+      duration: 0.1,
+      x,
+      y,
+      repeat: 1,
+      yoyo: true,
+    });
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
