@@ -31,22 +31,28 @@ code {
   grid-row: var(--hero-y);
 }
 
+.hero svg {
+  width: 28px;
+  height: 30px;
+  margin: 4px;
+}
+
 .hero svg path {
   fill: #f00;
 }
 
-.hero--up {
+.hero--up svg {
   transform: rotate(0deg);
 }
 
-.hero--right {
+.hero--right svg {
   transform: rotate(90deg);
 }
 
-.hero--down {
+.hero--down svg {
   transform: rotate(180deg);
 }
 
-.hero--left {
+.hero--left svg {
   transform: rotate(270deg);
 }
