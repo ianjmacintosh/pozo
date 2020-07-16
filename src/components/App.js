@@ -243,12 +243,16 @@ class App extends React.Component {
       x = distanceToTravel;
     }
     // Animate that transition
-    gsap.to(".hero", {
+    let tl = gsap.timeline();
+    tl.to(".hero", {
       duration: 0.1,
       x,
       y,
-      repeat: 1,
-      yoyo: true,
+    });
+    tl.to(".hero", {
+      duration: 0.1,
+      x: 0,
+      y: 0,
     });
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
