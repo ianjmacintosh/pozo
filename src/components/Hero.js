@@ -13,8 +13,8 @@ class Hero extends React.Component {
         <svg>
           <path
             xmlns="http://www.w3.org/2000/svg"
-            d="m5,35l14,-30l14,30l-27,0z"
-          />
+            d="m0,30l14,-30l14,30l-28,0z"
+          ></path>
         </svg>
       </div>
     );
