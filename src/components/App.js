@@ -6,6 +6,7 @@ import Homebase from "./Homebase";
 import Counter from "./Counter";
 import StartButton from "./StartButton";
 import { getRandomInt } from "../helpers";
+import { gsap } from "gsap";
 
 import "../css/App.css";
 
