@@ -10,12 +10,12 @@ import { gsap } from "gsap";
 
 import "../css/App.css";
 
-const colorMap = {
-  0: "cyan",
-  1: "magenta",
-  2: "yellow",
-  3: "black",
-};
+// const colorMap = {
+//   0: "cyan",
+//   1: "magenta",
+//   2: "yellow",
+//   3: "black",
+// };
 
 const directionMap = {
   0: "up",
