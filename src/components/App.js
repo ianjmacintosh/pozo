@@ -31,6 +31,24 @@ const stages = [
     waveDuration: 10,
     rateMultiplier: 1.25,
   },
+  {
+    monsters: 50,
+    creationRate: 2,
+    waveDuration: 20,
+    rateMultiplier: 1.5,
+  },
+  {
+    monsters: 50,
+    creationRate: 2,
+    waveDuration: 10,
+    rateMultiplier: 1.75,
+  },
+  {
+    monsters: 50,
+    creationRate: 3,
+    waveDuration: 5,
+    rateMultiplier: 1.1,
+  },
 ];
 
 class App extends React.Component {
