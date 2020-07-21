@@ -1,5 +1,6 @@
 import React from "react";
 
+import Menu from "./Menu";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
 import Homebase from "./Homebase";
@@ -372,6 +373,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <Menu />
         <header>
           <Scoreboard score={this.state.score} />
         </header>
