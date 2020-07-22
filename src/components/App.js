@@ -55,17 +55,23 @@ class App extends React.Component {
       },
       {
         title: "Instructions",
-        action: "instructions",
+        action: () => {
+          console.log("Instructions");
+        },
         selected: false,
       },
       {
         title: "Options",
-        action: "options",
+        action: () => {
+          console.log("Options");
+        },
         selected: false,
       },
       {
         title: "Credits",
-        action: "credits",
+        action: () => {
+          console.log("Credits");
+        },
         selected: false,
       },
     ],
