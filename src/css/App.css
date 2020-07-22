@@ -171,3 +171,9 @@ button {
 button:hover {
   background-color: #fcba04;
 }
+
+/** Menu */
+.main-menu .selected {
+  text-decoration: underline;
+  font-weight: bold;
+}
