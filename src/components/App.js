@@ -1,10 +1,10 @@
 import React from "react";
 
+import Menu from "./Menu";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
 import Homebase from "./Homebase";
 import Counter from "./Counter";
-import StartButton from "./StartButton";
 import { getRandomInt } from "../helpers";
 import { gsap } from "gsap";
 
@@ -53,6 +53,8 @@ const stages = [
 
 class App extends React.Component {
   state = {
+    gameActive: false,
+    menuOption: 0,
     currentStage: 0,
     stageSettings: {
       monsters: 0,
@@ -60,6 +62,36 @@ class App extends React.Component {
       waveDuration: 0,
       rateMultiplier: 0,
     },
+    menuOptions: [
+      {
+        title: "Start Game",
+        action: () => {
+          this.start();
+        },
+        selected: true,
+      },
+      {
+        title: "Instructions",
+        action: () => {
+          console.log("Instructions");
+        },
+        selected: false,
+      },
+      {
+        title: "Options",
+        action: () => {
+          console.log("Options");
+        },
+        selected: false,
+      },
+      {
+        title: "Credits",
+        action: () => {
+          console.log("Credits");
+        },
+        selected: false,
+      },
+    ],
     fields: {
       up: {
         // Up and down queues will end the game when their length > 5
@@ -98,6 +130,29 @@ class App extends React.Component {
     window.addEventListener("keydown", this.handleKeypress);
   }
 
+  changeMenuOption = (advance) => {
+    let menuOption = this.state.menuOption;
+    if (advance) {
+      menuOption++;
+    } else {
+      menuOption--;
+    }
+    if (menuOption > this.state.menuOptions.length - 1) {
+      menuOption = 0;
+    } else if (menuOption < 0) {
+      menuOption = this.state.menuOptions.length - 1;
+    }
+    let newMenuOptions = this.state.menuOptions;
+    newMenuOptions.map(
+      (option, index) => (option.selected = menuOption === index)
+    );
+    this.setState({ menuOptions: newMenuOptions, menuOption });
+  };
+
+  chooseMenuOption = () => {
+    this.state.menuOptions[this.state.menuOption].action();
+  };
+
   handleKeypress = ({ key }) => {
     // Each movement updates app state for hero x & y
     const keyMappings = {
@@ -119,19 +174,36 @@ class App extends React.Component {
     };
 
     if (key in keyMappings) {
-      if (keyMappings[key] === "strike") {
-        let direction = this.state.hero.orientation,
-          queue = this.state.hero.y - 1,
-          color = this.state.hero.color;
-
-        // If the hero is pointed north or south, use X coord for queue
-        if (direction === "up" || direction === "down") {
-          queue = this.state.hero.x - 1;
+      const command = keyMappings[key];
+      // Determine if user is controlling hero in game or navigating menu
+      // If navigating menu:
+      if (!this.state.gameActive) {
+        switch (command) {
+          default:
+            // If movement, update menu position
+            this.changeMenuOption(command === "down" || command === "right");
+            break;
+          case "strike":
+            // If strike, determine menu position and execute associated routine
+            this.chooseMenuOption();
+            break;
         }
-
-        this.strike(direction, queue, color);
       } else {
-        this.walk(keyMappings[key]);
+        // If playing game:
+        if (keyMappings[key] === "strike") {
+          let direction = this.state.hero.orientation,
+            queue = this.state.hero.y - 1,
+            color = this.state.hero.color;
+
+          // If the hero is pointed north or south, use X coord for queue
+          if (direction === "up" || direction === "down") {
+            queue = this.state.hero.x - 1;
+          }
+
+          this.strike(direction, queue, color);
+        } else {
+          this.walk(keyMappings[key]);
+        }
       }
     }
   };
@@ -153,6 +225,7 @@ class App extends React.Component {
   waveTimer = null;
 
   start = (stageNumber = 0) => {
+    this.setState({ gameActive: true });
     const stageSettings = stages[stageNumber],
       setTimers = () => {
         clearInterval(this.monsterTimer);
@@ -388,33 +461,41 @@ class App extends React.Component {
   };
 
   render() {
-    return (
-      <div className="App">
-        <header>
-          <Scoreboard score={this.state.score} />
-        </header>
-        <main>
-          <Field direction="up" queues={this.state.fields.up.queues} />
-          <Field direction="left" queues={this.state.fields.left.queues} />
-          <Field direction="right" queues={this.state.fields.right.queues} />
-          <Field direction="down" queues={this.state.fields.down.queues} />
-          <Homebase
-            heroX={this.state.hero.x}
-            heroY={this.state.hero.y}
-            heroOrientation={this.state.hero.orientation}
-            heroColor={this.state.hero.color}
-          />
-        </main>
-        <footer>
-          <Counter count={this.state.monstersRemaining} />
-          <StartButton
-            currentStage={this.state.currentStage}
-            setStage={this.setStage}
-            start={this.start}
-          />
-        </footer>
-      </div>
-    );
+    if (this.state.gameActive) {
+      return (
+        <div className="App">
+          <div className="board">
+            <header>
+              <Scoreboard score={this.state.score} />
+            </header>
+            <main>
+              <Field direction="up" queues={this.state.fields.up.queues} />
+              <Field direction="left" queues={this.state.fields.left.queues} />
+              <Field
+                direction="right"
+                queues={this.state.fields.right.queues}
+              />
+              <Field direction="down" queues={this.state.fields.down.queues} />
+              <Homebase
+                heroX={this.state.hero.x}
+                heroY={this.state.hero.y}
+                heroOrientation={this.state.hero.orientation}
+                heroColor={this.state.hero.color}
+              />
+            </main>
+            <footer>
+              <Counter count={this.state.monstersRemaining} />
+            </footer>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="App main-menu">
+          <Menu options={this.state.menuOptions} />
+        </div>
+      );
+    }
   }
 }
 
