@@ -1,5 +1,6 @@
 import React from "react";
 
+import Alert from "./Alert";
 import Menu from "./Menu";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
@@ -53,6 +54,7 @@ const stages = [
 
 class App extends React.Component {
   state = {
+    alertText: "",
     gameActive: false,
     menuOption: 0,
     currentStage: 0,
@@ -464,6 +466,7 @@ class App extends React.Component {
     if (this.state.gameActive) {
       return (
         <div className="App">
+          <Alert text={this.state.alertText} animated={false}></Alert>
           <div className="board">
             <header>
               <Scoreboard score={this.state.score} />
