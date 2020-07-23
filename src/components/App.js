@@ -467,18 +467,13 @@ class App extends React.Component {
             </main>
             <footer>
               <Counter count={this.state.monstersRemaining} />
-              <StartButton
-                currentStage={this.state.currentStage}
-                setStage={this.setStage}
-                start={this.start}
-              />
             </footer>
           </div>
         </div>
       );
     } else {
       return (
-        <div className="App">
+        <div className="App main-menu">
           <Menu options={this.state.menuOptions} />
         </div>
       );
