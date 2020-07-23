@@ -14,6 +14,7 @@ class Menu extends React.Component {
           {this.props.options.map((option, index) => (
             <MenuOption
               title={option.title}
+              action={option.action}
               key={index}
               selected={option.selected}
             ></MenuOption>
