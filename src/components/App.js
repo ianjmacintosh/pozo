@@ -1,5 +1,6 @@
 import React from "react";
 
+import Alert from "./Alert";
 import Menu from "./Menu";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
@@ -53,6 +54,7 @@ const stages = [
 
 class App extends React.Component {
   state = {
+    alertText: "",
     gameActive: false,
     menuOption: 0,
     currentStage: 0,
@@ -213,13 +215,13 @@ class App extends React.Component {
     const stageSettings = stages[stageNumber];
 
     // Number of monsters in stage (e.g., 50)
-    this.setState({ stageSettings });
+    this.setState({ stageSettings, alertText: `Stage ${stageNumber}` });
+    console.log("New stage beginning");
 
     // Rate of monster creation (interval at which a new monster created; e.g., 3)
     // Wave duration (interval at which rate accelerates; e.g., 10)
     // Rate of acceleration (multiplier to apply to rate; e.g. 0.75)
     // In the example above: 50 monsters need to be eliminated to move to next stage. A new monster is provided every 3 seconds. Every 10 seconds, the duration decreases by 25% -- instead of monsters being created every 3 seconds, new monsters get created every 2.25 seconds. After 10 more seconds, a new monster gets created every 1.6875 seconds
-    console.log(`Setting stage ${stageNumber}`);
   };
 
   monsterTimer = null;
@@ -261,7 +263,11 @@ class App extends React.Component {
 
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
-    this.setState({ monstersRemaining: stageSettings.monsters });
+    this.setState({
+      monstersRemaining: stageSettings.monsters,
+      alertText: `Stage ${stageNumber}`,
+    });
+    console.log(`Stage ${stageNumber}`);
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -387,16 +393,16 @@ class App extends React.Component {
 
     if (playerDidWin) {
       // Congratulate user, show score, then call App.setStage with settings for next level
-      alert(`🏁 Congratulations! You completed the stage 🏁`);
+      this.setState({ alertText: "Stage Complete" });
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
       if (stages[currentStage]) {
         this.start(currentStage);
       } else {
-        alert("You finished the game too! No more stages left! 🍾");
+        this.setState({ alertText: "Victory" });
       }
     } else {
-      alert("Sorry, because your base got invaded, you have lost the game");
+      this.setState({ alertText: "Game Over" });
     }
   };
 
@@ -465,6 +471,7 @@ class App extends React.Component {
     if (this.state.gameActive) {
       return (
         <div className="App">
+          <Alert text={this.state.alertText} animated={false}></Alert>
           <div className="board">
             <header>
               <Scoreboard score={this.state.score} />

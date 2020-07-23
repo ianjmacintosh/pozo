@@ -8,7 +8,7 @@ class Menu extends React.Component {
   }
   render() {
     return (
-      <div class="main-menu-wrapper">
+      <div className="main-menu-wrapper">
         <h1>Pozo</h1>
         <ul className="main-menu">
           {this.props.options.map((option, index) => (

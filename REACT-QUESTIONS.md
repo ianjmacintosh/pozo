@@ -12,3 +12,5 @@
 - What's the right way to handle keypresses to navigate through the menu vs move hero?
 
 - The main menu state vs props seems weird -- managing menuOption vs a boolean in menuOptions?
+
+- Approach for alert seems odd. Should I make a new alert window and get rid of it once it animates? Right now I'm removing a class once the animation has completed. Seems weird.
