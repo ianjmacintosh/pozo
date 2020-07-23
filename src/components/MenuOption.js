@@ -4,7 +4,7 @@ class MenuOption extends React.Component {
   render() {
     return (
       <li className={this.props.selected ? "selected" : ""}>
-        {this.props.title}
+        <span onClick={this.props.action}>{this.props.title}</span>
       </li>
     );
   }

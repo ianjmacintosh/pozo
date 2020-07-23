@@ -209,6 +209,10 @@ button:hover {
   margin: 0;
 }
 
+.main-menu li span {
+  cursor: pointer;
+}
+
 .main-menu .selected {
   color: var(--blue);
   animation-name: pulse;
