@@ -171,6 +171,7 @@ class App extends React.Component {
       ArrowRight: "right",
       ArrowDown: "down",
       ArrowLeft: "left",
+      Enter: "strike",
     };
 
     if (key in keyMappings) {
