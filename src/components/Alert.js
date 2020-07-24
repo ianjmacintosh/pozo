@@ -4,6 +4,12 @@ class Alert extends React.Component {
   state = {
     animated: false,
   };
+  componentDidMount() {
+    this.setState({ animated: true });
+    window.setTimeout(() => {
+      this.setState({ animated: false });
+    }, 2000);
+  }
   componentDidUpdate(prevProps) {
     if (this.props.text !== prevProps.text) {
       this.setState({ animated: true });
