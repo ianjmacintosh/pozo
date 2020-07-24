@@ -215,7 +215,17 @@ class App extends React.Component {
   waveTimer = null;
 
   start = (stageNumber = 0) => {
+    // Activate game
     this.setState({ gameActive: true });
+
+    // Clear all queues
+    let fields = this.state.fields;
+    fields.up.queues = [[], [], [], []];
+    fields.down.queues = [[], [], [], []];
+    fields.left.queues = [[], [], [], []];
+    fields.right.queues = [[], [], [], []];
+    this.setState({ fields });
+
     const stageSettings = stages[stageNumber],
       setTimers = () => {
         clearInterval(this.monsterTimer);
