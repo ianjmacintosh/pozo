@@ -31,24 +31,36 @@ const stages = [
     creationRate: 3,
     waveDuration: 10,
     rateMultiplier: 1.25,
+    colorScheme: {
+      backgroundColor: "#112131",
+    },
   },
   {
     monsters: 50,
     creationRate: 2,
     waveDuration: 20,
     rateMultiplier: 1.5,
+    colorScheme: {
+      backgroundColor: "#41EAD4",
+    },
   },
   {
     monsters: 50,
     creationRate: 2,
     waveDuration: 10,
     rateMultiplier: 1.75,
+    colorScheme: {
+      backgroundColor: "#FF206E",
+    },
   },
   {
     monsters: 50,
     creationRate: 3,
     waveDuration: 5,
     rateMultiplier: 1.1,
+    colorScheme: {
+      backgroundColor: "#9D4EDD",
+    },
   },
 ];
 
@@ -257,6 +269,10 @@ class App extends React.Component {
           }, this.state.stageSettings.creationRate * 1000);
         }, this.state.stageSettings.waveDuration * 1000);
       };
+
+    // Change background color
+    document.body.style.backgroundColor =
+      stageSettings.colorScheme.backgroundColor;
 
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);

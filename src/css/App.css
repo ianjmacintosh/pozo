@@ -5,6 +5,8 @@ html,
 body {
   height: 100%;
   background: #fff;
+  overflow: hidden;
+  position: relative;
 }
 
 #root {
@@ -14,8 +16,6 @@ body {
 
 .App {
   margin: auto;
-  position: relative;
-  overflow: hidden;
 }
 
 main {
