@@ -27,7 +27,7 @@ const directionMap = {
 
 const stages = [
   {
-    monsters: 10,
+    monsters: 5,
     creationRate: 3,
     waveDuration: 10,
     rateMultiplier: 1.25,
@@ -36,16 +36,16 @@ const stages = [
     },
   },
   {
-    monsters: 50,
+    monsters: 10,
     creationRate: 2,
-    waveDuration: 20,
-    rateMultiplier: 1.5,
+    waveDuration: 5,
+    rateMultiplier: 1.1,
     colorScheme: {
       backgroundColor: "#41EAD4",
     },
   },
   {
-    monsters: 50,
+    monsters: 25,
     creationRate: 2,
     waveDuration: 10,
     rateMultiplier: 1.75,
@@ -55,7 +55,7 @@ const stages = [
   },
   {
     monsters: 50,
-    creationRate: 3,
+    creationRate: 2,
     waveDuration: 5,
     rateMultiplier: 1.1,
     colorScheme: {
