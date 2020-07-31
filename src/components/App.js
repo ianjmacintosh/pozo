@@ -246,18 +246,11 @@ class App extends React.Component {
       // If queue length is 2 monsters more than any other in field:
       // Get length of this queue
       let field = this.state.fields[directionMap[fieldNumber]];
-      let queueLength = field.queues[queueNumber].length;
-      console.log(`The queue we're going to fill has ${queueLength} monsters`);
 
-      let fieldWouldBeUnbalanced = (allQueues, targetQueue) => {
-        console.log(`Reviewing ${allQueues}, possibly adding ${targetQueue}`);
-        let isThisBad = field.queues.some(
-          (thisQueue) => allQueues[targetQueue] - thisQueue.length > 1
+      let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
+        field.queues.some(
+          (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
         );
-
-        console.log(allQueues.map((queue) => queue.length));
-        return isThisBad;
-      };
 
       // Get length of shortest queue
       while (fieldWouldBeUnbalanced(field.queues, queueNumber)) {
