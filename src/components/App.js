@@ -238,35 +238,49 @@ class App extends React.Component {
     fields.right.queues = [[], [], [], []];
     this.setState({ fields });
 
+    const chooseQueue = () => {
+      let fieldNumber = getRandomInt(0, 3),
+        queueNumber = getRandomInt(0, 3),
+        colorNumber = getRandomInt(0, 3);
+
+      // If queue length is 2 monsters more than any other in field:
+      // Get length of this queue
+      let field = this.state.fields[directionMap[fieldNumber]];
+
+      let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
+        field.queues.some(
+          (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
+        );
+
+      // Get length of shortest queue
+      while (fieldWouldBeUnbalanced(field.queues, queueNumber)) {
+        queueNumber = getRandomInt(0, 3);
+      }
+      // If longest queue - shortest queue is > 2, choose a different queue
+      // queueNumber = getRandomInt(0, 3);
+      this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
+    };
+
     const stageSettings = stages[stageNumber],
       setTimers = () => {
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
 
-        this.monsterTimer = window.setInterval(() => {
-          this.addMonster(
-            directionMap[getRandomInt(0, 3)],
-            getRandomInt(0, 3),
-            getRandomInt(0, 3)
-          );
-        }, this.state.stageSettings.creationRate * 1000);
+        this.monsterTimer = window.setInterval(
+          chooseQueue,
+          this.state.stageSettings.creationRate * 1000
+        );
 
         this.waveTimer = window.setInterval(() => {
           let stageSettings = this.state.stageSettings;
           stageSettings.creationRate =
             stageSettings.creationRate / stageSettings.rateMultiplier;
-          console.log(
-            `A new monster will now be created every ${stageSettings.creationRate} seconds`
-          );
           clearInterval(this.monsterTimer);
 
-          this.monsterTimer = window.setInterval(() => {
-            this.addMonster(
-              directionMap[getRandomInt(0, 3)],
-              getRandomInt(0, 3),
-              getRandomInt(0, 3)
-            );
-          }, this.state.stageSettings.creationRate * 1000);
+          this.monsterTimer = window.setInterval(
+            chooseQueue,
+            this.state.stageSettings.creationRate * 1000
+          );
         }, this.state.stageSettings.waveDuration * 1000);
       };
 
