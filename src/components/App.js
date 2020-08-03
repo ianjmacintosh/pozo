@@ -11,7 +11,7 @@ import { gsap } from "gsap";
 
 import "../css/App.css";
 
-import tink from "../sounds/tink.wav";
+import tink from "../sounds/strike.wav";
 
 // const colorMap = {
 //   0: "cyan",
