@@ -540,6 +540,7 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
+          <audio data-sound="strike" src={tink}></audio>
           <Menu options={this.state.menuOptions} />
         </div>
       );
