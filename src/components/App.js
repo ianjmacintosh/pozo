@@ -11,6 +11,8 @@ import { gsap } from "gsap";
 
 import "../css/App.css";
 
+import tink from "../sounds/tink.wav";
+
 // const colorMap = {
 //   0: "cyan",
 //   1: "magenta",
@@ -494,6 +496,12 @@ class App extends React.Component {
     this.setState({ hero });
   };
 
+  playSound = (soundKey) => {
+    const audio = document.querySelector(`[data-sound=${soundKey}]`);
+    audio.currentTime = 0;
+    audio.play();
+  };
+
   render() {
     if (this.state.gameActive) {
       return (
@@ -527,6 +535,7 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
+          <audio data-sound="strike" src={tink}></audio>
           <Menu options={this.state.menuOptions} />
         </div>
       );
