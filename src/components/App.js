@@ -11,7 +11,8 @@ import { gsap } from "gsap";
 
 import "../css/App.css";
 
-import tink from "../sounds/strike.wav";
+// 246ms long
+import strikeSound from "../sounds/strike.wav";
 
 // const colorMap = {
 //   0: "cyan",
@@ -327,6 +328,9 @@ class App extends React.Component {
   };
 
   strike = (field, queue, strikeColor) => {
+    // Play sound
+    this.playSound("strike");
+
     // Find out direction to strike (up, left, down, right)
     let x = 0,
       y = 0,
@@ -525,6 +529,7 @@ class App extends React.Component {
                 heroOrientation={this.state.hero.orientation}
                 heroColor={this.state.hero.color}
               />
+              <audio data-sound="strike" src={strikeSound}></audio>
             </main>
             <footer>
               <Counter count={this.state.monstersRemaining} />
@@ -535,7 +540,6 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
-          <audio data-sound="strike" src={tink}></audio>
           <Menu options={this.state.menuOptions} />
         </div>
       );
