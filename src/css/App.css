@@ -218,7 +218,7 @@ button:hover {
 .main-menu .selected {
   color: var(--blue);
   animation-name: pulse;
-  animation-duration: 2s;
+  animation-duration: 600ms;
   animation-iteration-count: infinite;
 }
 
