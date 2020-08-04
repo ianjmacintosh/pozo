@@ -14,6 +14,12 @@ import "../css/App.css";
 // 246ms long
 import strikeSound from "../sounds/strike.wav";
 
+import menuMoveSound from "../sounds/menuMove.wav";
+
+import menuSelectSound from "../sounds/menuSelect.wav";
+
+import walkSound from "../sounds/walk.wav";
+
 // const colorMap = {
 //   0: "cyan",
 //   1: "magenta",
@@ -148,6 +154,8 @@ class App extends React.Component {
   }
 
   changeMenuOption = (advance) => {
+    this.playSound("menuMove", 0.05);
+
     let menuOption = this.state.menuOption;
     if (advance) {
       menuOption++;
@@ -231,7 +239,11 @@ class App extends React.Component {
 
   start = (stageNumber = 0) => {
     // Activate game
-    this.setState({ gameActive: true });
+    this.setState({ gameActive: true }, () => {
+      if (stageNumber === 0) {
+        this.playSound("menuSelect");
+      }
+    });
 
     // Clear all queues
     let fields = this.state.fields;
@@ -474,6 +486,7 @@ class App extends React.Component {
 
   // Walk accepts a direction, and calls move
   walk = (direction) => {
+    this.playSound("walk", 0, 0.15);
     // Each movement updates app state for hero x & y
     const directionChanges = {
         up: [0, -1],
@@ -500,9 +513,10 @@ class App extends React.Component {
     this.setState({ hero });
   };
 
-  playSound = (soundKey) => {
+  playSound = (soundKey, startPoint = 0, volume = 1) => {
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
-    audio.currentTime = 0;
+    audio.currentTime = startPoint;
+    audio.volume = volume;
     audio.play();
   };
 
@@ -529,7 +543,9 @@ class App extends React.Component {
                 heroOrientation={this.state.hero.orientation}
                 heroColor={this.state.hero.color}
               />
+              <audio data-sound="menuSelect" src={menuSelectSound}></audio>
               <audio data-sound="strike" src={strikeSound}></audio>
+              <audio data-sound="walk" src={walkSound}></audio>
             </main>
             <footer>
               <Counter count={this.state.monstersRemaining} />
@@ -540,7 +556,8 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
-          <audio data-sound="strike" src={tink}></audio>
+          <audio data-sound="menuSelect" src={menuSelectSound}></audio>
+          <audio data-sound="menuMove" src={menuMoveSound}></audio>
           <Menu options={this.state.menuOptions} />
         </div>
       );
