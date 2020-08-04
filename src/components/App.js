@@ -20,6 +20,14 @@ import menuSelectSound from "../sounds/menuSelect.wav";
 
 import walkSound from "../sounds/walk.wav";
 
+import eliminateSound from "../sounds/eliminate.wav";
+
+import swapSound from "../sounds/swap.wav";
+
+import gameOverSound from "../sounds/gameOver.wav";
+
+import stageClearSound from "../sounds/stageClear.wav";
+
 // const colorMap = {
 //   0: "cyan",
 //   1: "magenta",
@@ -335,13 +343,14 @@ class App extends React.Component {
   };
 
   reportElimination = (monstersEliminated) => {
+    this.playSound("eliminate");
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
   };
 
   strike = (field, queue, strikeColor) => {
     // Play sound
-    this.playSound("strike");
+    this.playSound("strike", 0, 0.5);
 
     // Find out direction to strike (up, left, down, right)
     let x = 0,
@@ -413,6 +422,7 @@ class App extends React.Component {
     }
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
+      this.playSound("swap");
       // Report streak end via App.endStreak()
       if (this.state.streak > 0) {
         this.endStreak();
@@ -442,11 +452,13 @@ class App extends React.Component {
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
       if (stages[currentStage]) {
+        this.playSound("stageClear");
         this.start(currentStage);
       } else {
         this.setState({ alertText: "Victory" });
       }
     } else {
+      this.playSound("gameOver");
       this.setState({ alertText: "Game Over" });
     }
   };
@@ -543,9 +555,13 @@ class App extends React.Component {
                 heroOrientation={this.state.hero.orientation}
                 heroColor={this.state.hero.color}
               />
+              <audio data-sound="eliminate" src={eliminateSound}></audio>
               <audio data-sound="menuSelect" src={menuSelectSound}></audio>
               <audio data-sound="strike" src={strikeSound}></audio>
               <audio data-sound="walk" src={walkSound}></audio>
+              <audio data-sound="swap" src={swapSound}></audio>
+              <audio data-sound="gameOver" src={gameOverSound}></audio>
+              <audio data-sound="stageClear" src={stageClearSound}></audio>
             </main>
             <footer>
               <Counter count={this.state.monstersRemaining} />
