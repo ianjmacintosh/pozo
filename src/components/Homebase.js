@@ -1,6 +1,7 @@
 import React from "react";
 
 import Hero from "./Hero";
+import "./Homebase.css";
 
 class Homebase extends React.Component {
   render() {

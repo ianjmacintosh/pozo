@@ -1,0 +1,37 @@
+/** Field styles */
+.field {
+  background: #f8f2f4;
+  display: grid;
+  width: 160px;
+  height: 160px;
+  grid-gap: 0;
+}
+
+.up-field,
+.down-field {
+  grid-template-columns: repeat(4, 40px);
+  height: 200px;
+}
+
+.left-field,
+.right-field {
+  grid-template-rows: repeat(4, 40px);
+  width: 320px;
+}
+
+.up-field {
+  grid-column: 2;
+  grid-row: 1;
+}
+.left-field {
+  grid-column: 1;
+  grid-row: 2;
+}
+.right-field {
+  grid-column: 3;
+  grid-row: 2;
+}
+.down-field {
+  grid-column: 2;
+  grid-row: 3;
+}

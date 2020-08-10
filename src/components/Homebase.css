@@ -1,5 +1,8 @@
-body {
-  background: #545e75;
+/** Homebase styles */
+.homebase {
+  background: #f0e2e7;
+  grid-column: 2;
+  grid-row: 2;
 }
 
 .home-base {

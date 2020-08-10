@@ -1,0 +1,71 @@
+/** Menu */
+.main-menu-wrapper {
+  /* Coolors palette 1
+    --black: #0c0f0a;
+    --pink: #ff206e;
+    --yellow: #fbff12;
+    --blue: #41ead4;
+    --white: #fff; */
+
+  --black: #0c0f0a;
+  --pink: #f0f;
+  --yellow: #ffff00;
+  --blue: #0ff;
+  --white: #fff;
+  font-size: 48px;
+  font-family: "Bebas Neue", sans-serif;
+  text-align: center;
+  color: var(--black);
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.main-menu-wrapper h1 {
+  font-size: 300px;
+  font-weight: 400;
+  margin: 0;
+  align-self: end;
+}
+
+.main-menu ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.main-menu li span {
+  cursor: pointer;
+}
+
+.main-menu .selected {
+  color: var(--blue);
+  animation-name: pulse;
+  animation-duration: 600ms;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  from {
+    text-shadow: 0 0 10px var(--pink);
+  }
+
+  50% {
+    text-shadow: 0 0 3px var(--pink);
+  }
+
+  to {
+    text-shadow: 0 0 10px var(--pink);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

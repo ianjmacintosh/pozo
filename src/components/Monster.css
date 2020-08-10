@@ -1,0 +1,22 @@
+/** Monster styles */
+.monster span {
+  display: block;
+  height: 40px;
+  width: 40px;
+}
+
+.monster.color-0 path {
+  fill: #3f84e5;
+}
+
+.monster.color-1 path {
+  fill: #b20d30;
+}
+
+.monster.color-2 path {
+  fill: #fcba04;
+}
+
+.monster.color-3 path {
+  fill: #050517;
+}

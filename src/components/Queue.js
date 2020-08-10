@@ -1,6 +1,7 @@
 import React from "react";
 
 import Monster from "./Monster";
+import "./Queue.css";
 
 class Queue extends React.Component {
   reportElimination = () => {

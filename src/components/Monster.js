@@ -1,4 +1,5 @@
 import React from "react";
+import "./Monster.css";
 
 class Monster extends React.Component {
   render() {
