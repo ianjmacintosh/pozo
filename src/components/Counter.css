@@ -1,0 +1,26 @@
+/** Counter styles */
+footer {
+  display: grid;
+  grid-auto-columns: max-content;
+  justify-content: end;
+  justify-items: end;
+}
+.counter {
+  font-size: 36px;
+  font-family: "Bebas Neue", sans-serif;
+  color: #b20d30;
+}
+
+button {
+  background: none;
+  cursor: pointer;
+  border: solid 2px #050517;
+  border-radius: 4px;
+  font-size: 24px;
+  font-family: "Bebas Neue", sans-serif;
+  transition: 300ms all;
+}
+
+button:hover {
+  background-color: #fcba04;
+}

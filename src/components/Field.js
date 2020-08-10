@@ -1,6 +1,7 @@
 import React from "react";
 
 import Queue from "./Queue";
+import "./Field.css";
 
 class Field extends React.Component {
   render() {

@@ -1,0 +1,30 @@
+/** Queue styles */
+.queue {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+}
+
+.up-field .queue {
+  flex-direction: column-reverse;
+  width: 40px;
+}
+
+.left-field .queue {
+  flex-direction: row-reverse;
+  height: 40px;
+}
+
+.right-field .queue {
+  flex-direction: row;
+  height: 40px;
+}
+
+.down-field .queue {
+  flex-direction: column;
+  width: 40px;
+}

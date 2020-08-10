@@ -1,0 +1,39 @@
+/** Alert */
+.alert {
+  background: #ffffff;
+  display: grid;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 48px;
+  font-family: "Bebas Neue", sans-serif;
+  z-index: 2;
+  opacity: 0;
+}
+
+.alert.animated {
+  animation: fade-out 2s forwards;
+}
+
+.alert p {
+  align-self: center;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(5);
+  }
+}

@@ -9,23 +9,16 @@ import Counter from "./Counter";
 import { getRandomInt } from "../helpers";
 import { gsap } from "gsap";
 
-import "../css/App.css";
+import "./App.css";
 
 // 246ms long
 import strikeSound from "../sounds/strike.wav";
-
 import menuMoveSound from "../sounds/menuMove.wav";
-
 import menuSelectSound from "../sounds/menuSelect.wav";
-
 import walkSound from "../sounds/walk.wav";
-
 import eliminateSound from "../sounds/eliminate.wav";
-
 import swapSound from "../sounds/swap.wav";
-
 import gameOverSound from "../sounds/gameOver.wav";
-
 import stageClearSound from "../sounds/stageClear.wav";
 
 // const colorMap = {

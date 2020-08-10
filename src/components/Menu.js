@@ -1,6 +1,7 @@
 import React from "react";
 
 import MenuOption from "./MenuOption";
+import "./Menu.css";
 
 class Menu extends React.Component {
   componentDidUpdate() {

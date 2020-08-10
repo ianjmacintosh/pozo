@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+/** App styles */
+html,
+body {
+  height: 100%;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+#root {
+  height: 100%;
+  display: grid;
+}
+
+.App {
+  margin: auto;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+  grid-template-rows: repeat(3, min-content);
+}
