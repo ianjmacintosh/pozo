@@ -23,3 +23,21 @@ main {
   grid-template-columns: repeat(3, min-content);
   grid-template-rows: repeat(3, min-content);
 }
+
+body.red-alert {
+  animation: 300ms infinite flashing-red;
+}
+
+@keyframes flashing-red {
+  0% {
+    background: inherit;
+  }
+
+  50% {
+    background: #f00;
+  }
+
+  100% {
+    background: inherit;
+  }
+}
