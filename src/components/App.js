@@ -332,6 +332,16 @@ class App extends React.Component {
     ) {
       this.endStage();
     }
+
+    // If there's 1 square or fewer between the home base and the monster, go red alert
+    if (
+      fields[direction].queueLengthLimit -
+        fields[direction].queues[queueNumber].length <=
+      1
+    ) {
+      document.body.classList.add("red-alert");
+    }
+
     // Create new Monster component within the appropriate queue (this should be handled automatically)
   };
 
@@ -404,11 +414,44 @@ class App extends React.Component {
       targetQueue = fields[field].queues[queue],
       monsterColor = targetQueue[0];
 
+    // If monster is same color, eliminate it
     if (strikeColor === monsterColor) {
+      console.log("Eliminating monster");
+      // Update streak
       const streak = 1 + this.state.streak;
       this.setState({ streak });
+
+      // Was that queue putting us in red alert?
+      const oldBreathingRoom =
+        fields[field].queueLengthLimit - targetQueue.length;
       targetQueue.shift();
 
+      const newBreathingRoom =
+        fields[field].queueLengthLimit - targetQueue.length;
+
+      if (oldBreathingRoom < 2 && newBreathingRoom > 1) {
+        const hasEnoughRoom = (queue, lengthLimit) => {
+          return lengthLimit - queue.length > 1;
+        };
+
+        // Are all queues under control?
+        if (
+          fields.down.queues.every((queue) =>
+            hasEnoughRoom(queue, fields.down.queueLengthLimit)
+          ) &&
+          fields.up.queues.every((queue) =>
+            hasEnoughRoom(queue, fields.up.queueLengthLimit)
+          ) &&
+          fields.left.queues.every((queue) =>
+            hasEnoughRoom(queue, fields.left.queueLengthLimit)
+          ) &&
+          fields.right.queues.every((queue) =>
+            hasEnoughRoom(queue, fields.right.queueLengthLimit)
+          )
+        ) {
+          document.body.classList.remove("red-alert");
+        }
+      }
       this.reportElimination(1);
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
