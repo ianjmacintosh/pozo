@@ -5,6 +5,26 @@
   width: 40px;
 }
 
+.monster .shape {
+  display: none;
+}
+
+.monster.color-0 .squiggle {
+  display: block;
+}
+
+.monster.color-1 .triangle {
+  display: block;
+}
+
+.monster.color-2 .half-circle {
+  display: block;
+}
+
+.monster.color-3 .triangle {
+  display: block;
+}
+
 .monster.color-0 path {
   fill: #3f84e5;
 }
