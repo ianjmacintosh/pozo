@@ -19,7 +19,7 @@ class Queue extends React.Component {
           if (item.type === "monster") {
             return <Monster color={item.color} key={index} />;
           } else {
-            return <Ghost score={item.score} key={index} />;
+            return <Ghost content={item.content} key={index} />;
           }
         })}
       </ul>

@@ -403,9 +403,12 @@ class App extends React.Component {
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
+      monsterQueue = targetQueue.filter((item) => item.type === "monster"),
       monsterColor;
-    if (targetQueue.length > 0) {
-      monsterColor = targetQueue[0].color;
+
+    if (monsterQueue.length > 0) {
+      monsterColor = monsterQueue[0].color;
+      console.dir(monsterQueue[0]);
     } else {
       monsterColor = null;
     }
@@ -419,11 +422,16 @@ class App extends React.Component {
 
       // Was that queue putting us in red alert?
       const oldBreathingRoom =
-        fields[field].queueLengthLimit - targetQueue.length;
+        fields[field].queueLengthLimit - monsterQueue.length;
+
+      // Here we deftly remove the last element:
       targetQueue.shift();
 
+      // Add a ghost element
+      targetQueue.push({ type: "ghost", content: "FOO" });
+
       const newBreathingRoom =
-        fields[field].queueLengthLimit - targetQueue.length;
+        fields[field].queueLengthLimit - monsterQueue.length;
 
       if (oldBreathingRoom < 2 && newBreathingRoom > 1) {
         const hasEnoughRoom = (queue, lengthLimit) => {
@@ -454,7 +462,7 @@ class App extends React.Component {
       return;
     }
     // If there's a monster in the queue struck
-    else if (targetQueue.length > 0) {
+    else if (monsterQueue.length > 0) {
       this.playSound("swap");
       // Report streak end via App.endStreak()
       if (this.state.streak > 0) {
@@ -465,7 +473,7 @@ class App extends React.Component {
       this.changeColor(monsterColor);
 
       //   Update monster color
-      targetQueue[0].color = strikeColor;
+      monsterQueue[0].color = strikeColor;
 
       this.setState({ fields });
     }
@@ -544,6 +552,7 @@ class App extends React.Component {
   };
 
   changeColor = (newColor) => {
+    console.log(newColor);
     const hero = { ...this.state.hero };
     hero.color = newColor;
 

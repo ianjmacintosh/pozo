@@ -4,7 +4,7 @@ import "./Ghost.css";
 
 class Ghost extends React.Component {
   render() {
-    return <div>FOO</div>;
+    return <div>{this.props.content}</div>;
   }
 }
 
