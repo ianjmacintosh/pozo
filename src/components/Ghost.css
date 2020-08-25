@@ -3,7 +3,9 @@
 .ghost {
   height: 40px;
   width: 40px;
-  position: absolute;
   font-size: 20px;
   animation: rapid-fade-out 2s forwards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
