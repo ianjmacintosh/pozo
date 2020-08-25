@@ -300,9 +300,9 @@ class App extends React.Component {
         }, this.state.stageSettings.waveDuration * 1000);
       };
 
-    // Change background color
-    document.body.style.backgroundColor =
-      stageSettings.colorScheme.backgroundColor;
+    // Apply stage color scheme
+    document.body.classList.remove(`stage${stageNumber - 1}`);
+    document.body.classList.add(`stage${stageNumber}`);
 
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
