@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import "../css/colors.css";
 
 /** App styles */
 html,
@@ -40,4 +41,25 @@ body.red-alert {
   100% {
     background: inherit;
   }
+}
+
+/* Stage Color Schemes */
+body.stage0 {
+  background: var(--violet-blue-crayola);
+}
+
+body.stage1 {
+  background: var(--inchworm);
+}
+
+body.stage2 {
+  background: var(--yellow-pantone);
+}
+
+body.stage3 {
+  background: var(--sky-blue-crayola);
+}
+
+body.stage4 {
+  background: var(--orange-pantone);
 }

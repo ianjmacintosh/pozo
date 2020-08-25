@@ -1,3 +1,5 @@
+@import "../css/colors.css";
+
 /** Counter styles */
 footer {
   display: grid;
@@ -8,19 +10,6 @@ footer {
 .counter {
   font-size: 36px;
   font-family: "Bebas Neue", sans-serif;
-  color: #b20d30;
-}
-
-button {
-  background: none;
-  cursor: pointer;
-  border: solid 2px #050517;
-  border-radius: 4px;
-  font-size: 24px;
-  font-family: "Bebas Neue", sans-serif;
-  transition: 300ms all;
-}
-
-button:hover {
-  background-color: #fcba04;
+  color: var(--white);
+  text-shadow: 4px 4px 0 var(--shadow);
 }
