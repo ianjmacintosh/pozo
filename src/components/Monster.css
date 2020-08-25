@@ -1,3 +1,5 @@
+@import "../css/colors.css";
+
 /** Monster styles */
 .monster span {
   display: block;
@@ -6,17 +8,17 @@
 }
 
 .monster.color-0 path {
-  fill: #3f84e5;
+  fill: var(--sky-blue-crayola);
 }
 
 .monster.color-1 path {
-  fill: #b20d30;
+  fill: var(--inchworm);
 }
 
 .monster.color-2 path {
-  fill: #fcba04;
+  fill: var(--orange-pantone);
 }
 
 .monster.color-3 path {
-  fill: #050517;
+  fill: var(--violet-blue-crayola);
 }

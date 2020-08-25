@@ -1,16 +1,16 @@
 /** Hero styles */
 .hero--0 svg path {
-  fill: #3f84e5;
+  fill: var(--sky-blue-crayola);
 }
 
 .hero--1 svg path {
-  fill: #b20d30;
+  fill: var(--inchworm);
 }
 
 .hero--2 svg path {
-  fill: #fcba04;
+  fill: var(--orange-pantone);
 }
 
 .hero--3 svg path {
-  fill: #050517;
+  fill: var(--violet-blue-crayola);
 }
