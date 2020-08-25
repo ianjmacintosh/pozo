@@ -404,18 +404,18 @@ class App extends React.Component {
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
       monsterQueue = targetQueue.filter((item) => item.type === "monster"),
-      monsterColor;
+      monsterColor,
+      topMonster;
 
     if (monsterQueue.length > 0) {
-      monsterColor = monsterQueue[0].color;
-      console.dir(monsterQueue[0]);
+      topMonster = targetQueue.find((item) => item.type === "monster");
+      monsterColor = topMonster.color;
     } else {
       monsterColor = null;
     }
 
     // If monster is same color, eliminate it
     if (strikeColor === monsterColor) {
-      console.log("Eliminating monster");
       // Update streak
       const streak = 1 + this.state.streak;
       this.setState({ streak });
@@ -424,11 +424,15 @@ class App extends React.Component {
       const oldBreathingRoom =
         fields[field].queueLengthLimit - monsterQueue.length;
 
-      // Here we deftly remove the last element:
-      targetQueue.shift();
+      // Convert monster to ghost
+      topMonster.content = 100 * streak;
+      topMonster.type = "ghost";
 
-      // Add a ghost element
-      targetQueue.push({ type: "ghost", content: "FOO" });
+      // Remove the ghost
+      setTimeout(() => {
+        const index = targetQueue.indexOf(topMonster);
+        targetQueue.splice(index, 1);
+      }, 2000);
 
       const newBreathingRoom =
         fields[field].queueLengthLimit - monsterQueue.length;
