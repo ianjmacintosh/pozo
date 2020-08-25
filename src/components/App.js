@@ -41,36 +41,24 @@ const stages = [
     creationRate: 3,
     waveDuration: 10,
     rateMultiplier: 1.25,
-    colorScheme: {
-      backgroundColor: "#112131",
-    },
   },
   {
     monsters: 10,
     creationRate: 2,
     waveDuration: 5,
     rateMultiplier: 1.1,
-    colorScheme: {
-      backgroundColor: "#41EAD4",
-    },
   },
   {
     monsters: 25,
     creationRate: 2,
     waveDuration: 10,
     rateMultiplier: 1.75,
-    colorScheme: {
-      backgroundColor: "#FF206E",
-    },
   },
   {
     monsters: 50,
     creationRate: 2,
     waveDuration: 5,
     rateMultiplier: 1.1,
-    colorScheme: {
-      backgroundColor: "#9D4EDD",
-    },
   },
 ];
 
