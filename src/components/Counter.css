@@ -11,5 +11,5 @@ footer {
   font-size: 36px;
   font-family: "Bebas Neue", sans-serif;
   color: var(--white);
-  text-shadow: 4px 4px 0 var(--shadow);
+  text-shadow: 3px 3px 0 var(--shadow);
 }
