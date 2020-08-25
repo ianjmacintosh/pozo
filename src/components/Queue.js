@@ -1,6 +1,7 @@
 import React from "react";
 
 import Monster from "./Monster";
+import Ghost from "./Ghost";
 import "./Queue.css";
 
 class Queue extends React.Component {
@@ -14,8 +15,12 @@ class Queue extends React.Component {
   render() {
     return (
       <ul className="queue">
-        {this.props.contents.map((key, index) => {
-          return <Monster color={key} key={index} />;
+        {this.props.contents.map((item, index) => {
+          if (item.type === "monster") {
+            return <Monster color={item.color} key={index} />;
+          } else {
+            return <Ghost score={item.score} key={index} />;
+          }
         })}
       </ul>
     );
