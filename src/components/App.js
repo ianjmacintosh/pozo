@@ -443,6 +443,7 @@ class App extends React.Component {
       this.reportElimination(1);
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
+      return;
     }
     // If there's a monster in the queue struck
     else if (targetQueue.length > 0) {
@@ -460,6 +461,28 @@ class App extends React.Component {
 
       this.setState({ fields });
     }
+
+    // Flip orientation
+    let hero = this.state.hero;
+    let newDirection;
+
+    switch (hero.orientation) {
+      case "up":
+        newDirection = "down";
+        break;
+      case "down":
+        newDirection = "up";
+        break;
+      case "left":
+        newDirection = "right";
+        break;
+      default:
+        newDirection = "left";
+        break;
+    }
+
+    hero.orientation = newDirection;
+    this.setState({ hero });
   };
 
   endStreak = () => {
