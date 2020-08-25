@@ -308,7 +308,10 @@ class App extends React.Component {
     let fields = this.state.fields;
 
     // Add a monster to the front of it
-    fields[direction].queues[queueNumber].push(colorNumber);
+    fields[direction].queues[queueNumber].push({
+      type: "monster",
+      color: colorNumber,
+    });
 
     // Update the state
     this.setState({ fields });
@@ -400,7 +403,12 @@ class App extends React.Component {
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
-      monsterColor = targetQueue[0];
+      monsterColor;
+    if (targetQueue.length > 0) {
+      monsterColor = targetQueue[0].color;
+    } else {
+      monsterColor = null;
+    }
 
     // If monster is same color, eliminate it
     if (strikeColor === monsterColor) {
@@ -457,7 +465,7 @@ class App extends React.Component {
       this.changeColor(monsterColor);
 
       //   Update monster color
-      targetQueue[0] = strikeColor;
+      targetQueue[0].color = strikeColor;
 
       this.setState({ fields });
     }
