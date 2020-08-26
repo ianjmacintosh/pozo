@@ -17,7 +17,7 @@ class Monster extends React.Component {
               x="-1"
             />
           </g>
-          <g class="square shape">
+          <g className="square shape">
             <title>Layer 1</title>
             <rect
               transform="rotate(15 19.999999999999986,19.953125000000007) "
@@ -29,7 +29,7 @@ class Monster extends React.Component {
               fill="#000000"
             />
           </g>
-          <g class="half-circle shape">
+          <g className="half-circle shape">
             <title>Layer 1</title>
             <rect
               id="svg_6"
@@ -46,7 +46,7 @@ class Monster extends React.Component {
             <path
               id="svg_9"
               d="m0.31291,20.0625c0,-10.87685 8.81024,-19.6871 19.68709,-19.6871c10.87685,0 19.68709,8.81025 19.68709,19.6871c0,10.87685 -8.81024,19.68709 -19.68709,19.68709l-19.68709,-19.68709z"
-              stroke-opacity="null"
+              strokeOpacity="null"
               strokeLinecap="null"
               strokeLinejoin="null"
               strokeWidth="null"
@@ -55,7 +55,7 @@ class Monster extends React.Component {
               fill="#ff5400"
             />
           </g>
-          <g class="triangle shape">
+          <g className="triangle shape">
             <path
               transform="rotate(40 24.790212631225597,15.353872299194334) "
               id="svg_16"
