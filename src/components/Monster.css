@@ -7,7 +7,27 @@
   width: 40px;
 }
 
-.monster.color-0 path {
+.monster .shape {
+  display: none;
+}
+
+.monster.color-0 .square {
+  display: block;
+}
+
+.monster.color-1 .triangle {
+  display: block;
+}
+
+.monster.color-2 .half-circle {
+  display: block;
+}
+
+.monster.color-3 .plus {
+  display: block;
+}
+
+.monster.color-0 .square rect {
   fill: var(--sky-blue-crayola);
 }
 
