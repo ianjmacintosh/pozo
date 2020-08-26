@@ -67,6 +67,40 @@ class Monster extends React.Component {
               fill="#ff5400"
             />
           </g>
+          <g className="plus shape">
+            <g>
+              <g
+                display="none"
+                overflow="visible"
+                y="0"
+                x="0"
+                height="100%"
+                width="100%"
+                id="canvasGrid"
+              >
+                <rect
+                  fill="url(#gridpattern)"
+                  strokeWidth="0"
+                  y="0"
+                  x="0"
+                  height="100%"
+                  width="100%"
+                />
+              </g>
+            </g>
+            <g>
+              <path
+                transform="rotate(-98 20.000890731811523,20.000890731811527) "
+                stroke="#0f0f00"
+                id="svg_3"
+                d="m1.00089,10.21395l9.21306,-9.21306l9.78689,9.78681l9.78689,-9.78681l9.21315,9.21306l-9.7869,9.78689l9.7869,9.78689l-9.21315,9.21315l-9.78689,-9.7869l-9.78689,9.7869l-9.21306,-9.21315l9.78681,-9.78689l-9.78681,-9.78689z"
+                fillOpacity="null"
+                strokeOpacity="null"
+                strokeWidth="0"
+                fill="#000000"
+              />
+            </g>
+          </g>
         </svg>
       </li>
     );
