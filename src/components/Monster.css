@@ -9,7 +9,7 @@
   display: none;
 }
 
-.monster.color-0 .squiggle {
+.monster.color-0 .square {
   display: block;
 }
 
@@ -25,7 +25,7 @@
   display: block;
 }
 
-.monster.color-0 path {
+.monster.color-0 .square rect {
   fill: #3f84e5;
 }
 
