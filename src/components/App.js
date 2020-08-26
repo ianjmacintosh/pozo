@@ -41,36 +41,24 @@ const stages = [
     creationRate: 3,
     waveDuration: 10,
     rateMultiplier: 1.25,
-    colorScheme: {
-      backgroundColor: "#112131",
-    },
   },
   {
     monsters: 10,
     creationRate: 2,
     waveDuration: 5,
     rateMultiplier: 1.1,
-    colorScheme: {
-      backgroundColor: "#41EAD4",
-    },
   },
   {
     monsters: 25,
     creationRate: 2,
     waveDuration: 10,
     rateMultiplier: 1.75,
-    colorScheme: {
-      backgroundColor: "#FF206E",
-    },
   },
   {
     monsters: 50,
     creationRate: 2,
     waveDuration: 5,
     rateMultiplier: 1.1,
-    colorScheme: {
-      backgroundColor: "#9D4EDD",
-    },
   },
 ];
 
@@ -300,9 +288,9 @@ class App extends React.Component {
         }, this.state.stageSettings.waveDuration * 1000);
       };
 
-    // Change background color
-    document.body.style.backgroundColor =
-      stageSettings.colorScheme.backgroundColor;
+    // Apply stage color scheme
+    document.body.classList.remove(`stage${stageNumber - 1}`);
+    document.body.classList.add(`stage${stageNumber}`);
 
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
@@ -320,7 +308,10 @@ class App extends React.Component {
     let fields = this.state.fields;
 
     // Add a monster to the front of it
-    fields[direction].queues[queueNumber].push(colorNumber);
+    fields[direction].queues[queueNumber].push({
+      type: "monster",
+      color: colorNumber,
+    });
 
     // Update the state
     this.setState({ fields });
@@ -412,22 +403,39 @@ class App extends React.Component {
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
-      monsterColor = targetQueue[0];
+      monsterQueue = targetQueue.filter((item) => item.type === "monster"),
+      monsterColor,
+      topMonster;
+
+    if (monsterQueue.length > 0) {
+      topMonster = targetQueue.find((item) => item.type === "monster");
+      monsterColor = topMonster.color;
+    } else {
+      monsterColor = null;
+    }
 
     // If monster is same color, eliminate it
     if (strikeColor === monsterColor) {
-      console.log("Eliminating monster");
       // Update streak
       const streak = 1 + this.state.streak;
       this.setState({ streak });
 
       // Was that queue putting us in red alert?
       const oldBreathingRoom =
-        fields[field].queueLengthLimit - targetQueue.length;
-      targetQueue.shift();
+        fields[field].queueLengthLimit - monsterQueue.length;
+
+      // Convert monster to ghost
+      topMonster.content = 100 * streak;
+      topMonster.type = "ghost";
+
+      // Remove the ghost
+      setTimeout(() => {
+        const index = targetQueue.indexOf(topMonster);
+        targetQueue.splice(index, 1);
+      }, 2000);
 
       const newBreathingRoom =
-        fields[field].queueLengthLimit - targetQueue.length;
+        fields[field].queueLengthLimit - monsterQueue.length;
 
       if (oldBreathingRoom < 2 && newBreathingRoom > 1) {
         const hasEnoughRoom = (queue, lengthLimit) => {
@@ -455,9 +463,10 @@ class App extends React.Component {
       this.reportElimination(1);
       this.setState({ fields });
       this.strike(field, queue, strikeColor);
+      return;
     }
     // If there's a monster in the queue struck
-    else if (targetQueue.length > 0) {
+    else if (monsterQueue.length > 0) {
       this.playSound("swap");
       // Report streak end via App.endStreak()
       if (this.state.streak > 0) {
@@ -468,10 +477,32 @@ class App extends React.Component {
       this.changeColor(monsterColor);
 
       //   Update monster color
-      targetQueue[0] = strikeColor;
+      monsterQueue[0].color = strikeColor;
 
       this.setState({ fields });
     }
+
+    // Flip orientation
+    let hero = this.state.hero;
+    let newDirection;
+
+    switch (hero.orientation) {
+      case "up":
+        newDirection = "down";
+        break;
+      case "down":
+        newDirection = "up";
+        break;
+      case "left":
+        newDirection = "right";
+        break;
+      default:
+        newDirection = "left";
+        break;
+    }
+
+    hero.orientation = newDirection;
+    this.setState({ hero });
   };
 
   endStreak = () => {
@@ -525,6 +556,7 @@ class App extends React.Component {
   };
 
   changeColor = (newColor) => {
+    console.log(newColor);
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
