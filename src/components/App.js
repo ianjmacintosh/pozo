@@ -309,9 +309,12 @@ class App extends React.Component {
     this.setState({ stageSettings }, setTimers);
     this.setState({
       monstersRemaining: stageSettings.monsters,
-      alertText: `Stage ${stageNumber}`,
     });
-    console.log(`Stage ${stageNumber}`);
+    this.showAlert(`Stage ${stageNumber}`);
+  };
+
+  showAlert = (alertText) => {
+    this.setState({ alertText });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -528,18 +531,18 @@ class App extends React.Component {
 
     if (playerDidWin) {
       // Congratulate user, show score, then call App.setStage with settings for next level
-      this.setState({ alertText: "Stage Complete" });
+      this.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
       if (stages[currentStage]) {
         this.playSound("stageClear");
         this.start(currentStage);
       } else {
-        this.setState({ alertText: "Victory" });
+        this.showAlert("Victory");
       }
     } else {
       this.playSound("gameOver");
-      this.setState({ alertText: "Game Over" });
+      this.showAlert("Game Over");
     }
   };
 
@@ -618,7 +621,7 @@ class App extends React.Component {
     let paused = this.state.paused;
 
     if (paused) {
-      this.setState({ alertText: "Unpausing" });
+      this.showAlert("Go!");
 
       // Resume the timers
       this.monsterTimer = window.setInterval(
@@ -639,7 +642,7 @@ class App extends React.Component {
       }, this.state.stageSettings.waveDuration * 1000);
     } else {
       // Save the time remaining on monsterTimer
-      this.setState({ alertText: "Pausing" });
+      this.showAlert("Paused");
       // Clear the timers
       clearInterval(this.monsterTimer);
       clearInterval(this.waveTimer);
