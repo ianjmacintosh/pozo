@@ -613,9 +613,31 @@ class App extends React.Component {
     let paused = this.state.paused;
 
     if (paused) {
-      console.log("Resuming");
+      this.setState({ alertText: "Unpausing" });
+
+      // Resume the timers
+      this.monsterTimer = window.setInterval(
+        this.chooseQueue,
+        this.state.stageSettings.creationRate * 1000
+      );
+
+      this.waveTimer = window.setInterval(() => {
+        let stageSettings = this.state.stageSettings;
+        stageSettings.creationRate =
+          stageSettings.creationRate / stageSettings.rateMultiplier;
+        clearInterval(this.monsterTimer);
+
+        this.monsterTimer = window.setInterval(
+          this.chooseQueue,
+          this.state.stageSettings.creationRate * 1000
+        );
+      }, this.state.stageSettings.waveDuration * 1000);
     } else {
-      console.log("Pausing");
+      // Save the time remaining on monsterTimer
+      this.setState({ alertText: "Pausing" });
+      // Clear the timers
+      clearInterval(this.monsterTimer);
+      clearInterval(this.waveTimer);
     }
 
     paused = !paused;
