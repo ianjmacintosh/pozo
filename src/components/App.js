@@ -66,6 +66,7 @@ class App extends React.Component {
   state = {
     alertText: "",
     gameActive: false,
+    paused: false,
     menuOption: 0,
     currentStage: 0,
     stageSettings: {
@@ -175,6 +176,7 @@ class App extends React.Component {
       s: "down",
       a: "left",
       " ": "strike",
+      Escape: "pause",
 
       W: "up",
       D: "right",
@@ -190,6 +192,17 @@ class App extends React.Component {
 
     if (key in keyMappings) {
       const command = keyMappings[key];
+      // If it's a pause button, run the pause command
+      if (command === "pause") {
+        this.pause();
+        return;
+      }
+
+      const isPaused = this.state.paused;
+      if (isPaused) {
+        return;
+      }
+
       // Determine if user is controlling hero in game or navigating menu
       // If navigating menu:
       if (!this.state.gameActive) {
@@ -226,6 +239,29 @@ class App extends React.Component {
   monsterTimer = null;
   waveTimer = null;
 
+  chooseQueue = () => {
+    let fieldNumber = getRandomInt(0, 3),
+      queueNumber = getRandomInt(0, 3),
+      colorNumber = getRandomInt(0, 3);
+
+    // If queue length is 2 monsters more than any other in field:
+    // Get length of this queue
+    let field = this.state.fields[directionMap[fieldNumber]];
+
+    let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
+      field.queues.some(
+        (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
+      );
+
+    // Get length of shortest queue
+    while (fieldWouldBeUnbalanced(field.queues, queueNumber)) {
+      queueNumber = getRandomInt(0, 3);
+    }
+    // If longest queue - shortest queue is > 2, choose a different queue
+    // queueNumber = getRandomInt(0, 3);
+    this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
+  };
+
   start = (stageNumber = 0) => {
     // Activate game
     this.setState({ gameActive: true }, () => {
@@ -242,36 +278,13 @@ class App extends React.Component {
     fields.right.queues = [[], [], [], []];
     this.setState({ fields });
 
-    const chooseQueue = () => {
-      let fieldNumber = getRandomInt(0, 3),
-        queueNumber = getRandomInt(0, 3),
-        colorNumber = getRandomInt(0, 3);
-
-      // If queue length is 2 monsters more than any other in field:
-      // Get length of this queue
-      let field = this.state.fields[directionMap[fieldNumber]];
-
-      let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
-        field.queues.some(
-          (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
-        );
-
-      // Get length of shortest queue
-      while (fieldWouldBeUnbalanced(field.queues, queueNumber)) {
-        queueNumber = getRandomInt(0, 3);
-      }
-      // If longest queue - shortest queue is > 2, choose a different queue
-      // queueNumber = getRandomInt(0, 3);
-      this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
-    };
-
     const stageSettings = stages[stageNumber],
       setTimers = () => {
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
 
         this.monsterTimer = window.setInterval(
-          chooseQueue,
+          this.chooseQueue,
           this.state.stageSettings.creationRate * 1000
         );
 
@@ -282,7 +295,7 @@ class App extends React.Component {
           clearInterval(this.monsterTimer);
 
           this.monsterTimer = window.setInterval(
-            chooseQueue,
+            this.chooseQueue,
             this.state.stageSettings.creationRate * 1000
           );
         }, this.state.stageSettings.waveDuration * 1000);
@@ -598,6 +611,42 @@ class App extends React.Component {
     audio.currentTime = startPoint;
     audio.volume = volume;
     audio.play();
+  };
+
+  // Pause will record how much time is left on the interval
+  pause = () => {
+    let paused = this.state.paused;
+
+    if (paused) {
+      this.setState({ alertText: "Unpausing" });
+
+      // Resume the timers
+      this.monsterTimer = window.setInterval(
+        this.chooseQueue,
+        this.state.stageSettings.creationRate * 1000
+      );
+
+      this.waveTimer = window.setInterval(() => {
+        let stageSettings = this.state.stageSettings;
+        stageSettings.creationRate =
+          stageSettings.creationRate / stageSettings.rateMultiplier;
+        clearInterval(this.monsterTimer);
+
+        this.monsterTimer = window.setInterval(
+          this.chooseQueue,
+          this.state.stageSettings.creationRate * 1000
+        );
+      }, this.state.stageSettings.waveDuration * 1000);
+    } else {
+      // Save the time remaining on monsterTimer
+      this.setState({ alertText: "Pausing" });
+      // Clear the timers
+      clearInterval(this.monsterTimer);
+      clearInterval(this.waveTimer);
+    }
+
+    paused = !paused;
+    this.setState({ paused });
   };
 
   render() {
