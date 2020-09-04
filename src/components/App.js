@@ -198,6 +198,11 @@ class App extends React.Component {
         return;
       }
 
+      const isPaused = this.state.paused;
+      if (isPaused) {
+        return;
+      }
+
       // Determine if user is controlling hero in game or navigating menu
       // If navigating menu:
       if (!this.state.gameActive) {
