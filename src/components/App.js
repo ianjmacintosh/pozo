@@ -66,6 +66,7 @@ class App extends React.Component {
   state = {
     alertText: "",
     gameActive: false,
+    paused: false,
     menuOption: 0,
     currentStage: 0,
     stageSettings: {
@@ -175,6 +176,7 @@ class App extends React.Component {
       s: "down",
       a: "left",
       " ": "strike",
+      Escape: "pause",
 
       W: "up",
       D: "right",
@@ -190,6 +192,12 @@ class App extends React.Component {
 
     if (key in keyMappings) {
       const command = keyMappings[key];
+      // If it's a pause button, run the pause command
+      if (command === "pause") {
+        this.pause();
+        return;
+      }
+
       // Determine if user is controlling hero in game or navigating menu
       // If navigating menu:
       if (!this.state.gameActive) {
@@ -598,6 +606,20 @@ class App extends React.Component {
     audio.currentTime = startPoint;
     audio.volume = volume;
     audio.play();
+  };
+
+  // Pause will record how much time is left on the interval
+  pause = () => {
+    let paused = this.state.paused;
+
+    if (paused) {
+      console.log("Resuming");
+    } else {
+      console.log("Pausing");
+    }
+
+    paused = !paused;
+    this.setState({ paused });
   };
 
   render() {
