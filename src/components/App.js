@@ -65,6 +65,8 @@ const stages = [
 class App extends React.Component {
   state = {
     alertText: "",
+    alertShown: false,
+    alertAutodismiss: true,
     gameActive: false,
     paused: false,
     menuOption: 0,
@@ -86,7 +88,23 @@ class App extends React.Component {
       {
         title: "Instructions",
         action: () => {
-          console.log("Instructions");
+          this.showAlert(
+            <React.Fragment>
+              <h1 class="small-headline">Instructions</h1>
+              <p>Keep your base from being invaded</p>
+              <p>Use the arrow keys (or A, S, D, F) to move</p>
+              <p>Use spacebar to strike at a block</p>
+              <p>
+                If you are the same color as the block, you will eliminate it
+              </p>
+              <p>Otherwise, you will swap colors with the block</p>
+              <p>
+                The number in the bottom right corner shows how many more blocks
+                you need to eliminate to finish the stage
+              </p>
+            </React.Fragment>,
+            false
+          );
         },
         selected: false,
       },
@@ -192,6 +210,11 @@ class App extends React.Component {
 
     if (key in keyMappings) {
       const command = keyMappings[key];
+      // If an alert is shown, hide it
+      if (this.state.alertShown) {
+        this.dismissAlert();
+        return;
+      }
       // If it's a pause button, run the pause command
       if (command === "pause") {
         this.pause();
@@ -309,9 +332,21 @@ class App extends React.Component {
     this.setState({ stageSettings }, setTimers);
     this.setState({
       monstersRemaining: stageSettings.monsters,
-      alertText: `Stage ${stageNumber}`,
     });
-    console.log(`Stage ${stageNumber}`);
+    this.showAlert(
+      <React.Fragment>
+        <h1>Stage {stageNumber}</h1>
+      </React.Fragment>
+    );
+  };
+
+  showAlert = (alertText, alertAutodismiss = true) => {
+    this.setState({ alertShown: true, alertText, alertAutodismiss });
+  };
+
+  dismissAlert = () => {
+    console.log("App is trying to dismiss the alert");
+    this.setState({ alertShown: false });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -528,18 +563,26 @@ class App extends React.Component {
 
     if (playerDidWin) {
       // Congratulate user, show score, then call App.setStage with settings for next level
-      this.setState({ alertText: "Stage Complete" });
+      this.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
       if (stages[currentStage]) {
         this.playSound("stageClear");
         this.start(currentStage);
       } else {
-        this.setState({ alertText: "Victory" });
+        this.showAlert(
+          <React.Fragment>
+            <h1>Victory!</h1>
+          </React.Fragment>
+        );
       }
     } else {
       this.playSound("gameOver");
-      this.setState({ alertText: "Game Over" });
+      this.showAlert(
+        <React.Fragment>
+          <h1>Game Over</h1>
+        </React.Fragment>
+      );
     }
   };
 
@@ -618,7 +661,11 @@ class App extends React.Component {
     let paused = this.state.paused;
 
     if (paused) {
-      this.setState({ alertText: "Unpausing" });
+      this.showAlert(
+        <React.Fragment>
+          <h1>Go!</h1>
+        </React.Fragment>
+      );
 
       // Resume the timers
       this.monsterTimer = window.setInterval(
@@ -639,7 +686,11 @@ class App extends React.Component {
       }, this.state.stageSettings.waveDuration * 1000);
     } else {
       // Save the time remaining on monsterTimer
-      this.setState({ alertText: "Pausing" });
+      this.showAlert(
+        <React.Fragment>
+          <h1>Paused</h1>
+        </React.Fragment>
+      );
       // Clear the timers
       clearInterval(this.monsterTimer);
       clearInterval(this.waveTimer);
@@ -653,7 +704,12 @@ class App extends React.Component {
     if (this.state.gameActive) {
       return (
         <div className="App">
-          <Alert text={this.state.alertText} animated={false}></Alert>
+          <Alert
+            text={this.state.alertText}
+            shown={this.state.alertShown}
+            autodismiss={this.state.alertAutodismiss}
+            dismissAlert={this.dismissAlert}
+          ></Alert>
           <div className="board">
             <header>
               <Scoreboard score={this.state.score} />
@@ -689,6 +745,12 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
+          <Alert
+            text={this.state.alertText}
+            shown={this.state.alertShown}
+            autodismiss={this.state.alertAutodismiss}
+            dismissAlert={this.dismissAlert}
+          ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
           <Menu options={this.state.menuOptions} />
