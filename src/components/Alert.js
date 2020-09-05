@@ -3,26 +3,24 @@ import "./Alert.css";
 
 class Alert extends React.Component {
   state = {
-    animated: false,
+    shown: false,
   };
-  componentDidMount() {
-    this.setState({ animated: true });
-    window.setTimeout(() => {
-      this.setState({ animated: false });
-    }, 2000);
-  }
   componentDidUpdate(prevProps) {
     if (this.props.text !== prevProps.text) {
-      this.setState({ animated: true });
-      window.setTimeout(() => {
-        this.setState({ animated: false });
-      }, 2000);
+      this.setState({ shown: true });
+
+      if (this.props.autodismiss) {
+        window.setTimeout(() => {
+          console.log("Go away!");
+          this.setState({ shown: false });
+        }, 1500);
+      }
     }
   }
   render() {
     if (this.props.text) {
       return (
-        <div className={`alert ${this.state.animated ? "animated" : ""}`}>
+        <div className={`alert ${this.state.shown ? "shown" : "hidden"}`}>
           <p>{this.props.text}</p>
         </div>
       );

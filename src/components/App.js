@@ -65,6 +65,7 @@ const stages = [
 class App extends React.Component {
   state = {
     alertText: "",
+    alertAutodismiss: true,
     gameActive: false,
     paused: false,
     menuOption: 0,
@@ -313,8 +314,8 @@ class App extends React.Component {
     this.showAlert(`Stage ${stageNumber}`);
   };
 
-  showAlert = (alertText) => {
-    this.setState({ alertText });
+  showAlert = (alertText, alertAutodismiss = true) => {
+    this.setState({ alertText, alertAutodismiss });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -656,7 +657,10 @@ class App extends React.Component {
     if (this.state.gameActive) {
       return (
         <div className="App">
-          <Alert text={this.state.alertText} animated={false}></Alert>
+          <Alert
+            text={this.state.alertText}
+            autodismiss={this.state.alertAutodismiss}
+          ></Alert>
           <div className="board">
             <header>
               <Scoreboard score={this.state.score} />
@@ -692,6 +696,10 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
+          <Alert
+            text={this.state.alertText}
+            autodismiss={this.state.alertAutodismiss}
+          ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
           <Menu options={this.state.menuOptions} />

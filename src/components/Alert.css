@@ -16,8 +16,20 @@
   opacity: 0;
 }
 
-.alert.animated {
-  animation: fade-out 2s forwards;
+.alert.shown {
+  animation: fade-in 250ms forwards;
+}
+
+.alert.shown p {
+  animation: grow-in 250ms forwards;
+}
+
+.alert.hidden {
+  animation: fade-out 250ms forwards;
+}
+
+.alert.hidden p {
+  animation: grow-out 250ms forwards;
 }
 
 .alert p {
