@@ -35,6 +35,27 @@ const directionMap = {
   3: "down",
 };
 
+const alerts = {
+  instructions: (
+    <React.Fragment>
+      <h1 class="small-headline">Instructions</h1>
+      <p>
+        Pozo is an arcade puzzle game where your goal is to clear blocks before
+        they enter your base
+      </p>
+      <p>To move, use the arrow keys (or A, S, D, F)</p>
+      <p>To attack, use the spacebar</p>
+      <p>If you strike a block the same color as you, you will clear it</p>
+      <p>If it is a different color, you and the block will swap colors</p>
+      <p>
+        The number to the lower right of your base shows how many blocks are
+        left in order to complete the stage
+      </p>
+      <h3 class="center">Press spacebar to continue</h3>
+    </React.Fragment>
+  ),
+};
+
 const stages = [
   {
     monsters: 5,
@@ -88,23 +109,7 @@ class App extends React.Component {
       {
         title: "Instructions",
         action: () => {
-          this.showAlert(
-            <React.Fragment>
-              <h1 class="small-headline">Instructions</h1>
-              <p>Keep your base from being invaded</p>
-              <p>Use the arrow keys (or A, S, D, F) to move</p>
-              <p>Use spacebar to strike at a block</p>
-              <p>
-                If you are the same color as the block, you will eliminate it
-              </p>
-              <p>Otherwise, you will swap colors with the block</p>
-              <p>
-                The number in the bottom right corner shows how many more blocks
-                you need to eliminate to finish the stage
-              </p>
-            </React.Fragment>,
-            false
-          );
+          this.showAlert(alerts.instructions, false);
         },
         selected: false,
       },
