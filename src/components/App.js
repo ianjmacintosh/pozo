@@ -118,7 +118,47 @@ class App extends React.Component {
       {
         title: "Credits",
         action: () => {
-          console.log("Credits");
+          this.showAlert(
+            <React.Fragment>
+              <h1 className="small-headline">Credits</h1>
+              <dl>
+                <dt>Development</dt>
+                <dd>Ian MacIntosh</dd>
+                <dt>Sound Effects</dt>
+                <dd>
+                  <a href="https://freesound.org/people/Breviceps/">
+                    Breviceps
+                  </a>
+                  (soundeffects.org)
+                </dd>
+                <dd>
+                  <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                    LittleRobotSoundFactory
+                  </a>
+                  (soundeffects.org)
+                </dd>
+                <dd>
+                  <a href="https://freesound.org/people/LukeSharples/">
+                    LukeSharples
+                  </a>
+                  (soundeffects.org)
+                </dd>
+                <dd>
+                  <a href="https://freesound.org/people/SgtPepperArc360/">
+                    SgtPepperArc360
+                  </a>
+                  (soundeffects.org)
+                </dd>
+              </dl>
+
+              <p>
+                This game is a copy of the mid-1990's arcade puzzle game
+                <i>Zoop</i>, which was developed by Hookstone Media and
+                published by Viacom New Media.
+              </p>
+            </React.Fragment>,
+            false
+          );
         },
         selected: false,
       },
