@@ -65,6 +65,7 @@ const stages = [
 class App extends React.Component {
   state = {
     alertText: "",
+    alertShown: false,
     alertAutodismiss: true,
     gameActive: false,
     paused: false,
@@ -193,6 +194,11 @@ class App extends React.Component {
 
     if (key in keyMappings) {
       const command = keyMappings[key];
+      // If an alert is shown, hide it
+      if (this.state.alertShown) {
+        this.dismissAlert();
+        return;
+      }
       // If it's a pause button, run the pause command
       if (command === "pause") {
         this.pause();
@@ -315,7 +321,12 @@ class App extends React.Component {
   };
 
   showAlert = (alertText, alertAutodismiss = true) => {
-    this.setState({ alertText, alertAutodismiss });
+    this.setState({ alertShown: true, alertText, alertAutodismiss });
+  };
+
+  dismissAlert = () => {
+    console.log("App is trying to dismiss the alert");
+    this.setState({ alertShown: false });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -659,7 +670,9 @@ class App extends React.Component {
         <div className="App">
           <Alert
             text={this.state.alertText}
+            shown={this.state.alertShown}
             autodismiss={this.state.alertAutodismiss}
+            dismissAlert={this.dismissAlert}
           ></Alert>
           <div className="board">
             <header>
@@ -698,7 +711,9 @@ class App extends React.Component {
         <div className="App main-menu">
           <Alert
             text={this.state.alertText}
+            shown={this.state.alertShown}
             autodismiss={this.state.alertAutodismiss}
+            dismissAlert={this.dismissAlert}
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>

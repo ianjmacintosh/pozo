@@ -2,25 +2,22 @@ import React from "react";
 import "./Alert.css";
 
 class Alert extends React.Component {
-  state = {
-    shown: false,
-  };
   componentDidUpdate(prevProps) {
     if (this.props.text !== prevProps.text) {
-      this.setState({ shown: true });
-
       if (this.props.autodismiss) {
         window.setTimeout(() => {
           console.log("Go away!");
-          this.setState({ shown: false });
+          this.props.dismissAlert();
         }, 1500);
       }
     }
+
+    console.log("Setting shown to " + this.props.shown);
   }
   render() {
     if (this.props.text) {
       return (
-        <div className={`alert ${this.state.shown ? "shown" : "hidden"}`}>
+        <div className={`alert ${this.props.shown ? "shown" : "hidden"}`}>
           <p>{this.props.text}</p>
         </div>
       );
