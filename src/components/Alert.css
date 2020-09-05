@@ -22,9 +22,18 @@
   width: 640px;
 }
 
-.alert .alert-content h1 {
+.alert .center {
+  text-align: center;
+}
+
+.alert h1 {
   margin-bottom: 20px;
   text-align: center;
+  font-weight: 400;
+}
+
+.alert h3 {
+  font-size: 24px;
   font-weight: 400;
 }
 
