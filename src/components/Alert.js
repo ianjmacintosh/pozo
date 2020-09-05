@@ -18,7 +18,7 @@ class Alert extends React.Component {
     if (this.props.text) {
       return (
         <div className={`alert ${this.props.shown ? "shown" : "hidden"}`}>
-          <p>{this.props.text}</p>
+          <div className="alert-content">{this.props.text}</div>
         </div>
       );
     } else {

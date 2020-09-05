@@ -88,7 +88,23 @@ class App extends React.Component {
       {
         title: "Instructions",
         action: () => {
-          console.log("Instructions");
+          this.showAlert(
+            <React.Fragment>
+              <h1 class="small-headline">Instructions</h1>
+              <p>Keep your base from being invaded</p>
+              <p>Use the arrow keys (or A, S, D, F) to move</p>
+              <p>Use spacebar to strike at a block</p>
+              <p>
+                If you are the same color as the block, you will eliminate it
+              </p>
+              <p>Otherwise, you will swap colors with the block</p>
+              <p>
+                The number in the bottom right corner shows how many more blocks
+                you need to eliminate to finish the stage
+              </p>
+            </React.Fragment>,
+            false
+          );
         },
         selected: false,
       },
@@ -317,7 +333,11 @@ class App extends React.Component {
     this.setState({
       monstersRemaining: stageSettings.monsters,
     });
-    this.showAlert(`Stage ${stageNumber}`);
+    this.showAlert(
+      <React.Fragment>
+        <h1>Stage {stageNumber}</h1>
+      </React.Fragment>
+    );
   };
 
   showAlert = (alertText, alertAutodismiss = true) => {
@@ -550,11 +570,19 @@ class App extends React.Component {
         this.playSound("stageClear");
         this.start(currentStage);
       } else {
-        this.showAlert("Victory");
+        this.showAlert(
+          <React.Fragment>
+            <h1>Victory!</h1>
+          </React.Fragment>
+        );
       }
     } else {
       this.playSound("gameOver");
-      this.showAlert("Game Over");
+      this.showAlert(
+        <React.Fragment>
+          <h1>Game Over</h1>
+        </React.Fragment>
+      );
     }
   };
 
@@ -633,7 +661,11 @@ class App extends React.Component {
     let paused = this.state.paused;
 
     if (paused) {
-      this.showAlert("Go!");
+      this.showAlert(
+        <React.Fragment>
+          <h1>Go!</h1>
+        </React.Fragment>
+      );
 
       // Resume the timers
       this.monsterTimer = window.setInterval(
@@ -654,7 +686,11 @@ class App extends React.Component {
       }, this.state.stageSettings.waveDuration * 1000);
     } else {
       // Save the time remaining on monsterTimer
-      this.showAlert("Paused");
+      this.showAlert(
+        <React.Fragment>
+          <h1>Paused</h1>
+        </React.Fragment>
+      );
       // Clear the timers
       clearInterval(this.monsterTimer);
       clearInterval(this.waveTimer);

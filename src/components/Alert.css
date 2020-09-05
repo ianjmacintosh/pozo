@@ -16,11 +16,33 @@
   opacity: 0;
 }
 
+.alert .alert-content {
+  align-self: center;
+  width: 640px;
+}
+
+.alert .alert-content h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.alert .alert-content h1.small-headline {
+  text-align: left;
+  font-size: 36px;
+}
+
+.alert .alert-content p {
+  margin: 0 0 15px 0;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
 .alert.shown {
   animation: fade-in 250ms forwards;
 }
 
-.alert.shown p {
+.alert.shown .alert-content {
   animation: grow-in 250ms forwards;
 }
 
@@ -28,10 +50,6 @@
   animation: fade-out 250ms forwards;
 }
 
-.alert.hidden p {
+.alert.hidden .alert-content {
   animation: grow-out 250ms forwards;
-}
-
-.alert p {
-  align-self: center;
 }
