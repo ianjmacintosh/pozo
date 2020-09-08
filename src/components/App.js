@@ -234,17 +234,20 @@ class App extends React.Component {
   handleKeypress = ({ key }) => {
     // Each movement updates app state for hero x & y
     const keyMappings = {
+      Escape: "pause",
+
       w: "up",
       d: "right",
       s: "down",
       a: "left",
       " ": "strike",
-      Escape: "pause",
+      z: "strike",
 
       W: "up",
       D: "right",
       S: "down",
       A: "left",
+      Z: "strike",
 
       ArrowUp: "up",
       ArrowRight: "right",
