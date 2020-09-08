@@ -6,13 +6,10 @@ class Alert extends React.Component {
     if (this.props.text !== prevProps.text) {
       if (this.props.autodismiss) {
         window.setTimeout(() => {
-          console.log("Go away!");
           this.props.dismissAlert();
         }, 1500);
       }
     }
-
-    console.log("Setting shown to " + this.props.shown);
   }
   render() {
     if (this.props.text) {
