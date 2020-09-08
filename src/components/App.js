@@ -513,10 +513,6 @@ class App extends React.Component {
       const streak = 1 + this.state.streak;
       this.setState({ streak });
 
-      // Was that queue putting us in red alert?
-      const oldBreathingRoom =
-        fields[field].queueLengthLimit - monsterQueue.length;
-
       // Convert monster to ghost
       topMonster.content = 100 * streak;
       topMonster.type = "ghost";
@@ -527,31 +523,28 @@ class App extends React.Component {
         targetQueue.splice(index, 1);
       }, 2000);
 
-      const newBreathingRoom =
-        fields[field].queueLengthLimit - monsterQueue.length;
+      // Are all queues under control?
+      const hasEnoughRoom = (queue, lengthLimit) => {
+        const nonGhosts = queue.filter((element) => element.type !== "ghost");
 
-      if (oldBreathingRoom < 2 && newBreathingRoom > 1) {
-        const hasEnoughRoom = (queue, lengthLimit) => {
-          return lengthLimit - queue.length > 1;
-        };
+        return lengthLimit - nonGhosts.length > 1;
+      };
 
-        // Are all queues under control?
-        if (
-          fields.down.queues.every((queue) =>
-            hasEnoughRoom(queue, fields.down.queueLengthLimit)
-          ) &&
-          fields.up.queues.every((queue) =>
-            hasEnoughRoom(queue, fields.up.queueLengthLimit)
-          ) &&
-          fields.left.queues.every((queue) =>
-            hasEnoughRoom(queue, fields.left.queueLengthLimit)
-          ) &&
-          fields.right.queues.every((queue) =>
-            hasEnoughRoom(queue, fields.right.queueLengthLimit)
-          )
-        ) {
-          document.body.classList.remove("red-alert");
-        }
+      if (
+        fields.down.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.down.queueLengthLimit)
+        ) &&
+        fields.up.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.up.queueLengthLimit)
+        ) &&
+        fields.left.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.left.queueLengthLimit)
+        ) &&
+        fields.right.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.right.queueLengthLimit)
+        )
+      ) {
+        document.body.classList.remove("red-alert");
       }
       this.reportElimination(1);
       this.setState({ fields });
@@ -608,6 +601,7 @@ class App extends React.Component {
 
     if (playerDidWin) {
       // Congratulate user, show score, then call App.setStage with settings for next level
+      document.body.classList.remove("red-alert");
       this.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
