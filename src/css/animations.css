@@ -62,3 +62,13 @@
     transform: scale(5);
   }
 }
+
+@keyframes slide-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
