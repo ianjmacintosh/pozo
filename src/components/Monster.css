@@ -1,6 +1,10 @@
 @import "../css/colors.css";
 
 /** Monster styles */
+.monster {
+  transform: scale(0.65);
+}
+
 .monster span {
   display: block;
   height: 40px;
