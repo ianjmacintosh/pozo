@@ -88,6 +88,9 @@ class App extends React.Component {
     alertText: "",
     alertShown: false,
     alertAutodismiss: true,
+    alert: {
+      persistent: true,
+    },
     gameActive: false,
     paused: false,
     menuOption: 0,
@@ -261,7 +264,7 @@ class App extends React.Component {
     if (key in keyMappings) {
       const command = keyMappings[key];
       // If an alert is shown, hide it
-      if (this.state.alertShown) {
+      if (this.state.alertShown && !this.state.alert.persistent) {
         this.dismissAlert();
         return;
       }
@@ -390,8 +393,11 @@ class App extends React.Component {
     );
   };
 
-  showAlert = (alertText, alertAutodismiss = true) => {
-    this.setState({ alertShown: true, alertText, alertAutodismiss });
+  showAlert = (alertText, alertAutodismiss = true, persistent = false) => {
+    const alert = {
+      persistent,
+    };
+    this.setState({ alertShown: true, alertText, alertAutodismiss, alert });
   };
 
   dismissAlert = () => {
