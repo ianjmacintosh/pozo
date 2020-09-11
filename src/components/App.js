@@ -416,7 +416,7 @@ class App extends React.Component {
     );
   };
 
-  showAlert = (content, autodismiss, persistent = false) => {
+  showAlert = (content, autodismiss = true, persistent = false) => {
     const alert = {
       content,
       persistent,
