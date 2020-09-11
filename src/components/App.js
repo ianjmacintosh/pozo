@@ -70,6 +70,9 @@ class App extends React.Component {
       autodismiss: true,
       persistent: true,
     },
+    instructions: {
+      shown: false,
+    },
     activeMenuName: "main",
     gameActive: false,
     paused: false,
@@ -93,8 +96,13 @@ class App extends React.Component {
         {
           title: "Instructions",
           action: () => {
-            this.showAlert(this.instructionsFragment, false, true);
-            this.setState({ menuOption: 1, activeMenuName: "instructions" });
+            let instructions = this.state.instructions;
+            instructions.shown = true;
+            this.setState({
+              instructions,
+              menuOption: 1,
+              activeMenuName: "instructions",
+            });
           },
           selected: false,
         },
@@ -829,6 +837,10 @@ class App extends React.Component {
             shown={this.state.alert.shown}
             autodismiss={this.state.alert.autodismiss}
             dismissAlert={this.dismissAlert}
+          ></Alert>
+          <Alert
+            content={this.instructionsFragment}
+            shown={this.state.instructions.shown}
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
