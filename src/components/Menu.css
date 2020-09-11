@@ -1,5 +1,5 @@
 /** Menu */
-.main-menu-wrapper {
+.menu-wrapper {
   /* Coolors palette 1
     --black: #0c0f0a;
     --pink: #ff206e;
@@ -22,24 +22,17 @@
   grid-template-rows: 1fr 1fr 1fr;
 }
 
-.main-menu-wrapper h1 {
-  font-size: 300px;
-  font-weight: 400;
-  margin: 0;
-  align-self: end;
-}
-
-.main-menu ul {
+.menu {
   padding: 0;
   list-style: none;
   margin: 0;
 }
 
-.main-menu li span {
+.menu li span {
   cursor: pointer;
 }
 
-.main-menu .selected {
+.menu .selected {
   color: var(--blue);
   animation-name: pulse;
   animation-duration: 600ms;

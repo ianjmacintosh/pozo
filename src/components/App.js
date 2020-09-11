@@ -173,6 +173,22 @@ class App extends React.Component {
           selected: false,
         },
       ],
+      instructions: [
+        {
+          title: "Continue",
+          action: () => {
+            this.dismissAlert();
+          },
+          selected: true,
+        },
+        {
+          title: "Don't Continue",
+          action: () => {
+            this.dismissAlert();
+          },
+          selected: false,
+        },
+      ],
     },
     fields: {
       up: {
@@ -213,7 +229,8 @@ class App extends React.Component {
   }
 
   changeMenuOption = (advance) => {
-    const activeMenu = this.state.menus[this.state.activeMenu];
+    const newMenusObject = this.state.menus;
+    const activeMenu = newMenusObject[this.state.activeMenuName];
     this.playSound("menuMove", 0.05);
 
     let menuOption = this.state.menuOption;
@@ -227,16 +244,18 @@ class App extends React.Component {
     } else if (menuOption < 0) {
       menuOption = activeMenu.length - 1;
     }
-    let newMenuOptions = activeMenu;
-    newMenuOptions.map(
-      (option, index) => (option.selected = menuOption === index)
-    );
-    this.setState({ menuOptions: newMenuOptions, menuOption });
+
+    // Update the menu object to show the new item is selected
+    activeMenu.map((option, index) => (option.selected = menuOption === index));
+
+    console.log(`Updating ${this.state.activeMenuName} to ${menuOption}`);
+    this.setState({ menus: newMenusObject, menuOption });
   };
 
   chooseMenuOption = () => {
-    const activeMenu = this.state.activeMenu;
-    this.state.menus[activeMenu][this.state.menuOption].action();
+    const activeMenuName = this.state.activeMenuName;
+    this.setState({ activeMenuName });
+    this.state.menus[activeMenuName][this.state.menuOption].action();
   };
 
   handleKeypress = ({ key }) => {
@@ -807,7 +826,7 @@ class App extends React.Component {
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
-          <Menu options={this.state.menus.main} />
+          <Menu options={this.state.menus.main} name="main" />
         </div>
       );
     }
