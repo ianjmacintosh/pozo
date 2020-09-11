@@ -91,6 +91,7 @@ class App extends React.Component {
     alert: {
       persistent: true,
     },
+    activeMenu: "main",
     gameActive: false,
     paused: false,
     menuOption: 0,
@@ -212,6 +213,7 @@ class App extends React.Component {
   }
 
   changeMenuOption = (advance) => {
+    const activeMenu = this.state.menus[this.state.activeMenu];
     this.playSound("menuMove", 0.05);
 
     let menuOption = this.state.menuOption;
@@ -220,12 +222,12 @@ class App extends React.Component {
     } else {
       menuOption--;
     }
-    if (menuOption > this.state.menuOptions.length - 1) {
+    if (menuOption > activeMenu.length - 1) {
       menuOption = 0;
     } else if (menuOption < 0) {
-      menuOption = this.state.menuOptions.length - 1;
+      menuOption = activeMenu.length - 1;
     }
-    let newMenuOptions = this.state.menuOptions;
+    let newMenuOptions = activeMenu;
     newMenuOptions.map(
       (option, index) => (option.selected = menuOption === index)
     );
@@ -233,7 +235,8 @@ class App extends React.Component {
   };
 
   chooseMenuOption = () => {
-    this.state.menuOptions[this.state.menuOption].action();
+    const activeMenu = this.state.activeMenu;
+    this.state.menus[activeMenu][this.state.menuOption].action();
   };
 
   handleKeypress = ({ key }) => {
@@ -803,7 +806,7 @@ class App extends React.Component {
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
-          <Menu options={this.state.menuOptions} />
+          <Menu options={this.state.menus.main} />
         </div>
       );
     }
