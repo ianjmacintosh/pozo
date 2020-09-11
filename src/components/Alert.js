@@ -3,7 +3,7 @@ import "./Alert.css";
 
 class Alert extends React.Component {
   componentDidUpdate(prevProps) {
-    if (this.props.text !== prevProps.text) {
+    if (this.props.content !== prevProps.content) {
       if (this.props.autodismiss) {
         window.setTimeout(() => {
           this.props.dismissAlert();
@@ -12,10 +12,10 @@ class Alert extends React.Component {
     }
   }
   render() {
-    if (this.props.text) {
+    if (this.props.content) {
       return (
         <div className={`alert ${this.props.shown ? "shown" : "hidden"}`}>
-          <div className="alert-content">{this.props.text}</div>
+          <div className="alert-content">{this.props.content}</div>
         </div>
       );
     } else {

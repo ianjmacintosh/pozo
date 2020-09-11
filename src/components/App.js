@@ -416,12 +416,12 @@ class App extends React.Component {
     );
   };
 
-  showAlert = (alertText, alertAutodismiss = true, persistent = false) => {
+  showAlert = (content, autodismiss, persistent = false) => {
     const alert = {
+      content,
       persistent,
       shown: true,
-      text: alertText,
-      autodismiss: alertAutodismiss,
+      autodismiss,
     };
     this.setState({ alert });
   };
@@ -782,7 +782,7 @@ class App extends React.Component {
       return (
         <div className="App">
           <Alert
-            text={this.state.alert.text}
+            content={this.state.alert.content}
             shown={this.state.alert.shown}
             autodismiss={this.state.alert.autodismiss}
             dismissAlert={this.dismissAlert}
@@ -824,7 +824,7 @@ class App extends React.Component {
         <div className="App main-menu">
           <h1>Pozo</h1>
           <Alert
-            text={this.state.alert.text}
+            content={this.state.alert.content}
             shown={this.state.alert.shown}
             autodismiss={this.state.alert.autodismiss}
             dismissAlert={this.dismissAlert}
