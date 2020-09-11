@@ -250,10 +250,7 @@ class App extends React.Component {
     // Update the menu object to show the new item is selected
     activeMenu.map((option, index) => (option.selected = menuOption === index));
 
-    console.log(`Updating ${this.state.activeMenuName} to ${menuOption}`);
-    console.table(activeMenu);
     this.setState({ menus: newMenusObject, menuOption });
-    console.table(this.state.menus[this.state.activeMenuName]);
   };
 
   chooseMenuOption = () => {
