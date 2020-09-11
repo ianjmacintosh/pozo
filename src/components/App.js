@@ -93,34 +93,7 @@ class App extends React.Component {
         {
           title: "Instructions",
           action: () => {
-            this.showAlert(
-              <div>
-                <h1 className="small-headline">Instructions</h1>
-                <p>
-                  Pozo is an arcade puzzle game where your goal is to clear
-                  blocks before they enter your base
-                </p>
-                <p>To move, use the arrow keys (or A, S, D, F)</p>
-                <p>To attack, use the spacebar</p>
-                <p>
-                  If you strike a block the same color as you, you will clear it
-                </p>
-                <p>
-                  If it is a different color, you and the block will swap colors
-                </p>
-                <p>
-                  The number to the lower right of your base shows how many
-                  blocks are left in order to complete the stage
-                </p>
-                <Menu
-                  options={this.state.menus.instructions}
-                  name="instructions"
-                />
-                <h3 className="center">Press spacebar to continue</h3>
-              </div>,
-              false,
-              true
-            );
+            this.showAlert(this.instructionsFragment, false, true);
             this.setState({ menuOption: 1, activeMenuName: "instructions" });
           },
           selected: false,
@@ -234,6 +207,28 @@ class App extends React.Component {
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeypress);
   }
+
+  instructionsFragment = (
+    <React.Fragment>
+      <div>
+        <h1 className="small-headline">Instructions</h1>
+        <p>
+          Pozo is an arcade puzzle game where your goal is to clear blocks
+          before they enter your base
+        </p>
+        <p>To move, use the arrow keys (or A, S, D, F)</p>
+        <p>To attack, use the spacebar</p>
+        <p>If you strike a block the same color as you, you will clear it</p>
+        <p>If it is a different color, you and the block will swap colors</p>
+        <p>
+          The number to the lower right of your base shows how many blocks are
+          left in order to complete the stage
+        </p>
+        <Menu options={this.state.menus.instructions} name="instructions" />
+        <h3 className="center">Press spacebar to continue</h3>
+      </div>
+    </React.Fragment>
+  );
 
   changeMenuOption = (advance) => {
     const newMenusObject = this.state.menus;
