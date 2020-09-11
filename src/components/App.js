@@ -121,7 +121,7 @@ class App extends React.Component {
               false,
               true
             );
-            this.setState({ menuOption: 1, activeMenu: "instructions" });
+            this.setState({ menuOption: 1, activeMenuName: "instructions" });
           },
           selected: false,
         },
@@ -256,7 +256,9 @@ class App extends React.Component {
     activeMenu.map((option, index) => (option.selected = menuOption === index));
 
     console.log(`Updating ${this.state.activeMenuName} to ${menuOption}`);
+    console.table(activeMenu);
     this.setState({ menus: newMenusObject, menuOption });
+    console.table(this.state.menus[this.state.activeMenuName]);
   };
 
   chooseMenuOption = () => {
