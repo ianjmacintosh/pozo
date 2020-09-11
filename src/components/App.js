@@ -64,10 +64,10 @@ const stages = [
 
 class App extends React.Component {
   state = {
-    alertText: "",
-    alertShown: false,
-    alertAutodismiss: true,
     alert: {
+      content: "",
+      shown: false,
+      autodismiss: true,
       persistent: true,
     },
     activeMenuName: "main",
@@ -287,7 +287,7 @@ class App extends React.Component {
     if (key in keyMappings) {
       const command = keyMappings[key];
       // If an alert is shown, hide it
-      if (this.state.alertShown && !this.state.alert.persistent) {
+      if (this.state.alert.shown && !this.state.alert.persistent) {
         this.dismissAlert();
         return;
       }
@@ -419,13 +419,17 @@ class App extends React.Component {
   showAlert = (alertText, alertAutodismiss = true, persistent = false) => {
     const alert = {
       persistent,
+      shown: true,
+      text: alertText,
+      autodismiss: alertAutodismiss,
     };
-    this.setState({ alertShown: true, alertText, alertAutodismiss, alert });
+    this.setState({ alert });
   };
 
   dismissAlert = () => {
-    console.log("App is trying to dismiss the alert");
-    this.setState({ alertShown: false });
+    const alert = this.state.alert;
+    alert.shown = false;
+    this.setState({ alert });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -778,9 +782,9 @@ class App extends React.Component {
       return (
         <div className="App">
           <Alert
-            text={this.state.alertText}
-            shown={this.state.alertShown}
-            autodismiss={this.state.alertAutodismiss}
+            text={this.state.alert.text}
+            shown={this.state.alert.shown}
+            autodismiss={this.state.alert.autodismiss}
             dismissAlert={this.dismissAlert}
           ></Alert>
           <div className="board">
@@ -820,9 +824,9 @@ class App extends React.Component {
         <div className="App main-menu">
           <h1>Pozo</h1>
           <Alert
-            text={this.state.alertText}
-            shown={this.state.alertShown}
-            autodismiss={this.state.alertAutodismiss}
+            text={this.state.alert.text}
+            shown={this.state.alert.shown}
+            autodismiss={this.state.alert.autodismiss}
             dismissAlert={this.dismissAlert}
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
