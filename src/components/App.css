@@ -19,6 +19,15 @@ body {
   margin: auto;
 }
 
+h1 {
+  font-family: "Bebas Neue", sans-serif;
+  text-align: center;
+  font-size: 300px;
+  font-weight: 400;
+  margin: 0;
+  align-self: end;
+}
+
 main {
   display: grid;
   grid-template-columns: repeat(3, min-content);

@@ -798,6 +798,7 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
+          <h1>Pozo</h1>
           <Alert
             text={this.state.alertText}
             shown={this.state.alertShown}
