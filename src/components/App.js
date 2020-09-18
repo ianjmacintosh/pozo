@@ -218,23 +218,19 @@ class App extends React.Component {
 
   instructionsFragment = (
     <React.Fragment>
-      <div>
-        <h1 className="small-headline">Instructions</h1>
-        <p>
-          Pozo is an arcade puzzle game where your goal is to clear blocks
-          before they enter your base
-        </p>
-        <p>To move, use the arrow keys (or A, S, D, F)</p>
-        <p>To attack, use the spacebar</p>
-        <p>If you strike a block the same color as you, you will clear it</p>
-        <p>If it is a different color, you and the block will swap colors</p>
-        <p>
-          The number to the lower right of your base shows how many blocks are
-          left in order to complete the stage
-        </p>
-        <Menu options={this.state.menus.instructions} name="instructions" />
-        <h3 className="center">Press spacebar to continue</h3>
-      </div>
+      <h1 className="small-headline">Instructions</h1>
+      <p>
+        Pozo is an arcade puzzle game where your goal is to clear blocks before
+        they enter your base
+      </p>
+      <p>To move, use the arrow keys (or A, S, D, F)</p>
+      <p>To attack, use the spacebar</p>
+      <p>If you strike a block the same color as you, you will clear it</p>
+      <p>If it is a different color, you and the block will swap colors</p>
+      <p>
+        The number to the lower right of your base shows how many blocks are
+        left in order to complete the stage
+      </p>
     </React.Fragment>
   );
 
@@ -840,6 +836,10 @@ class App extends React.Component {
           ></Alert>
           <Alert
             content={this.instructionsFragment}
+            menu={{
+              name: "instructions",
+              options: this.state.menus.instructions,
+            }}
             shown={this.state.instructions.shown}
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>

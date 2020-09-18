@@ -1,5 +1,6 @@
 import React from "react";
 import "./Alert.css";
+import Menu from "./Menu";
 
 class Alert extends React.Component {
   componentDidUpdate(prevProps) {
@@ -12,15 +13,24 @@ class Alert extends React.Component {
     }
   }
   render() {
+    let content;
+    let menu;
     if (this.props.content) {
-      return (
-        <div className={`alert ${this.props.shown ? "shown" : "hidden"}`}>
-          <div className="alert-content">{this.props.content}</div>
-        </div>
-      );
-    } else {
-      return null;
+      content = this.props.content;
     }
+    if (this.props.menu) {
+      menu = (
+        <Menu options={this.props.menu.options} name={this.props.menuName} />
+      );
+    }
+    return (
+      <div className={`alert ${this.props.shown ? "shown" : "hidden"}`}>
+        <div className="alert-content">
+          {content}
+          {menu}
+        </div>
+      </div>
+    );
   }
 }
 
