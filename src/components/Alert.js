@@ -24,14 +24,6 @@ class Alert extends React.Component {
   };
 
   handleClose = () => {
-    let menuName;
-
-    if (this.props.menu) {
-      menuName = this.props.menu.name;
-    } else {
-      menuName = this.props.menuName;
-    }
-    console.log(`Animating ${menuName} out`);
     this.setState({ animatingOut: true });
 
     window.setTimeout(() => {
