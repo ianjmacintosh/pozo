@@ -200,7 +200,6 @@ class App extends React.Component {
               alerts,
               activeMenuName: "main",
             });
-            this.start();
           },
           selected: true,
         },
