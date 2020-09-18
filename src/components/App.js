@@ -212,9 +212,13 @@ class App extends React.Component {
           action: () => {
             let alerts = this.state.alerts;
             alerts.gameOver.shown = false;
+
             this.setState({
               alerts,
+              gameActive: true,
             });
+
+            this.start();
           },
           selected: true,
         },
@@ -700,12 +704,16 @@ class App extends React.Component {
         );
       }
     } else {
-      this.playSound("gameOver");
+      // this.playSound("gameOver");
       let alerts = this.state.alerts;
-
       alerts.gameOver.shown = true;
+      document.body.classList.remove(`stage${this.state.currentStage}`);
 
-      this.setState({ alerts });
+      this.setState({
+        alerts,
+        gameActive: false,
+        activeMenuName: "gameOver",
+      });
     }
   };
 
