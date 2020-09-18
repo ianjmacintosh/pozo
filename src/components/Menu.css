@@ -12,7 +12,7 @@
   --yellow: #ffff00;
   --blue: #0ff;
   --white: #fff;
-  font-size: 48px;
+  font-size: 36px;
   font-family: "Bebas Neue", sans-serif;
   text-align: center;
   color: var(--black);
@@ -24,6 +24,10 @@
   padding: 0;
   list-style: none;
   margin: 0;
+}
+
+.menu.main {
+  font-size: 48px;
 }
 
 .menu li span {

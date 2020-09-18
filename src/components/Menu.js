@@ -7,7 +7,7 @@ class Menu extends React.Component {
   render() {
     return (
       <div className="menu-wrapper">
-        <ul className="menu">
+        <ul className={`menu ${this.props.name}`}>
           {this.props.options.map((option, index) => (
             <MenuOption
               key={index}
