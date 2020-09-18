@@ -95,6 +95,14 @@ class App extends React.Component {
         ),
         shown: false,
       },
+      gameOver: {
+        content: (
+          <React.Fragment>
+            <h1 className="small-headline">Game Over!</h1>
+          </React.Fragment>
+        ),
+        shown: false,
+      },
     },
     activeMenuName: "main",
     gameActive: false,
@@ -193,8 +201,34 @@ class App extends React.Component {
               alerts,
               activeMenuName: "main",
             });
+            this.start();
           },
           selected: true,
+        },
+      ],
+      gameOver: [
+        {
+          title: "Try Again",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.gameOver.shown = false;
+            this.setState({
+              alerts,
+            });
+          },
+          selected: true,
+        },
+        {
+          title: "Main Menu",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.gameOver.shown = false;
+            this.setState({
+              alerts,
+              activeMenuName: "main",
+            });
+          },
+          selected: false,
         },
       ],
     },
@@ -667,11 +701,11 @@ class App extends React.Component {
       }
     } else {
       this.playSound("gameOver");
-      this.showAlert(
-        <React.Fragment>
-          <h1>Game Over</h1>
-        </React.Fragment>
-      );
+      let alerts = this.state.alerts;
+
+      alerts.gameOver.shown = true;
+
+      this.setState({ alerts });
     }
   };
 
@@ -838,6 +872,15 @@ class App extends React.Component {
             content={this.state.alert.content}
             shown={this.state.alert.shown}
             autodismiss={this.state.alert.autodismiss}
+            dismissAlert={this.dismissAlert}
+          ></Alert>
+          <Alert
+            content={this.state.alerts.gameOver.content}
+            menu={{
+              name: "game-over",
+              options: this.state.menus.gameOver,
+            }}
+            shown={this.state.alerts.gameOver.shown}
             dismissAlert={this.dismissAlert}
           ></Alert>
           <Alert
