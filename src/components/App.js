@@ -130,7 +130,6 @@ class App extends React.Component {
             alerts.instructions.shown = true;
             this.setState({
               alerts,
-              menuOption: 0,
               activeMenuName: "instructions",
             });
           },
