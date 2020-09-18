@@ -35,27 +35,6 @@ const directionMap = {
   3: "down",
 };
 
-const alerts = {
-  instructions: (
-    <React.Fragment>
-      <h1 class="small-headline">Instructions</h1>
-      <p>
-        Pozo is an arcade puzzle game where your goal is to clear blocks before
-        they enter your base
-      </p>
-      <p>To move, use the arrow keys (or A, S, D, F)</p>
-      <p>To attack, use the spacebar</p>
-      <p>If you strike a block the same color as you, you will clear it</p>
-      <p>If it is a different color, you and the block will swap colors</p>
-      <p>
-        The number to the lower right of your base shows how many blocks are
-        left in order to complete the stage
-      </p>
-      <h3 class="center">Press spacebar to continue</h3>
-    </React.Fragment>
-  ),
-};
-
 const stages = [
   {
     monsters: 5,
@@ -85,12 +64,41 @@ const stages = [
 
 class App extends React.Component {
   state = {
-    alertText: "",
-    alertShown: false,
-    alertAutodismiss: true,
+    alert: {
+      content: "",
+      shown: false,
+      autodismiss: true,
+      persistent: true,
+    },
+    alerts: {
+      instructions: {
+        content: (
+          <React.Fragment>
+            <h1 className="small-headline">Instructions</h1>
+            <p>
+              Pozo is an arcade puzzle game where your goal is to clear blocks
+              before they enter your base
+            </p>
+            <p>To move, use the arrow keys (or A, S, D, F)</p>
+            <p>To attack, use the spacebar</p>
+            <p>
+              If you strike a block the same color as you, you will clear it
+            </p>
+            <p>
+              If it is a different color, you and the block will swap colors
+            </p>
+            <p>
+              The number to the lower right of your base shows how many blocks
+              are left in order to complete the stage
+            </p>
+          </React.Fragment>
+        ),
+        shown: false,
+      },
+    },
+    activeMenuName: "main",
     gameActive: false,
     paused: false,
-    menuOption: 0,
     currentStage: 0,
     stageSettings: {
       monsters: 0,
@@ -98,76 +106,98 @@ class App extends React.Component {
       waveDuration: 0,
       rateMultiplier: 0,
     },
-    menuOptions: [
-      {
-        title: "Start Game",
-        action: () => {
-          this.start();
+    menus: {
+      main: [
+        {
+          title: "Start Game",
+          action: () => {
+            this.start();
+          },
+          selected: true,
         },
-        selected: true,
-      },
-      {
-        title: "Instructions",
-        action: () => {
-          this.showAlert(alerts.instructions, false);
+        {
+          title: "Instructions",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.instructions.shown = true;
+            this.setState({
+              alerts,
+              menuOption: 0,
+              activeMenuName: "instructions",
+            });
+          },
+          selected: false,
         },
-        selected: false,
-      },
-      {
-        title: "Options",
-        action: () => {
-          console.log("Options");
+        {
+          title: "Options",
+          action: () => {
+            console.log("Options");
+          },
+          selected: false,
         },
-        selected: false,
-      },
-      {
-        title: "Credits",
-        action: () => {
-          this.showAlert(
-            <React.Fragment>
-              <h1 className="small-headline">Credits</h1>
-              <dl>
-                <dt>Development</dt>
-                <dd>Ian MacIntosh</dd>
-                <dt>Sound Effects</dt>
-                <dd>
-                  <a href="https://freesound.org/people/Breviceps/">
-                    Breviceps
-                  </a>
-                  (soundeffects.org)
-                </dd>
-                <dd>
-                  <a href="https://freesound.org/people/LittleRobotSoundFactory/">
-                    LittleRobotSoundFactory
-                  </a>
-                  (soundeffects.org)
-                </dd>
-                <dd>
-                  <a href="https://freesound.org/people/LukeSharples/">
-                    LukeSharples
-                  </a>
-                  (soundeffects.org)
-                </dd>
-                <dd>
-                  <a href="https://freesound.org/people/SgtPepperArc360/">
-                    SgtPepperArc360
-                  </a>
-                  (soundeffects.org)
-                </dd>
-              </dl>
+        {
+          title: "Credits",
+          action: () => {
+            this.showAlert(
+              <React.Fragment>
+                <h1 className="small-headline">Credits</h1>
+                <dl>
+                  <dt>Development</dt>
+                  <dd>Ian MacIntosh</dd>
+                  <dt>Sound Effects</dt>
+                  <dd>
+                    <a href="https://freesound.org/people/Breviceps/">
+                      Breviceps
+                    </a>{" "}
+                    (soundeffects.org)
+                  </dd>
+                  <dd>
+                    <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                      LittleRobotSoundFactory
+                    </a>{" "}
+                    (soundeffects.org)
+                  </dd>
+                  <dd>
+                    <a href="https://freesound.org/people/LukeSharples/">
+                      LukeSharples
+                    </a>{" "}
+                    (soundeffects.org)
+                  </dd>
+                  <dd>
+                    <a href="https://freesound.org/people/SgtPepperArc360/">
+                      SgtPepperArc360
+                    </a>{" "}
+                    (soundeffects.org)
+                  </dd>
+                </dl>
 
-              <p>
-                This game is a copy of the mid-1990's arcade puzzle game
-                <i>Zoop</i>, which was developed by Hookstone Media and
-                published by Viacom New Media.
-              </p>
-            </React.Fragment>,
-            false
-          );
+                <p>
+                  This game is derivative of the mid-1990's arcade puzzle game{" "}
+                  <i>Zoop</i>, which was developed by Hookstone Media and
+                  published by Viacom New Media.
+                </p>
+              </React.Fragment>,
+              false
+            );
+          },
+          selected: false,
         },
-        selected: false,
-      },
-    ],
+      ],
+      instructions: [
+        {
+          title: "Continue",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.instructions.shown = false;
+            this.setState({
+              alerts,
+              activeMenuName: "main",
+            });
+          },
+          selected: true,
+        },
+      ],
+    },
     fields: {
       up: {
         // Up and down queues will end the game when their length > 5
@@ -207,28 +237,35 @@ class App extends React.Component {
   }
 
   changeMenuOption = (advance) => {
+    const newMenusObject = this.state.menus;
+    const activeMenu = newMenusObject[this.state.activeMenuName];
     this.playSound("menuMove", 0.05);
 
-    let menuOption = this.state.menuOption;
+    // Get index of selected menu option
+    let menuOption = activeMenu.findIndex((option) => option.selected === true);
+
+    // Mark previous or next menu option as selected
     if (advance) {
       menuOption++;
     } else {
       menuOption--;
     }
-    if (menuOption > this.state.menuOptions.length - 1) {
+    if (menuOption > activeMenu.length - 1) {
       menuOption = 0;
     } else if (menuOption < 0) {
-      menuOption = this.state.menuOptions.length - 1;
+      menuOption = activeMenu.length - 1;
     }
-    let newMenuOptions = this.state.menuOptions;
-    newMenuOptions.map(
-      (option, index) => (option.selected = menuOption === index)
-    );
-    this.setState({ menuOptions: newMenuOptions, menuOption });
+
+    // Update the menu object to show the new item is selected
+    activeMenu.map((option, index) => (option.selected = menuOption === index));
+
+    this.setState({ menus: newMenusObject });
   };
 
   chooseMenuOption = () => {
-    this.state.menuOptions[this.state.menuOption].action();
+    this.state.menus[this.state.activeMenuName]
+      .find((option) => option.selected === true)
+      .action();
   };
 
   handleKeypress = ({ key }) => {
@@ -259,7 +296,7 @@ class App extends React.Component {
     if (key in keyMappings) {
       const command = keyMappings[key];
       // If an alert is shown, hide it
-      if (this.state.alertShown) {
+      if (this.state.alert.shown && !this.state.alert.persistent) {
         this.dismissAlert();
         return;
       }
@@ -388,13 +425,23 @@ class App extends React.Component {
     );
   };
 
-  showAlert = (alertText, alertAutodismiss = true) => {
-    this.setState({ alertShown: true, alertText, alertAutodismiss });
+  showAlert = (content, autodismiss = true, persistent = false) => {
+    const alert = {
+      content,
+      persistent,
+      shown: true,
+      autodismiss,
+    };
+    this.setState({ alert });
   };
 
-  dismissAlert = () => {
-    console.log("App is trying to dismiss the alert");
-    this.setState({ alertShown: false });
+  dismissAlert = (alertName) => {
+    let alert = this.state.alert;
+    if (alertName) {
+      alert = this.state.alerts[alertName];
+    }
+    alert.shown = false;
+    this.setState({ alert });
   };
 
   // Update state to add monster of randomColor to randomQueue of randomField
@@ -654,7 +701,6 @@ class App extends React.Component {
   };
 
   changeColor = (newColor) => {
-    console.log(newColor);
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
@@ -747,9 +793,9 @@ class App extends React.Component {
       return (
         <div className="App">
           <Alert
-            text={this.state.alertText}
-            shown={this.state.alertShown}
-            autodismiss={this.state.alertAutodismiss}
+            content={this.state.alert.content}
+            shown={this.state.alert.shown}
+            autodismiss={this.state.alert.autodismiss}
             dismissAlert={this.dismissAlert}
           ></Alert>
           <div className="board">
@@ -787,15 +833,25 @@ class App extends React.Component {
     } else {
       return (
         <div className="App main-menu">
+          <h1>Pozo</h1>
           <Alert
-            text={this.state.alertText}
-            shown={this.state.alertShown}
-            autodismiss={this.state.alertAutodismiss}
+            content={this.state.alert.content}
+            shown={this.state.alert.shown}
+            autodismiss={this.state.alert.autodismiss}
+            dismissAlert={this.dismissAlert}
+          ></Alert>
+          <Alert
+            content={this.state.alerts.instructions.content}
+            menu={{
+              name: "instructions",
+              options: this.state.menus.instructions,
+            }}
+            shown={this.state.alerts.instructions.shown}
             dismissAlert={this.dismissAlert}
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
-          <Menu options={this.state.menuOptions} />
+          <Menu options={this.state.menus.main} name="main" />
         </div>
       );
     }
