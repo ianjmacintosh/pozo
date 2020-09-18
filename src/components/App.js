@@ -100,7 +100,7 @@ class App extends React.Component {
             instructions.shown = true;
             this.setState({
               instructions,
-              menuOption: 1,
+              menuOption: 0,
               activeMenuName: "instructions",
             });
           },
