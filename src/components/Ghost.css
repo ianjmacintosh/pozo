@@ -3,8 +3,10 @@
 .ghost {
   height: 40px;
   width: 40px;
-  font-size: 20px;
-  animation: rapid-fade-out 2s forwards;
+  font-size: 36px;
+  font-family: "Bebas Neue", cursive;
+  animation: 250ms fade-in forwards, 250ms grow-in forwards,
+    250ms slide-up 500ms forwards, 250ms fade-out 500ms forwards;
   display: flex;
   justify-content: center;
   align-items: center;
