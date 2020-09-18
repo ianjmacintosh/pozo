@@ -70,8 +70,10 @@ class App extends React.Component {
       autodismiss: true,
       persistent: true,
     },
-    instructions: {
-      shown: false,
+    alerts: {
+      instructions: {
+        shown: false,
+      },
     },
     activeMenuName: "main",
     gameActive: false,
@@ -96,10 +98,10 @@ class App extends React.Component {
         {
           title: "Instructions",
           action: () => {
-            let instructions = this.state.instructions;
-            instructions.shown = true;
+            let alerts = this.state.alerts;
+            alerts.instructions.shown = true;
             this.setState({
-              instructions,
+              alerts,
               menuOption: 0,
               activeMenuName: "instructions",
             });
@@ -165,14 +167,19 @@ class App extends React.Component {
         {
           title: "Continue",
           action: () => {
-            this.dismissAlert();
+            let alerts = this.state.alerts;
+            alerts.instructions.shown = false;
+            this.setState({
+              alerts,
+              activeMenuName: "main",
+            });
           },
           selected: true,
         },
         {
           title: "Don't Continue",
           action: () => {
-            this.dismissAlert();
+            this.dismissAlert("instructions");
           },
           selected: false,
         },
@@ -431,8 +438,11 @@ class App extends React.Component {
     this.setState({ alert });
   };
 
-  dismissAlert = () => {
-    const alert = this.state.alert;
+  dismissAlert = (alertName) => {
+    let alert = this.state.alert;
+    if (alertName) {
+      alert = this.state.alerts[alertName];
+    }
     alert.shown = false;
     this.setState({ alert });
   };
@@ -840,7 +850,8 @@ class App extends React.Component {
               name: "instructions",
               options: this.state.menus.instructions,
             }}
-            shown={this.state.instructions.shown}
+            shown={this.state.alerts.instructions.shown}
+            dismissAlert={this.dismissAlert}
           ></Alert>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="menuMove" src={menuMoveSound}></audio>
