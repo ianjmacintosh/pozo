@@ -57,11 +57,11 @@
   animation: grow-in 250ms forwards;
 }
 
-.alert.hidden {
+.alert.animating-out {
   animation: fade-out 250ms forwards;
 }
 
-.alert.hidden .alert-content {
+.alert.animating-out .alert-content {
   animation: grow-out 250ms forwards;
 }
 

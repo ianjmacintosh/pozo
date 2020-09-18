@@ -11,7 +11,34 @@ class Alert extends React.Component {
         }, 1500);
       }
     }
+
+    if (this.props.shown !== prevProps.shown) {
+      if (this.props.shown === false && prevProps.shown === true) {
+        this.handleClose();
+      }
+    }
   }
+
+  state = {
+    animatingOut: false,
+  };
+
+  handleClose = () => {
+    let menuName;
+
+    if (this.props.menu) {
+      menuName = this.props.menu.name;
+    } else {
+      menuName = this.props.menuName;
+    }
+    console.log(`Animating ${menuName} out`);
+    this.setState({ animatingOut: true });
+
+    window.setTimeout(() => {
+      this.setState({ animatingOut: false });
+    }, 250);
+  };
+
   render() {
     let content;
     let menu;
@@ -24,7 +51,11 @@ class Alert extends React.Component {
       );
     }
     return (
-      <div className={`alert ${this.props.shown ? "shown" : "hidden"}`}>
+      <div
+        className={`alert
+        ${this.props.shown ? "shown" : "hidden"}
+        ${this.state.animatingOut ? "animating-out" : ""}`}
+      >
         <div className="alert-content">
           {content}
           {menu}
