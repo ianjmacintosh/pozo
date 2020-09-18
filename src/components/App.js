@@ -78,7 +78,6 @@ class App extends React.Component {
     activeMenuName: "main",
     gameActive: false,
     paused: false,
-    menuOption: 0,
     currentStage: 0,
     stageSettings: {
       monsters: 0,
@@ -246,7 +245,10 @@ class App extends React.Component {
     const activeMenu = newMenusObject[this.state.activeMenuName];
     this.playSound("menuMove", 0.05);
 
-    let menuOption = this.state.menuOption;
+    // Get index of selected menu option
+    let menuOption = activeMenu.findIndex((option) => option.selected === true);
+
+    // Mark previous or next menu option as selected
     if (advance) {
       menuOption++;
     } else {
@@ -262,13 +264,13 @@ class App extends React.Component {
     activeMenu.map((option, index) => (option.selected = menuOption === index));
     console.log(`Changing ${this.state.activeMenuName}`);
 
-    this.setState({ menus: newMenusObject, menuOption });
+    this.setState({ menus: newMenusObject });
   };
 
   chooseMenuOption = () => {
-    const activeMenuName = this.state.activeMenuName;
-    this.setState({ activeMenuName });
-    this.state.menus[activeMenuName][this.state.menuOption].action();
+    this.state.menus[this.state.activeMenuName]
+      .find((option) => option.selected === true)
+      .action();
   };
 
   handleKeypress = ({ key }) => {
