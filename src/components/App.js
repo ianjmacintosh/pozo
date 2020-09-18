@@ -148,31 +148,31 @@ class App extends React.Component {
                   <dd>
                     <a href="https://freesound.org/people/Breviceps/">
                       Breviceps
-                    </a>
+                    </a>{" "}
                     (soundeffects.org)
                   </dd>
                   <dd>
                     <a href="https://freesound.org/people/LittleRobotSoundFactory/">
                       LittleRobotSoundFactory
-                    </a>
+                    </a>{" "}
                     (soundeffects.org)
                   </dd>
                   <dd>
                     <a href="https://freesound.org/people/LukeSharples/">
                       LukeSharples
-                    </a>
+                    </a>{" "}
                     (soundeffects.org)
                   </dd>
                   <dd>
                     <a href="https://freesound.org/people/SgtPepperArc360/">
                       SgtPepperArc360
-                    </a>
+                    </a>{" "}
                     (soundeffects.org)
                   </dd>
                 </dl>
 
                 <p>
-                  This game is a copy of the mid-1990's arcade puzzle game
+                  This game is derivative of the mid-1990's arcade puzzle game{" "}
                   <i>Zoop</i>, which was developed by Hookstone Media and
                   published by Viacom New Media.
                 </p>
