@@ -16,6 +16,10 @@ body {
 }
 
 .App {
+  display: grid;
+}
+
+.board {
   margin: auto;
 }
 
@@ -34,7 +38,7 @@ main {
   grid-template-rows: repeat(3, min-content);
 }
 
-body.red-alert {
+.red-alert {
   animation: 2500ms infinite flashing-red;
 }
 

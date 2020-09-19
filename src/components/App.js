@@ -98,13 +98,14 @@ class App extends React.Component {
       gameOver: {
         content: (
           <React.Fragment>
-            <h1 className="small-headline">Game Over!</h1>
+            <h1>Game Over</h1>
           </React.Fragment>
         ),
         shown: false,
       },
     },
     activeMenuName: "main",
+    redAlert: false,
     gameActive: false,
     paused: false,
     currentStage: 0,
@@ -509,7 +510,7 @@ class App extends React.Component {
         fields[direction].queues[queueNumber].length <=
       1
     ) {
-      document.body.classList.add("red-alert");
+      this.setState({ redAlert: true });
     }
 
     // Create new Monster component within the appropriate queue (this should be handled automatically)
@@ -630,7 +631,7 @@ class App extends React.Component {
           hasEnoughRoom(queue, fields.right.queueLengthLimit)
         )
       ) {
-        document.body.classList.remove("red-alert");
+        this.setState({ redAlert: false });
       }
       this.reportElimination(1);
       this.setState({ fields });
@@ -687,7 +688,8 @@ class App extends React.Component {
 
     if (playerDidWin) {
       // Congratulate user, show score, then call App.setStage with settings for next level
-      document.body.classList.remove("red-alert");
+      this.setState({ redAlert: false });
+
       this.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
@@ -705,7 +707,10 @@ class App extends React.Component {
       // this.playSound("gameOver");
       let alerts = this.state.alerts;
       alerts.gameOver.shown = true;
+
+      // Clear stage styles
       document.body.classList.remove(`stage${this.state.currentStage}`);
+      console.log("Removing red alert");
 
       this.setState({
         alerts,
@@ -831,7 +836,11 @@ class App extends React.Component {
   render() {
     if (this.state.gameActive) {
       return (
-        <div className="App">
+        <div
+          className={`App stage${this.state.currentStage} ${
+            this.state.redAlert ? "red-alert" : ""
+          }`}
+        >
           <Alert
             content={this.state.alert.content}
             shown={this.state.alert.shown}
