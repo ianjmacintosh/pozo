@@ -95,8 +95,17 @@ class App extends React.Component {
         ),
         shown: false,
       },
+      gameOver: {
+        content: (
+          <React.Fragment>
+            <h1>Game Over</h1>
+          </React.Fragment>
+        ),
+        shown: false,
+      },
     },
     activeMenuName: "main",
+    redAlert: false,
     gameActive: false,
     paused: false,
     currentStage: 0,
@@ -122,19 +131,18 @@ class App extends React.Component {
             alerts.instructions.shown = true;
             this.setState({
               alerts,
-              menuOption: 0,
               activeMenuName: "instructions",
             });
           },
           selected: false,
         },
-        {
-          title: "Options",
-          action: () => {
-            console.log("Options");
-          },
-          selected: false,
-        },
+        // {
+        //   title: "Options",
+        //   action: () => {
+        //     console.log("Options");
+        //   },
+        //   selected: false,
+        // },
         {
           title: "Credits",
           action: () => {
@@ -195,6 +203,35 @@ class App extends React.Component {
             });
           },
           selected: true,
+        },
+      ],
+      gameOver: [
+        {
+          title: "Try Again",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.gameOver.shown = false;
+
+            this.setState({
+              alerts,
+              gameActive: true,
+            });
+
+            this.start();
+          },
+          selected: true,
+        },
+        {
+          title: "Main Menu",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.gameOver.shown = false;
+            this.setState({
+              alerts,
+              activeMenuName: "main",
+            });
+          },
+          selected: false,
         },
       ],
     },
@@ -372,9 +409,9 @@ class App extends React.Component {
 
   start = (stageNumber = 0) => {
     // Activate game
-    this.setState({ gameActive: true }, () => {
+    this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
-        this.playSound("menuSelect");
+        this.playSound("menuSelect", 0, 0.4);
       }
     });
 
@@ -386,7 +423,7 @@ class App extends React.Component {
     fields.right.queues = [[], [], [], []];
     this.setState({ fields });
 
-    const stageSettings = stages[stageNumber],
+    const stageSettings = { ...stages[stageNumber] },
       setTimers = () => {
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
@@ -473,7 +510,7 @@ class App extends React.Component {
         fields[direction].queues[queueNumber].length <=
       1
     ) {
-      document.body.classList.add("red-alert");
+      this.setState({ redAlert: true });
     }
 
     // Create new Monster component within the appropriate queue (this should be handled automatically)
@@ -594,7 +631,7 @@ class App extends React.Component {
           hasEnoughRoom(queue, fields.right.queueLengthLimit)
         )
       ) {
-        document.body.classList.remove("red-alert");
+        this.setState({ redAlert: false });
       }
       this.reportElimination(1);
       this.setState({ fields });
@@ -651,7 +688,8 @@ class App extends React.Component {
 
     if (playerDidWin) {
       // Congratulate user, show score, then call App.setStage with settings for next level
-      document.body.classList.remove("red-alert");
+      this.setState({ redAlert: false });
+
       this.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
@@ -666,12 +704,19 @@ class App extends React.Component {
         );
       }
     } else {
-      this.playSound("gameOver");
-      this.showAlert(
-        <React.Fragment>
-          <h1>Game Over</h1>
-        </React.Fragment>
-      );
+      // this.playSound("gameOver");
+      let alerts = this.state.alerts;
+      alerts.gameOver.shown = true;
+
+      // Clear stage styles
+      document.body.classList.remove(`stage${this.state.currentStage}`);
+      console.log("Removing red alert");
+
+      this.setState({
+        alerts,
+        gameActive: false,
+        activeMenuName: "gameOver",
+      });
     }
   };
 
@@ -791,7 +836,11 @@ class App extends React.Component {
   render() {
     if (this.state.gameActive) {
       return (
-        <div className="App">
+        <div
+          className={`App stage${this.state.currentStage} ${
+            this.state.redAlert ? "red-alert" : ""
+          }`}
+        >
           <Alert
             content={this.state.alert.content}
             shown={this.state.alert.shown}
@@ -838,6 +887,15 @@ class App extends React.Component {
             content={this.state.alert.content}
             shown={this.state.alert.shown}
             autodismiss={this.state.alert.autodismiss}
+            dismissAlert={this.dismissAlert}
+          ></Alert>
+          <Alert
+            content={this.state.alerts.gameOver.content}
+            menu={{
+              name: "game-over",
+              options: this.state.menus.gameOver,
+            }}
+            shown={this.state.alerts.gameOver.shown}
             dismissAlert={this.dismissAlert}
           ></Alert>
           <Alert
