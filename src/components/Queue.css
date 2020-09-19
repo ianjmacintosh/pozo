@@ -9,6 +9,11 @@
   width: 100%;
 }
 
+.queue li {
+  height: 40px;
+  width: 40px;
+}
+
 .up-field .queue {
   flex-direction: column-reverse;
   width: 40px;
