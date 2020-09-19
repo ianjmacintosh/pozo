@@ -409,7 +409,7 @@ class App extends React.Component {
 
   start = (stageNumber = 0) => {
     // Activate game
-    this.setState({ gameActive: true }, () => {
+    this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
         this.playSound("menuSelect");
       }
