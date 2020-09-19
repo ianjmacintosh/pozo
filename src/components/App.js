@@ -423,7 +423,7 @@ class App extends React.Component {
     fields.right.queues = [[], [], [], []];
     this.setState({ fields });
 
-    const stageSettings = stages[stageNumber],
+    const stageSettings = { ...stages[stageNumber] },
       setTimers = () => {
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
