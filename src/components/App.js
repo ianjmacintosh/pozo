@@ -136,13 +136,13 @@ class App extends React.Component {
           },
           selected: false,
         },
-        {
-          title: "Options",
-          action: () => {
-            console.log("Options");
-          },
-          selected: false,
-        },
+        // {
+        //   title: "Options",
+        //   action: () => {
+        //     console.log("Options");
+        //   },
+        //   selected: false,
+        // },
         {
           title: "Credits",
           action: () => {
