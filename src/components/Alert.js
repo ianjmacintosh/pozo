@@ -16,11 +16,15 @@ class Alert extends React.Component {
       if (this.props.shown === false && prevProps.shown === true) {
         this.handleClose();
       }
+      if (this.props.shown === true && prevProps.shown === false) {
+        this.setState({ shown: true });
+      }
     }
   }
 
   state = {
     animatingOut: false,
+    shown: false,
   };
 
   handleClose = () => {
@@ -28,6 +32,7 @@ class Alert extends React.Component {
 
     window.setTimeout(() => {
       this.setState({ animatingOut: false });
+      this.setState({ shown: false });
     }, 250);
   };
 
@@ -42,18 +47,23 @@ class Alert extends React.Component {
         <Menu options={this.props.menu.options} name={this.props.menuName} />
       );
     }
-    return (
-      <div
-        className={`alert
-        ${this.props.shown ? "shown" : "hidden"}
-        ${this.state.animatingOut ? "animating-out" : ""}`}
-      >
-        <div className="alert-content">
-          {content}
-          {menu}
+
+    if (!this.state.shown) {
+      return null;
+    } else {
+      return (
+        <div
+          className={`alert
+          ${this.props.shown ? "shown" : "hidden"}
+          ${this.state.animatingOut ? "animating-out" : ""}`}
+        >
+          <div className="alert-content">
+            {content}
+            {menu}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
