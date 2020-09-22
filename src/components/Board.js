@@ -353,7 +353,6 @@ class Board extends React.Component {
   };
 
   start = (stageNumber = 0) => {
-    console.log("Helllerrrr??");
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
@@ -371,7 +370,6 @@ class Board extends React.Component {
 
     const stageSettings = { ...stages[stageNumber] },
       setTimers = () => {
-        console.log("Set the timers!");
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
 
