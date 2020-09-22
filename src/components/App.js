@@ -145,7 +145,7 @@ class App extends React.Component {
             alerts.instructions.shown = false;
             this.setState({
               alerts,
-              activeMenuName: "main",
+              activeMenuName: "mainMenu",
             });
           },
           selected: true,
