@@ -5,6 +5,7 @@ import Field from "./Field";
 import Homebase from "./Homebase";
 import Counter from "./Counter";
 import { getRandomInt } from "../helpers";
+import { gsap } from "gsap";
 
 import strikeSound from "../sounds/strike.wav";
 import walkSound from "../sounds/walk.wav";
@@ -80,17 +81,102 @@ class Board extends React.Component {
     base: {
       size: 4,
     },
+    streak: 0,
+    score: 0,
+    monstersRemaining: 0,
   };
 
   componentDidUpdate(prevProps) {
     if (this.props.isGameActive !== prevProps.isGameActive) {
       console.log("Changing game activity state");
+      this.start();
     }
   }
 
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeypress);
   }
+
+  changeColor = (newColor) => {
+    const hero = { ...this.state.hero };
+    hero.color = newColor;
+
+    // Update app state for hero color
+    this.setState({ hero });
+  };
+
+  reportElimination = (monstersEliminated) => {
+    this.playSound("eliminate");
+    this.updateScoreboard(monstersEliminated);
+    this.updateCounter(monstersEliminated);
+  };
+
+  endStreak = () => {
+    this.setState({ streak: 0 });
+  };
+
+  endStage = (playerDidWin) => {
+    clearInterval(this.monsterTimer);
+    clearInterval(this.waveTimer);
+
+    if (playerDidWin) {
+      // Congratulate user, show score, then call App.setStage with settings for next level
+      this.setState({ redAlert: false });
+
+      this.showAlert("Stage Complete");
+      let currentStage = this.state.currentStage + 1;
+      this.setState({ currentStage });
+      if (stages[currentStage]) {
+        this.playSound("stageClear");
+        this.start(currentStage);
+      } else {
+        this.showAlert(
+          <React.Fragment>
+            <h1>Victory!</h1>
+          </React.Fragment>
+        );
+      }
+    } else {
+      // this.playSound("gameOver");
+      let alerts = this.state.alerts;
+      alerts.gameOver.shown = true;
+
+      // Clear stage styles
+      document.body.classList.remove(`stage${this.state.currentStage}`);
+      console.log("Removing red alert");
+
+      this.setState({
+        alerts,
+        gameActive: false,
+        activeMenuName: "gameOver",
+      });
+    }
+  };
+
+  updateScoreboard = (monsterCount) => {
+    let score = this.state.score,
+      streak = this.state.streak,
+      pointsToAdd = monsterCount * 100 * streak;
+
+    score += pointsToAdd;
+
+    // Scoreboard.update() manages streak tally? Need to figure out how to manage this
+    this.setState({ score });
+  };
+
+  updateCounter = (monsterCount) => {
+    let monstersRemaining = this.state.monstersRemaining;
+    monstersRemaining -= monsterCount;
+    if (monstersRemaining <= 0) {
+      monstersRemaining = 0;
+    }
+
+    this.setState({ monstersRemaining }, () => {
+      if (monstersRemaining === 0) {
+        this.endStage(true);
+      }
+    });
+  };
 
   handleKeypress = ({ key }) => {
     // Each movement updates app state for hero x & y
@@ -187,6 +273,7 @@ class Board extends React.Component {
   };
 
   chooseQueue = () => {
+    console.log("Choosing a queue");
     let fieldNumber = getRandomInt(0, 3),
       queueNumber = getRandomInt(0, 3),
       colorNumber = getRandomInt(0, 3);
@@ -217,6 +304,7 @@ class Board extends React.Component {
   };
 
   start = (stageNumber = 0) => {
+    console.log("Helllerrrr??");
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
@@ -234,6 +322,7 @@ class Board extends React.Component {
 
     const stageSettings = { ...stages[stageNumber] },
       setTimers = () => {
+        console.log("Set the timers!");
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
 
@@ -260,15 +349,172 @@ class Board extends React.Component {
     document.body.classList.add(`stage${stageNumber}`);
 
     // Number of monsters in stage (e.g., 50)
+    console.log("About to set state and timers");
     this.setState({ stageSettings }, setTimers);
     this.setState({
       monstersRemaining: stageSettings.monsters,
     });
-    this.showAlert(
+    this.props.showAlert(
       <React.Fragment>
         <h1>Stage {stageNumber}</h1>
       </React.Fragment>
     );
+  };
+
+  strike = (field, queue, strikeColor) => {
+    // Play sound
+    this.playSound("strike", 0, 0.5);
+
+    // Find out direction to strike (up, left, down, right)
+    let x = 0,
+      y = 0,
+      squareSize = 40,
+      sizeOfQueue = this.state.fields[field].queueLengthLimit * squareSize,
+      heroToEdge = 0,
+      distanceToTravel = 0;
+
+    // Calculate distance from current location to end of target queue
+    // Calculate distance from hero to edge of base
+    switch (field) {
+      case "up":
+        // 1 should go just the distance of the queue
+        heroToEdge = (this.state.hero.y - 1) * squareSize;
+        break;
+
+      case "down":
+        heroToEdge = (4 - this.state.hero.y) * squareSize;
+        break;
+
+      case "left":
+        heroToEdge = (this.state.hero.x - 1) * squareSize;
+        break;
+
+      case "right":
+        heroToEdge = (4 - this.state.hero.x) * squareSize;
+        break;
+
+      default:
+        heroToEdge = 0;
+    }
+
+    distanceToTravel = heroToEdge + sizeOfQueue;
+
+    if (field === "up" || field === "left") {
+      distanceToTravel *= -1;
+    }
+    if (field === "up" || field === "down") {
+      y = distanceToTravel;
+    } else {
+      x = distanceToTravel;
+    }
+    // Animate that transition
+    let tl = gsap.timeline();
+    tl.to(".hero", {
+      duration: 0.1,
+      x,
+      y,
+    });
+    tl.to(".hero", {
+      duration: 0.1,
+      x: 0,
+      y: 0,
+    });
+    // Handler reads hero coords and direction to determine which queue to strike
+    let fields = { ...this.state.fields },
+      targetQueue = fields[field].queues[queue],
+      monsterQueue = targetQueue.filter((item) => item.type === "monster"),
+      monsterColor,
+      topMonster;
+
+    if (monsterQueue.length > 0) {
+      topMonster = targetQueue.find((item) => item.type === "monster");
+      monsterColor = topMonster.color;
+    } else {
+      monsterColor = null;
+    }
+
+    // If monster is same color, eliminate it
+    if (strikeColor === monsterColor) {
+      // Update streak
+      const streak = 1 + this.state.streak;
+      this.setState({ streak });
+
+      // Convert monster to ghost
+      topMonster.content = 100 * streak;
+      topMonster.type = "ghost";
+
+      // Remove the ghost
+      setTimeout(() => {
+        const index = targetQueue.indexOf(topMonster);
+        targetQueue.splice(index, 1);
+      }, 2000);
+
+      // Are all queues under control?
+      const hasEnoughRoom = (queue, lengthLimit) => {
+        const nonGhosts = queue.filter((element) => element.type !== "ghost");
+
+        return lengthLimit - nonGhosts.length > 1;
+      };
+
+      if (
+        fields.down.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.down.queueLengthLimit)
+        ) &&
+        fields.up.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.up.queueLengthLimit)
+        ) &&
+        fields.left.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.left.queueLengthLimit)
+        ) &&
+        fields.right.queues.every((queue) =>
+          hasEnoughRoom(queue, fields.right.queueLengthLimit)
+        )
+      ) {
+        this.setState({ redAlert: false });
+      }
+      this.reportElimination(1);
+      this.setState({ fields });
+      this.strike(field, queue, strikeColor);
+      return;
+    }
+    // If there's a monster in the queue struck
+    else if (monsterQueue.length > 0) {
+      this.playSound("swap");
+      // Report streak end via App.endStreak()
+      if (this.state.streak > 0) {
+        this.endStreak();
+      }
+
+      //   Update hero color
+      this.changeColor(monsterColor);
+
+      //   Update monster color
+      monsterQueue[0].color = strikeColor;
+
+      this.setState({ fields });
+    }
+
+    // Flip orientation
+    let hero = this.state.hero;
+    let newDirection;
+
+    switch (hero.orientation) {
+      case "up":
+        newDirection = "down";
+        break;
+      case "down":
+        newDirection = "up";
+        break;
+      case "left":
+        newDirection = "right";
+        break;
+      default:
+        newDirection = "left";
+        break;
+    }
+
+    hero.orientation = newDirection;
+    this.setState({ hero });
   };
 
   // Walk accepts a direction, and calls move
