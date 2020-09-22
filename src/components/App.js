@@ -59,6 +59,10 @@ class App extends React.Component {
       persistent: true,
     },
     alerts: {
+      mainMenu: {
+        content: <h1>Pozo</h1>,
+        shown: true,
+      },
       instructions: {
         content: (
           <React.Fragment>
@@ -92,7 +96,7 @@ class App extends React.Component {
         shown: false,
       },
     },
-    activeMenuName: "main",
+    activeMenuName: "mainMenu",
     redAlert: false,
     gameActive: false,
     paused: false,
@@ -104,11 +108,14 @@ class App extends React.Component {
       rateMultiplier: 0,
     },
     menus: {
-      main: [
+      mainMenu: [
         {
           title: "Start Game",
           action: () => {
-            this.start();
+            let alerts = this.state.alerts;
+            alerts.mainMenu.shown = false;
+
+            this.setState({ gameActive: true });
           },
           selected: true,
         },
