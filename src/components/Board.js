@@ -84,6 +84,13 @@ class Board extends React.Component {
     streak: 0,
     score: 0,
     monstersRemaining: 0,
+    currentStage: 0,
+    stageSettings: {
+      monsters: 0,
+      creationRate: 0,
+      waveDuration: 0,
+      rateMultiplier: 0,
+    },
   };
 
   componentDidUpdate(prevProps) {
@@ -123,14 +130,14 @@ class Board extends React.Component {
       // Congratulate user, show score, then call App.setStage with settings for next level
       this.setState({ redAlert: false });
 
-      this.showAlert("Stage Complete");
+      this.props.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
       this.setState({ currentStage });
       if (stages[currentStage]) {
         this.playSound("stageClear");
         this.start(currentStage);
       } else {
-        this.showAlert(
+        this.props.showAlert(
           <React.Fragment>
             <h1>Victory!</h1>
           </React.Fragment>

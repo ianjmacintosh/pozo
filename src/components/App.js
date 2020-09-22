@@ -91,13 +91,6 @@ class App extends React.Component {
     redAlert: false,
     gameActive: false,
     paused: false,
-    currentStage: 0,
-    stageSettings: {
-      monsters: 0,
-      creationRate: 0,
-      waveDuration: 0,
-      rateMultiplier: 0,
-    },
     menus: {
       mainMenu: [
         {
