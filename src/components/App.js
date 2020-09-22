@@ -170,9 +170,10 @@ class App extends React.Component {
           action: () => {
             let alerts = this.state.alerts;
             alerts.gameOver.shown = false;
+            alerts.mainMenu.shown = true;
             this.setState({
               alerts,
-              activeMenuName: "main",
+              activeMenuName: "mainMenu",
             });
           },
           selected: false,
@@ -273,13 +274,23 @@ class App extends React.Component {
   waveTimer = null;
 
   showAlert = (content, autodismiss = true, persistent = false) => {
-    const alert = {
-      content,
-      persistent,
-      shown: true,
-      autodismiss,
-    };
-    this.setState({ alert });
+    let alerts = this.state.alerts;
+    let alert = this.state.alert;
+
+    if (this.state.alerts[content]) {
+      if (content === "gameOver") {
+        this.setState({ activeMenuName: "gameOver" });
+      }
+      alerts[content].shown = true;
+    } else {
+      alert = {
+        content,
+        persistent,
+        shown: true,
+        autodismiss,
+      };
+    }
+    this.setState({ alerts, alert });
   };
 
   dismissAlert = (alertName) => {
