@@ -1,25 +1,15 @@
 import React from "react";
 
 import Alert from "./Alert";
-import Menu from "./Menu";
-import Scoreboard from "./Scoreboard";
-import Field from "./Field";
-import Homebase from "./Homebase";
-import Counter from "./Counter";
+import Board from "./Board";
 import { getRandomInt } from "../helpers";
 import { gsap } from "gsap";
 
 import "./App.css";
 
 // 246ms long
-import strikeSound from "../sounds/strike.wav";
 import menuMoveSound from "../sounds/menuMove.wav";
 import menuSelectSound from "../sounds/menuSelect.wav";
-import walkSound from "../sounds/walk.wav";
-import eliminateSound from "../sounds/eliminate.wav";
-import swapSound from "../sounds/swap.wav";
-import gameOverSound from "../sounds/gameOver.wav";
-import stageClearSound from "../sounds/stageClear.wav";
 
 // const colorMap = {
 //   0: "cyan",
@@ -34,7 +24,6 @@ const directionMap = {
   2: "right",
   3: "down",
 };
-
 const stages = [
   {
     monsters: 5,
@@ -61,7 +50,6 @@ const stages = [
     rateMultiplier: 1.1,
   },
 ];
-
 class App extends React.Component {
   state = {
     alert: {
@@ -235,35 +223,6 @@ class App extends React.Component {
         },
       ],
     },
-    fields: {
-      up: {
-        // Up and down queues will end the game when their length > 5
-        queueLengthLimit: 5,
-        queues: [[], [], [], []],
-      },
-      left: {
-        // Left and right queues will end the game when their length > 8
-        queueLengthLimit: 8,
-        queues: [[], [], [], []],
-      },
-      right: {
-        queueLengthLimit: 8,
-        queues: [[], [], [], []],
-      },
-      down: {
-        queueLengthLimit: 5,
-        queues: [[], [], [], []],
-      },
-    },
-    base: {
-      size: 4,
-    },
-    hero: {
-      color: 0,
-      x: 1,
-      y: 1,
-      orientation: "up",
-    },
     streak: 0,
     score: 0,
     monstersRemaining: 0,
@@ -361,22 +320,6 @@ class App extends React.Component {
             this.chooseMenuOption();
             break;
         }
-      } else {
-        // If playing game:
-        if (keyMappings[key] === "strike") {
-          let direction = this.state.hero.orientation,
-            queue = this.state.hero.y - 1,
-            color = this.state.hero.color;
-
-          // If the hero is pointed north or south, use X coord for queue
-          if (direction === "up" || direction === "down") {
-            queue = this.state.hero.x - 1;
-          }
-
-          this.strike(direction, queue, color);
-        } else {
-          this.walk(keyMappings[key]);
-        }
       }
     }
   };
@@ -405,61 +348,6 @@ class App extends React.Component {
     // If longest queue - shortest queue is > 2, choose a different queue
     // queueNumber = getRandomInt(0, 3);
     this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
-  };
-
-  start = (stageNumber = 0) => {
-    // Activate game
-    this.setState({ gameActive: true, redAlert: false }, () => {
-      if (stageNumber === 0) {
-        this.playSound("menuSelect", 0, 0.2);
-      }
-    });
-
-    // Clear all queues
-    let fields = this.state.fields;
-    fields.up.queues = [[], [], [], []];
-    fields.down.queues = [[], [], [], []];
-    fields.left.queues = [[], [], [], []];
-    fields.right.queues = [[], [], [], []];
-    this.setState({ fields });
-
-    const stageSettings = { ...stages[stageNumber] },
-      setTimers = () => {
-        clearInterval(this.monsterTimer);
-        clearInterval(this.waveTimer);
-
-        this.monsterTimer = window.setInterval(
-          this.chooseQueue,
-          this.state.stageSettings.creationRate * 1000
-        );
-
-        this.waveTimer = window.setInterval(() => {
-          let stageSettings = this.state.stageSettings;
-          stageSettings.creationRate =
-            stageSettings.creationRate / stageSettings.rateMultiplier;
-          clearInterval(this.monsterTimer);
-
-          this.monsterTimer = window.setInterval(
-            this.chooseQueue,
-            this.state.stageSettings.creationRate * 1000
-          );
-        }, this.state.stageSettings.waveDuration * 1000);
-      };
-
-    // Apply stage color scheme
-    document.body.classList.remove(`stage${stageNumber - 1}`);
-    document.body.classList.add(`stage${stageNumber}`);
-
-    // Number of monsters in stage (e.g., 50)
-    this.setState({ stageSettings }, setTimers);
-    this.setState({
-      monstersRemaining: stageSettings.monsters,
-    });
-    this.showAlert(
-      <React.Fragment>
-        <h1>Stage {stageNumber}</h1>
-      </React.Fragment>
-    );
   };
 
   showAlert = (content, autodismiss = true, persistent = false) => {
@@ -753,35 +641,6 @@ class App extends React.Component {
     this.setState({ hero });
   };
 
-  // Walk accepts a direction, and calls move
-  walk = (direction) => {
-    this.playSound("walk", 0, 0.15);
-    // Each movement updates app state for hero x & y
-    const directionChanges = {
-        up: [0, -1],
-        right: [1, 0],
-        down: [0, 1],
-        left: [-1, 0],
-      },
-      baseSize = this.state.base.size;
-
-    // Update hero coordinates based on direction movement
-    let hero = { ...this.state.hero };
-
-    hero.orientation = direction;
-
-    // Each coordinate must be between 1 and 4 (inclusive)
-    hero.x += directionChanges[direction][0];
-    hero.x = Math.max(1, hero.x);
-    hero.x = Math.min(baseSize, hero.x);
-
-    hero.y += directionChanges[direction][1];
-    hero.y = Math.max(1, hero.y);
-    hero.y = Math.min(baseSize, hero.y);
-
-    this.setState({ hero });
-  };
-
   playSound = (soundKey, startPoint = 0, volume = 1) => {
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
     audio.currentTime = startPoint;
@@ -834,85 +693,57 @@ class App extends React.Component {
   };
 
   render() {
-    if (this.state.gameActive) {
-      return (
-        <div
-          className={`App stage${this.state.currentStage} ${
-            this.state.redAlert ? "red-alert" : ""
-          }`}
-        >
-          <Alert
-            content={this.state.alert.content}
-            shown={this.state.alert.shown}
-            autodismiss={this.state.alert.autodismiss}
-            dismissAlert={this.dismissAlert}
-          ></Alert>
-          <div className="board">
-            <header>
-              <Scoreboard score={this.state.score} />
-            </header>
-            <main>
-              <Field direction="up" queues={this.state.fields.up.queues} />
-              <Field direction="left" queues={this.state.fields.left.queues} />
-              <Field
-                direction="right"
-                queues={this.state.fields.right.queues}
-              />
-              <Field direction="down" queues={this.state.fields.down.queues} />
-              <Homebase
-                heroX={this.state.hero.x}
-                heroY={this.state.hero.y}
-                heroOrientation={this.state.hero.orientation}
-                heroColor={this.state.hero.color}
-              />
-              <audio data-sound="eliminate" src={eliminateSound}></audio>
-              <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-              <audio data-sound="strike" src={strikeSound}></audio>
-              <audio data-sound="walk" src={walkSound}></audio>
-              <audio data-sound="swap" src={swapSound}></audio>
-              <audio data-sound="gameOver" src={gameOverSound}></audio>
-              <audio data-sound="stageClear" src={stageClearSound}></audio>
-            </main>
-            <footer>
-              <Counter count={this.state.monstersRemaining} />
-            </footer>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="App main-menu">
-          <h1>Pozo</h1>
-          <Alert
-            content={this.state.alert.content}
-            shown={this.state.alert.shown}
-            autodismiss={this.state.alert.autodismiss}
-            dismissAlert={this.dismissAlert}
-          ></Alert>
-          <Alert
-            content={this.state.alerts.gameOver.content}
-            menu={{
-              name: "game-over",
-              options: this.state.menus.gameOver,
-            }}
-            shown={this.state.alerts.gameOver.shown}
-            dismissAlert={this.dismissAlert}
-          ></Alert>
-          <Alert
-            content={this.state.alerts.instructions.content}
-            menu={{
-              name: "instructions",
-              options: this.state.menus.instructions,
-            }}
-            shown={this.state.alerts.instructions.shown}
-            dismissAlert={this.dismissAlert}
-          ></Alert>
-          <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-          <audio data-sound="menuMove" src={menuMoveSound}></audio>
-          <Menu options={this.state.menus.main} name="main" />
-        </div>
-      );
-    }
+    return (
+      <div
+        className={`App stage${this.state.currentStage} ${
+          this.state.redAlert ? "red-alert" : ""
+        }`}
+      >
+        <Alert
+          name="main-menu"
+          content={<h1>Pozo</h1>}
+          menu={{
+            name: "main-menu",
+            options: this.state.menus.mainMenu,
+          }}
+          shown={this.state.alerts.mainMenu.shown}
+        ></Alert>
+        <Alert
+          content={this.state.alert.content}
+          shown={this.state.alert.shown}
+          autodismiss={this.state.alert.autodismiss}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+        <Alert
+          name="game-over"
+          content={this.state.alerts.gameOver.content}
+          menu={{
+            name: "game-over",
+            options: this.state.menus.gameOver,
+          }}
+          shown={this.state.alerts.gameOver.shown}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+        <Alert
+          content={this.state.alerts.instructions.content}
+          menu={{
+            name: "instructions",
+            options: this.state.menus.instructions,
+          }}
+          shown={this.state.alerts.instructions.shown}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+        <audio data-sound="menuSelect" src={menuSelectSound}></audio>
+        <audio data-sound="menuMove" src={menuMoveSound}></audio>
+        <Alert
+          content={this.state.alert.content}
+          shown={this.state.alert.shown}
+          autodismiss={this.state.alert.autodismiss}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+        <Board isGameActive={this.state.gameActive} />
+      </div>
+    );
   }
 }
 
