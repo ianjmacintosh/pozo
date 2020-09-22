@@ -59,7 +59,8 @@ class Alert extends React.Component {
       return (
         <div
           className={`alert
-          ${this.state.animatingOut ? "animating-out" : ""}`}
+          ${this.state.animatingOut ? "animating-out" : ""}
+          ${this.props.name}`}
         >
           <div className="alert-content">
             {content}
