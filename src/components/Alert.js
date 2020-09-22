@@ -12,7 +12,7 @@ class Alert extends React.Component {
     if (this.props.content !== prevProps.content) {
       if (this.props.autodismiss) {
         window.setTimeout(() => {
-          this.props.dismissAlert();
+          this.props.dismissAlert(this.props.name);
         }, 1500);
       }
     }

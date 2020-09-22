@@ -22,6 +22,10 @@ class App extends React.Component {
         content: <h1>Pozo</h1>,
         shown: true,
       },
+      stageAnnouncement: {
+        content: "Stage 1",
+        shown: false,
+      },
       instructions: {
         content: (
           <React.Fragment>
@@ -273,6 +277,13 @@ class App extends React.Component {
   monsterTimer = null;
   waveTimer = null;
 
+  updateAlert = (alertName, newAlertObject) => {
+    let alerts = this.state.alerts;
+    alerts[alertName] = { ...alerts[alertName], ...newAlertObject };
+
+    this.setState({ alerts });
+  };
+
   showAlert = (content, autodismiss = true, persistent = false) => {
     let alerts = this.state.alerts;
     let alert = this.state.alert;
@@ -316,6 +327,13 @@ class App extends React.Component {
           this.state.redAlert ? "red-alert" : ""
         }`}
       >
+        <Alert
+          content={this.state.alerts.stageAnnouncement.content}
+          shown={this.state.alerts.stageAnnouncement.shown}
+          name="stageAnnouncement"
+          autodismiss={true}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
         <Alert
           name="main-menu"
           content={<h1>Pozo</h1>}
@@ -362,6 +380,7 @@ class App extends React.Component {
           changeGameActive={this.changeGameActive}
           isGameActive={this.state.gameActive}
           showAlert={this.showAlert}
+          updateAlert={this.updateAlert}
         />
       </div>
     );
