@@ -91,6 +91,7 @@ class Board extends React.Component {
       waveDuration: 0,
       rateMultiplier: 0,
     },
+    paused: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -120,6 +121,48 @@ class Board extends React.Component {
 
   endStreak = () => {
     this.setState({ streak: 0 });
+  }; // Pause will record how much time is left on the interval
+  pause = () => {
+    let paused = this.state.paused;
+
+    if (paused) {
+      this.props.showAlert(
+        <React.Fragment>
+          <h1>Go!</h1>
+        </React.Fragment>
+      );
+
+      // Resume the timers
+      this.monsterTimer = window.setInterval(
+        this.chooseQueue,
+        this.state.stageSettings.creationRate * 1000
+      );
+
+      this.waveTimer = window.setInterval(() => {
+        let stageSettings = this.state.stageSettings;
+        stageSettings.creationRate =
+          stageSettings.creationRate / stageSettings.rateMultiplier;
+        clearInterval(this.monsterTimer);
+
+        this.monsterTimer = window.setInterval(
+          this.chooseQueue,
+          this.state.stageSettings.creationRate * 1000
+        );
+      }, this.state.stageSettings.waveDuration * 1000);
+    } else {
+      // Save the time remaining on monsterTimer
+      this.props.showAlert(
+        <React.Fragment>
+          <h1>Paused</h1>
+        </React.Fragment>
+      );
+      // Clear the timers
+      clearInterval(this.monsterTimer);
+      clearInterval(this.waveTimer);
+    }
+
+    paused = !paused;
+    this.setState({ paused });
   };
 
   endStage = (playerDidWin) => {

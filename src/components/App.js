@@ -58,7 +58,6 @@ class App extends React.Component {
     activeMenuName: "mainMenu",
     redAlert: false,
     gameActive: false,
-    paused: false,
     menus: {
       mainMenu: [
         {
@@ -223,8 +222,6 @@ class App extends React.Component {
   handleKeypress = ({ key }) => {
     // Each movement updates app state for hero x & y
     const keyMappings = {
-      Escape: "pause",
-
       w: "up",
       d: "right",
       s: "down",
@@ -250,16 +247,6 @@ class App extends React.Component {
       // If an alert is shown, hide it
       if (this.state.alert.shown && !this.state.alert.persistent) {
         this.dismissAlert();
-        return;
-      }
-      // If it's a pause button, run the pause command
-      if (command === "pause") {
-        this.pause();
-        return;
-      }
-
-      const isPaused = this.state.paused;
-      if (isPaused) {
         return;
       }
 
@@ -307,50 +294,6 @@ class App extends React.Component {
     audio.currentTime = startPoint;
     audio.volume = volume;
     audio.play();
-  };
-
-  // Pause will record how much time is left on the interval
-  pause = () => {
-    let paused = this.state.paused;
-
-    if (paused) {
-      this.showAlert(
-        <React.Fragment>
-          <h1>Go!</h1>
-        </React.Fragment>
-      );
-
-      // Resume the timers
-      this.monsterTimer = window.setInterval(
-        this.chooseQueue,
-        this.state.stageSettings.creationRate * 1000
-      );
-
-      this.waveTimer = window.setInterval(() => {
-        let stageSettings = this.state.stageSettings;
-        stageSettings.creationRate =
-          stageSettings.creationRate / stageSettings.rateMultiplier;
-        clearInterval(this.monsterTimer);
-
-        this.monsterTimer = window.setInterval(
-          this.chooseQueue,
-          this.state.stageSettings.creationRate * 1000
-        );
-      }, this.state.stageSettings.waveDuration * 1000);
-    } else {
-      // Save the time remaining on monsterTimer
-      this.showAlert(
-        <React.Fragment>
-          <h1>Paused</h1>
-        </React.Fragment>
-      );
-      // Clear the timers
-      clearInterval(this.monsterTimer);
-      clearInterval(this.waveTimer);
-    }
-
-    paused = !paused;
-    this.setState({ paused });
   };
 
   render() {
