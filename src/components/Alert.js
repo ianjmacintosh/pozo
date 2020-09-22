@@ -29,7 +29,7 @@ class Alert extends React.Component {
 
   state = {
     animatingOut: false,
-    shown: false,
+    shown: this.props.shown,
   };
 
   handleClose = () => {
