@@ -12,7 +12,7 @@ class Alert extends React.Component {
     if (this.props.content !== prevProps.content) {
       if (this.props.autodismiss) {
         window.setTimeout(() => {
-          this.props.dismissAlert();
+          this.props.dismissAlert(this.props.name);
         }, 1500);
       }
     }
@@ -59,7 +59,8 @@ class Alert extends React.Component {
       return (
         <div
           className={`alert
-          ${this.state.animatingOut ? "animating-out" : ""}`}
+          ${this.state.animatingOut ? "animating-out" : ""}
+          ${this.props.name}`}
         >
           <div className="alert-content">
             {content}

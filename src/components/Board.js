@@ -353,7 +353,6 @@ class Board extends React.Component {
   };
 
   start = (stageNumber = 0) => {
-    console.log("Helllerrrr??");
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
@@ -371,7 +370,6 @@ class Board extends React.Component {
 
     const stageSettings = { ...stages[stageNumber] },
       setTimers = () => {
-        console.log("Set the timers!");
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
 
@@ -398,16 +396,14 @@ class Board extends React.Component {
     document.body.classList.add(`stage${stageNumber}`);
 
     // Number of monsters in stage (e.g., 50)
-    console.log("About to set state and timers");
     this.setState({ stageSettings }, setTimers);
     this.setState({
       monstersRemaining: stageSettings.monsters,
     });
-    this.props.showAlert(
-      <React.Fragment>
-        <h1>Stage {stageNumber}</h1>
-      </React.Fragment>
-    );
+    this.props.updateAlert("stageAnnouncement", {
+      content: <h1>{`Stage ${this.state.currentStage}`}</h1>,
+    });
+    this.props.showAlert("stageAnnouncement");
   };
 
   strike = (field, queue, strikeColor) => {

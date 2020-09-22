@@ -16,6 +16,10 @@
   z-index: 2;
 }
 
+.alert.main-menu h1 {
+  font-size: 300px;
+}
+
 .alert .alert-content {
   align-self: center;
   width: 640px;
