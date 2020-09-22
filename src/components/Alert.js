@@ -1,8 +1,13 @@
 import React from "react";
 import "./Alert.css";
 import Menu from "./Menu";
+import PropTypes from "prop-types";
 
 class Alert extends React.Component {
+  static propTypes = {
+    shown: PropTypes.bool,
+  };
+
   componentDidUpdate(prevProps) {
     if (this.props.content !== prevProps.content) {
       if (this.props.autodismiss) {
