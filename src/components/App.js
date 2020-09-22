@@ -162,8 +162,6 @@ class App extends React.Component {
               alerts,
               gameActive: true,
             });
-
-            this.start();
           },
           selected: true,
         },
@@ -186,6 +184,10 @@ class App extends React.Component {
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeypress);
   }
+
+  changeGameActive = (newState) => {
+    this.setState({ gameActive: newState });
+  };
 
   changeMenuOption = (advance) => {
     const newMenusObject = this.state.menus;
@@ -346,6 +348,7 @@ class App extends React.Component {
           dismissAlert={this.dismissAlert}
         ></Alert>
         <Board
+          changeGameActive={this.changeGameActive}
           isGameActive={this.state.gameActive}
           showAlert={this.showAlert}
         />

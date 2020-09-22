@@ -51,7 +51,6 @@ const directionMap = {
 
 class Board extends React.Component {
   state = {
-    isGameActive: this.props.isGameActive,
     fields: {
       up: {
         // Up and down queues will end the game when their length > 5
@@ -95,8 +94,10 @@ class Board extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.isGameActive !== prevProps.isGameActive) {
-      console.log("Changing game activity state");
+    if (
+      this.props.isGameActive !== prevProps.isGameActive &&
+      this.props.isGameActive
+    ) {
       this.start();
     }
   }
@@ -188,16 +189,14 @@ class Board extends React.Component {
       }
     } else {
       // this.playSound("gameOver");
-      let alerts = this.state.alerts;
-      alerts.gameOver.shown = true;
+      this.props.changeGameActive(false);
+      this.props.showAlert("gameOver", false);
 
       // Clear stage styles
       document.body.classList.remove(`stage${this.state.currentStage}`);
       console.log("Removing red alert");
 
       this.setState({
-        alerts,
-        gameActive: false,
         activeMenuName: "gameOver",
       });
     }
