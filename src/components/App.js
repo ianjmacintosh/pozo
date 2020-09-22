@@ -2,7 +2,6 @@ import React from "react";
 
 import Alert from "./Alert";
 import Board from "./Board";
-import { getRandomInt } from "../helpers";
 import { gsap } from "gsap";
 
 import "./App.css";
@@ -17,13 +16,6 @@ import menuSelectSound from "../sounds/menuSelect.wav";
 //   2: "yellow",
 //   3: "black",
 // };
-
-const directionMap = {
-  0: "up",
-  1: "left",
-  2: "right",
-  3: "down",
-};
 const stages = [
   {
     monsters: 5,
@@ -334,29 +326,6 @@ class App extends React.Component {
   monsterTimer = null;
   waveTimer = null;
 
-  chooseQueue = () => {
-    let fieldNumber = getRandomInt(0, 3),
-      queueNumber = getRandomInt(0, 3),
-      colorNumber = getRandomInt(0, 3);
-
-    // If queue length is 2 monsters more than any other in field:
-    // Get length of this queue
-    let field = this.state.fields[directionMap[fieldNumber]];
-
-    let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
-      field.queues.some(
-        (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
-      );
-
-    // Get length of shortest queue
-    while (fieldWouldBeUnbalanced(field.queues, queueNumber)) {
-      queueNumber = getRandomInt(0, 3);
-    }
-    // If longest queue - shortest queue is > 2, choose a different queue
-    // queueNumber = getRandomInt(0, 3);
-    this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
-  };
-
   showAlert = (content, autodismiss = true, persistent = false) => {
     const alert = {
       content,
@@ -374,41 +343,6 @@ class App extends React.Component {
     }
     alert.shown = false;
     this.setState({ alert });
-  };
-
-  // Update state to add monster of randomColor to randomQueue of randomField
-  addMonster = (direction = "up", queueNumber = 0, colorNumber = 0) => {
-    // Update the state for the given queue to add a monster to it
-    // Make a copy of the field
-    let fields = this.state.fields;
-
-    // Add a monster to the front of it
-    fields[direction].queues[queueNumber].push({
-      type: "monster",
-      color: colorNumber,
-    });
-
-    // Update the state
-    this.setState({ fields });
-
-    // Determine if we're over the max queue length and if so, end the stage
-    if (
-      fields[direction].queues[queueNumber].length >
-      fields[direction].queueLengthLimit
-    ) {
-      this.endStage();
-    }
-
-    // If there's 1 square or fewer between the home base and the monster, go red alert
-    if (
-      fields[direction].queueLengthLimit -
-        fields[direction].queues[queueNumber].length <=
-      1
-    ) {
-      this.setState({ redAlert: true });
-    }
-
-    // Create new Monster component within the appropriate queue (this should be handled automatically)
   };
 
   reportElimination = (monstersEliminated) => {
