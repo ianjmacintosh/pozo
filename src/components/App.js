@@ -142,12 +142,12 @@ class App extends React.Component {
               {
                 title: "Play Again",
                 action: () => {
-                  console.log("Play again called from victory menu");
                   let alerts = this.state.alerts;
                   alerts.victory.shown = false;
 
                   this.setState({
                     alerts,
+                    activeMenuName: "board",
                     gameActive: true,
                   });
                 },
