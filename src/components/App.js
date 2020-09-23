@@ -66,79 +66,6 @@ class App extends React.Component {
     activeMenuName: "mainMenu",
     redAlert: false,
     gameActive: false,
-    menus: {
-      instructions: [
-        {
-          title: "Continue",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.instructions.shown = false;
-            this.setState({
-              alerts,
-              activeMenuName: "mainMenu",
-            });
-          },
-          selected: true,
-        },
-      ],
-      gameOver: [
-        {
-          title: "Try Again",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.gameOver.shown = false;
-
-            this.setState({
-              alerts,
-              gameActive: true,
-            });
-          },
-          selected: true,
-        },
-        {
-          title: "Main Menu",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.gameOver.shown = false;
-            alerts.mainMenu.shown = true;
-            this.setState({
-              alerts,
-              activeMenuName: "mainMenu",
-            });
-          },
-          selected: false,
-        },
-      ],
-      victory: [
-        {
-          title: "Play Again",
-          action: () => {
-            console.log("Play again called from victory menu");
-            let alerts = this.state.alerts;
-            alerts.victory.shown = false;
-
-            this.setState({
-              alerts,
-              gameActive: true,
-            });
-          },
-          selected: true,
-        },
-        {
-          title: "Main Menu",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.victory.shown = false;
-            alerts.mainMenu.shown = true;
-            this.setState({
-              alerts,
-              activeMenuName: "mainMenu",
-            });
-          },
-          selected: false,
-        },
-      ],
-    },
   };
 
   componentDidMount() {
@@ -211,8 +138,36 @@ class App extends React.Component {
           shown={this.state.alerts.victory.shown}
           menu={{
             name: "victory",
-            options: this.state.menus.victory,
-            hasFocus: false,
+            options: [
+              {
+                title: "Play Again",
+                action: () => {
+                  console.log("Play again called from victory menu");
+                  let alerts = this.state.alerts;
+                  alerts.victory.shown = false;
+
+                  this.setState({
+                    alerts,
+                    gameActive: true,
+                  });
+                },
+                selected: true,
+              },
+              {
+                title: "Main Menu",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.victory.shown = false;
+                  alerts.mainMenu.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: false,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "victory",
           }}
           name="victory"
           dismissAlert={this.dismissAlert}
@@ -297,7 +252,7 @@ class App extends React.Component {
                 },
               },
             ],
-            hasFocus: true,
+            hasFocus: this.state.activeMenuName === "mainMenu",
           }}
           shown={this.state.alerts.mainMenu.shown}
         ></Alert>
@@ -312,8 +267,35 @@ class App extends React.Component {
           content={this.state.alerts.gameOver.content}
           menu={{
             name: "game-over",
-            options: this.state.menus.gameOver,
-            hasFocus: false,
+            options: [
+              {
+                title: "Try Again",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.gameOver.shown = false;
+
+                  this.setState({
+                    alerts,
+                    gameActive: true,
+                  });
+                },
+                selected: true,
+              },
+              {
+                title: "Main Menu",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.gameOver.shown = false;
+                  alerts.mainMenu.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: false,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "gameOver",
           }}
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
@@ -322,8 +304,21 @@ class App extends React.Component {
           content={this.state.alerts.instructions.content}
           menu={{
             name: "instructions",
-            options: this.state.menus.instructions,
-            hasFocus: false,
+            options: [
+              {
+                title: "Continue",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.instructions.shown = false;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: true,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "instructions",
           }}
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}
