@@ -94,11 +94,13 @@ class Board extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.isGameActive !== prevProps.isGameActive &&
-      this.props.isGameActive
-    ) {
-      this.start();
+    if (this.props.isGameActive !== prevProps.isGameActive) {
+      if (this.props.isGameActive) {
+        this.start();
+      } else {
+        clearInterval(this.monsterTimer);
+        clearInterval(this.waveTimer);
+      }
     }
   }
 
@@ -169,36 +171,21 @@ class Board extends React.Component {
   endStage = (playerDidWin) => {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
+    this.setState({ redAlert: false });
+    this.props.changeGameActive(false);
 
     if (playerDidWin) {
-      // Congratulate user, show score, then call App.setStage with settings for next level
-      this.setState({ redAlert: false });
-
-      this.props.showAlert("Stage Complete");
       let currentStage = this.state.currentStage + 1;
-      this.setState({ currentStage });
       if (stages[currentStage]) {
         this.playSound("stageClear");
+        this.setState({ currentStage });
         this.start(currentStage);
       } else {
-        this.props.showAlert(
-          <React.Fragment>
-            <h1>Victory!</h1>
-          </React.Fragment>
-        );
+        this.props.showAlert("victory", false);
       }
     } else {
-      // this.playSound("gameOver");
-      this.props.changeGameActive(false);
+      this.playSound("gameOver");
       this.props.showAlert("gameOver", false);
-
-      // Clear stage styles
-      document.body.classList.remove(`stage${this.state.currentStage}`);
-      console.log("Removing red alert");
-
-      this.setState({
-        activeMenuName: "gameOver",
-      });
     }
   };
 

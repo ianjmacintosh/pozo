@@ -50,6 +50,10 @@ class App extends React.Component {
         ),
         shown: false,
       },
+      victory: {
+        content: <h1>Victory</h1>,
+        shown: false,
+      },
       gameOver: {
         content: (
           <React.Fragment>
@@ -183,6 +187,35 @@ class App extends React.Component {
           selected: false,
         },
       ],
+      victory: [
+        {
+          title: "Play Again",
+          action: () => {
+            console.log("Play again called from victory menu");
+            let alerts = this.state.alerts;
+            alerts.victory.shown = false;
+
+            this.setState({
+              alerts,
+              gameActive: true,
+            });
+          },
+          selected: true,
+        },
+        {
+          title: "Main Menu",
+          action: () => {
+            let alerts = this.state.alerts;
+            alerts.victory.shown = false;
+            alerts.mainMenu.shown = true;
+            this.setState({
+              alerts,
+              activeMenuName: "mainMenu",
+            });
+          },
+          selected: false,
+        },
+      ],
     },
   };
 
@@ -292,6 +325,9 @@ class App extends React.Component {
       if (content === "gameOver") {
         this.setState({ activeMenuName: "gameOver" });
       }
+      if (content === "victory") {
+        this.setState({ activeMenuName: "victory" });
+      }
       alerts[content].shown = true;
     } else {
       alert = {
@@ -332,6 +368,16 @@ class App extends React.Component {
           shown={this.state.alerts.stageAnnouncement.shown}
           name="stageAnnouncement"
           autodismiss={true}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+        <Alert
+          content={this.state.alerts.victory.content}
+          shown={this.state.alerts.victory.shown}
+          menu={{
+            name: "victory",
+            options: this.state.menus.victory,
+          }}
+          name="victory"
           dismissAlert={this.dismissAlert}
         ></Alert>
         <Alert
