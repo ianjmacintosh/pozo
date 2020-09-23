@@ -17,29 +17,29 @@ import menuSelectSound from "../sounds/menuSelect.wav";
 
 const stages = [
   {
-    monsters: 5,
+    monsters: 1,
     creationRate: 3,
     waveDuration: 10,
     rateMultiplier: 1.25,
   },
-  {
-    monsters: 10,
-    creationRate: 2,
-    waveDuration: 5,
-    rateMultiplier: 1.1,
-  },
-  {
-    monsters: 25,
-    creationRate: 2,
-    waveDuration: 10,
-    rateMultiplier: 1.75,
-  },
-  {
-    monsters: 50,
-    creationRate: 2,
-    waveDuration: 5,
-    rateMultiplier: 1.1,
-  },
+  //   {
+  //     monsters: 10,
+  //     creationRate: 2,
+  //     waveDuration: 5,
+  //     rateMultiplier: 1.1,
+  //   },
+  //   {
+  //     monsters: 25,
+  //     creationRate: 2,
+  //     waveDuration: 10,
+  //     rateMultiplier: 1.75,
+  //   },
+  //   {
+  //     monsters: 50,
+  //     creationRate: 2,
+  //     waveDuration: 5,
+  //     rateMultiplier: 1.1,
+  //   },
 ];
 
 const directionMap = {
