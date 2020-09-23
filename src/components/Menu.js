@@ -1,9 +1,84 @@
 import React from "react";
 
 import MenuOption from "./MenuOption";
+import { playSound } from "../helpers";
+
 import "./Menu.css";
 
 class Menu extends React.Component {
+  state = {
+    focusedMenuItem: 0,
+  };
+  componentDidMount() {
+    window.addEventListener("keydown", this.handleKeypress);
+  }
+
+  handleKeypress = ({ key }) => {
+    if (!this.props.hasFocus) {
+      return;
+    }
+    // Each movement updates app state for hero x & y
+    const keyMappings = {
+      w: "up",
+      d: "right",
+      s: "down",
+      a: "left",
+      " ": "strike",
+      z: "strike",
+
+      W: "up",
+      D: "right",
+      S: "down",
+      A: "left",
+      Z: "strike",
+
+      ArrowUp: "up",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+      Enter: "strike",
+    };
+
+    if (key in keyMappings) {
+      const command = keyMappings[key];
+      switch (command) {
+        default:
+          // If movement, update menu position
+          this.changeMenuOption(command === "down" || command === "right");
+          break;
+        case "strike":
+          this.chooseMenuOption();
+
+          break;
+      }
+    }
+  };
+
+  changeMenuOption = (advance) => {
+    playSound("menuMove", 0.05);
+
+    // Get index of selected menu option
+    let menuOption = this.state.focusedMenuItem;
+
+    // Mark previous or next menu option as selected
+    if (advance) {
+      menuOption++;
+    } else {
+      menuOption--;
+    }
+    if (menuOption > this.props.options.length - 1) {
+      menuOption = 0;
+    } else if (menuOption < 0) {
+      menuOption = this.props.options.length - 1;
+    }
+
+    this.setState({ focusedMenuItem: menuOption });
+  };
+
+  chooseMenuOption = () => {
+    this.props.options.find((option) => option.selected === true).action();
+  };
+
   render() {
     return (
       <div className="menu-wrapper">
@@ -13,7 +88,9 @@ class Menu extends React.Component {
               key={index}
               title={option.title}
               action={option.action}
-              selected={option.selected}
+              selected={
+                (option.selected = this.state.focusedMenuItem === index)
+              }
             ></MenuOption>
           ))}
         </ul>

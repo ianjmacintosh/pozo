@@ -67,84 +67,6 @@ class App extends React.Component {
     redAlert: false,
     gameActive: false,
     menus: {
-      mainMenu: [
-        {
-          title: "Start Game",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.mainMenu.shown = false;
-            console.log("You clicked on 'Start Game!'");
-            this.setState({ activeMenuName: "game", gameActive: true });
-          },
-          selected: true,
-        },
-        {
-          title: "Instructions",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.instructions.shown = true;
-            this.setState({
-              alerts,
-              activeMenuName: "instructions",
-            });
-          },
-          selected: false,
-        },
-        // {
-        //   title: "Options",
-        //   action: () => {
-        //     console.log("Options");
-        //   },
-        //   selected: false,
-        // },
-        {
-          title: "Credits",
-          action: () => {
-            this.showAlert(
-              <React.Fragment>
-                <h1 className="small-headline">Credits</h1>
-                <dl>
-                  <dt>Development</dt>
-                  <dd>Ian MacIntosh</dd>
-                  <dt>Sound Effects</dt>
-                  <dd>
-                    <a href="https://freesound.org/people/Breviceps/">
-                      Breviceps
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                  <dd>
-                    <a href="https://freesound.org/people/LittleRobotSoundFactory/">
-                      LittleRobotSoundFactory
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                  <dd>
-                    <a href="https://freesound.org/people/LukeSharples/">
-                      LukeSharples
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                  <dd>
-                    <a href="https://freesound.org/people/SgtPepperArc360/">
-                      SgtPepperArc360
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                </dl>
-
-                <p>
-                  This game is derivative of the mid-1990's arcade puzzle game{" "}
-                  <i>Zoop</i>, which was developed by Hookstone Media and
-                  published by Viacom New Media.
-                </p>
-              </React.Fragment>,
-              false
-            );
-          },
-          selected: false,
-        },
-      ],
       instructions: [
         {
           title: "Continue",
@@ -228,102 +150,6 @@ class App extends React.Component {
     this.setState({ gameActive: newState });
   };
 
-  changeMenuOption = (advance) => {
-    const newMenusObject = this.state.menus;
-    const activeMenu = newMenusObject[this.state.activeMenuName];
-    this.playSound("menuMove", 0.05);
-
-    // Get index of selected menu option
-    console.log(
-      `Calling choosing menu option for ${this.state.activeMenuName}`
-    );
-    let menuOption = activeMenu.findIndex((option) => option.selected === true);
-
-    // Mark previous or next menu option as selected
-    if (advance) {
-      menuOption++;
-    } else {
-      menuOption--;
-    }
-    if (menuOption > activeMenu.length - 1) {
-      menuOption = 0;
-    } else if (menuOption < 0) {
-      menuOption = activeMenu.length - 1;
-    }
-
-    // Update the menu object to show the new item is selected
-    activeMenu.map((option, index) => (option.selected = menuOption === index));
-
-    this.setState({ menus: newMenusObject });
-  };
-
-  chooseMenuOption = () => {
-    this.state.menus[this.state.activeMenuName]
-      .find((option) => option.selected === true)
-      .action();
-  };
-
-  handleKeypress = ({ key }) => {
-    console.log("Handling keypress " + key);
-    // Each movement updates app state for hero x & y
-    const keyMappings = {
-      w: "up",
-      d: "right",
-      s: "down",
-      a: "left",
-      " ": "strike",
-      z: "strike",
-
-      W: "up",
-      D: "right",
-      S: "down",
-      A: "left",
-      Z: "strike",
-
-      ArrowUp: "up",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-      Enter: "strike",
-    };
-
-    if (key in keyMappings) {
-      const command = keyMappings[key];
-      // If an alert is shown, hide it
-      if (this.state.alert.shown && !this.state.alert.persistent) {
-        this.dismissAlert();
-        return;
-      }
-
-      // Determine if user is controlling hero in game or navigating menu
-      // If navigating menu:
-      if (
-        this.state.gameActive === false &&
-        this.state.activeMenuName !== "game"
-      ) {
-        switch (command) {
-          default:
-            // If movement, update menu position
-            this.changeMenuOption(command === "down" || command === "right");
-            break;
-          case "strike":
-            // If strike, determine menu position and execute associated routine
-            if (this.state.menus[this.state.activeMenuName]) {
-              console.log(
-                `Choose menu chosen from App because active menu name is ${this.state.activeMenuName}`
-              );
-              this.chooseMenuOption();
-            } else {
-              console.log(
-                "Cannot choose a menu option for something that isn't a menu"
-              );
-            }
-            break;
-        }
-      }
-    }
-  };
-
   monsterTimer = null;
   waveTimer = null;
 
@@ -366,13 +192,6 @@ class App extends React.Component {
     this.setState({ alert });
   };
 
-  playSound = (soundKey, startPoint = 0, volume = 1) => {
-    const audio = document.querySelector(`[data-sound=${soundKey}]`);
-    audio.currentTime = startPoint;
-    audio.volume = volume;
-    audio.play();
-  };
-
   render() {
     return (
       <div
@@ -393,6 +212,7 @@ class App extends React.Component {
           menu={{
             name: "victory",
             options: this.state.menus.victory,
+            hasFocus: false,
           }}
           name="victory"
           dismissAlert={this.dismissAlert}
@@ -402,7 +222,82 @@ class App extends React.Component {
           content={<h1>Pozo</h1>}
           menu={{
             name: "main-menu",
-            options: this.state.menus.mainMenu,
+            options: [
+              {
+                title: "Start Game",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.mainMenu.shown = false;
+                  console.log("You clicked on 'Start Game!'");
+                  this.setState({ activeMenuName: "game", gameActive: true });
+                },
+              },
+              {
+                title: "Instructions",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.instructions.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "instructions",
+                  });
+                },
+              },
+              // {
+              //   title: "Options",
+              //   action: () => {
+              //     console.log("Options");
+              //   },
+              //   selected: false,
+              // },
+              {
+                title: "Credits",
+                action: () => {
+                  this.showAlert(
+                    <React.Fragment>
+                      <h1 className="small-headline">Credits</h1>
+                      <dl>
+                        <dt>Development</dt>
+                        <dd>Ian MacIntosh</dd>
+                        <dt>Sound Effects</dt>
+                        <dd>
+                          <a href="https://freesound.org/people/Breviceps/">
+                            Breviceps
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                        <dd>
+                          <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                            LittleRobotSoundFactory
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                        <dd>
+                          <a href="https://freesound.org/people/LukeSharples/">
+                            LukeSharples
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                        <dd>
+                          <a href="https://freesound.org/people/SgtPepperArc360/">
+                            SgtPepperArc360
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                      </dl>
+
+                      <p>
+                        This game is derivative of the mid-1990's arcade puzzle
+                        game <i>Zoop</i>, which was developed by Hookstone Media
+                        and published by Viacom New Media.
+                      </p>
+                    </React.Fragment>,
+                    false
+                  );
+                },
+              },
+            ],
+            hasFocus: true,
           }}
           shown={this.state.alerts.mainMenu.shown}
         ></Alert>
@@ -418,6 +313,7 @@ class App extends React.Component {
           menu={{
             name: "game-over",
             options: this.state.menus.gameOver,
+            hasFocus: false,
           }}
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
@@ -427,6 +323,7 @@ class App extends React.Component {
           menu={{
             name: "instructions",
             options: this.state.menus.instructions,
+            hasFocus: false,
           }}
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}

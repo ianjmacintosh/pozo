@@ -49,7 +49,11 @@ class Alert extends React.Component {
     }
     if (this.props.menu) {
       menu = (
-        <Menu options={this.props.menu.options} name={this.props.menuName} />
+        <Menu
+          options={this.props.menu.options}
+          name={this.props.menuName}
+          hasFocus={this.props.menu.hasFocus}
+        />
       );
     }
 
