@@ -73,8 +73,8 @@ class App extends React.Component {
           action: () => {
             let alerts = this.state.alerts;
             alerts.mainMenu.shown = false;
-
-            this.setState({ gameActive: true });
+            console.log("You clicked on 'Start Game!'");
+            this.setState({ activeMenuName: "game", gameActive: true });
           },
           selected: true,
         },
@@ -224,6 +224,7 @@ class App extends React.Component {
   }
 
   changeGameActive = (newState) => {
+    console.log(`Game active: ${newState}`);
     this.setState({ gameActive: newState });
   };
 
@@ -233,6 +234,9 @@ class App extends React.Component {
     this.playSound("menuMove", 0.05);
 
     // Get index of selected menu option
+    console.log(
+      `Calling choosing menu option for ${this.state.activeMenuName}`
+    );
     let menuOption = activeMenu.findIndex((option) => option.selected === true);
 
     // Mark previous or next menu option as selected
@@ -260,6 +264,7 @@ class App extends React.Component {
   };
 
   handleKeypress = ({ key }) => {
+    console.log("Handling keypress " + key);
     // Each movement updates app state for hero x & y
     const keyMappings = {
       w: "up",
@@ -292,7 +297,10 @@ class App extends React.Component {
 
       // Determine if user is controlling hero in game or navigating menu
       // If navigating menu:
-      if (!this.state.gameActive) {
+      if (
+        this.state.gameActive === false &&
+        this.state.activeMenuName !== "game"
+      ) {
         switch (command) {
           default:
             // If movement, update menu position
@@ -300,7 +308,16 @@ class App extends React.Component {
             break;
           case "strike":
             // If strike, determine menu position and execute associated routine
-            this.chooseMenuOption();
+            if (this.state.menus[this.state.activeMenuName]) {
+              console.log(
+                `Choose menu chosen from App because active menu name is ${this.state.activeMenuName}`
+              );
+              this.chooseMenuOption();
+            } else {
+              console.log(
+                "Cannot choose a menu option for something that isn't a menu"
+              );
+            }
             break;
         }
       }
