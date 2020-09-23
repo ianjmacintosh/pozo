@@ -50,6 +50,10 @@ class App extends React.Component {
         ),
         shown: false,
       },
+      victory: {
+        content: <h1>Victory</h1>,
+        shown: false,
+      },
       gameOver: {
         content: (
           <React.Fragment>
@@ -62,128 +66,6 @@ class App extends React.Component {
     activeMenuName: "mainMenu",
     redAlert: false,
     gameActive: false,
-    menus: {
-      mainMenu: [
-        {
-          title: "Start Game",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.mainMenu.shown = false;
-
-            this.setState({ gameActive: true });
-          },
-          selected: true,
-        },
-        {
-          title: "Instructions",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.instructions.shown = true;
-            this.setState({
-              alerts,
-              activeMenuName: "instructions",
-            });
-          },
-          selected: false,
-        },
-        // {
-        //   title: "Options",
-        //   action: () => {
-        //     console.log("Options");
-        //   },
-        //   selected: false,
-        // },
-        {
-          title: "Credits",
-          action: () => {
-            this.showAlert(
-              <React.Fragment>
-                <h1 className="small-headline">Credits</h1>
-                <dl>
-                  <dt>Development</dt>
-                  <dd>Ian MacIntosh</dd>
-                  <dt>Sound Effects</dt>
-                  <dd>
-                    <a href="https://freesound.org/people/Breviceps/">
-                      Breviceps
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                  <dd>
-                    <a href="https://freesound.org/people/LittleRobotSoundFactory/">
-                      LittleRobotSoundFactory
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                  <dd>
-                    <a href="https://freesound.org/people/LukeSharples/">
-                      LukeSharples
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                  <dd>
-                    <a href="https://freesound.org/people/SgtPepperArc360/">
-                      SgtPepperArc360
-                    </a>{" "}
-                    (soundeffects.org)
-                  </dd>
-                </dl>
-
-                <p>
-                  This game is derivative of the mid-1990's arcade puzzle game{" "}
-                  <i>Zoop</i>, which was developed by Hookstone Media and
-                  published by Viacom New Media.
-                </p>
-              </React.Fragment>,
-              false
-            );
-          },
-          selected: false,
-        },
-      ],
-      instructions: [
-        {
-          title: "Continue",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.instructions.shown = false;
-            this.setState({
-              alerts,
-              activeMenuName: "mainMenu",
-            });
-          },
-          selected: true,
-        },
-      ],
-      gameOver: [
-        {
-          title: "Try Again",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.gameOver.shown = false;
-
-            this.setState({
-              alerts,
-              gameActive: true,
-            });
-          },
-          selected: true,
-        },
-        {
-          title: "Main Menu",
-          action: () => {
-            let alerts = this.state.alerts;
-            alerts.gameOver.shown = false;
-            alerts.mainMenu.shown = true;
-            this.setState({
-              alerts,
-              activeMenuName: "mainMenu",
-            });
-          },
-          selected: false,
-        },
-      ],
-    },
   };
 
   componentDidMount() {
@@ -191,87 +73,8 @@ class App extends React.Component {
   }
 
   changeGameActive = (newState) => {
+    console.log(`Game active: ${newState}`);
     this.setState({ gameActive: newState });
-  };
-
-  changeMenuOption = (advance) => {
-    const newMenusObject = this.state.menus;
-    const activeMenu = newMenusObject[this.state.activeMenuName];
-    this.playSound("menuMove", 0.05);
-
-    // Get index of selected menu option
-    let menuOption = activeMenu.findIndex((option) => option.selected === true);
-
-    // Mark previous or next menu option as selected
-    if (advance) {
-      menuOption++;
-    } else {
-      menuOption--;
-    }
-    if (menuOption > activeMenu.length - 1) {
-      menuOption = 0;
-    } else if (menuOption < 0) {
-      menuOption = activeMenu.length - 1;
-    }
-
-    // Update the menu object to show the new item is selected
-    activeMenu.map((option, index) => (option.selected = menuOption === index));
-
-    this.setState({ menus: newMenusObject });
-  };
-
-  chooseMenuOption = () => {
-    this.state.menus[this.state.activeMenuName]
-      .find((option) => option.selected === true)
-      .action();
-  };
-
-  handleKeypress = ({ key }) => {
-    // Each movement updates app state for hero x & y
-    const keyMappings = {
-      w: "up",
-      d: "right",
-      s: "down",
-      a: "left",
-      " ": "strike",
-      z: "strike",
-
-      W: "up",
-      D: "right",
-      S: "down",
-      A: "left",
-      Z: "strike",
-
-      ArrowUp: "up",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-      Enter: "strike",
-    };
-
-    if (key in keyMappings) {
-      const command = keyMappings[key];
-      // If an alert is shown, hide it
-      if (this.state.alert.shown && !this.state.alert.persistent) {
-        this.dismissAlert();
-        return;
-      }
-
-      // Determine if user is controlling hero in game or navigating menu
-      // If navigating menu:
-      if (!this.state.gameActive) {
-        switch (command) {
-          default:
-            // If movement, update menu position
-            this.changeMenuOption(command === "down" || command === "right");
-            break;
-          case "strike":
-            // If strike, determine menu position and execute associated routine
-            this.chooseMenuOption();
-            break;
-        }
-      }
-    }
   };
 
   monsterTimer = null;
@@ -291,6 +94,9 @@ class App extends React.Component {
     if (this.state.alerts[content]) {
       if (content === "gameOver") {
         this.setState({ activeMenuName: "gameOver" });
+      }
+      if (content === "victory") {
+        this.setState({ activeMenuName: "victory" });
       }
       alerts[content].shown = true;
     } else {
@@ -313,13 +119,6 @@ class App extends React.Component {
     this.setState({ alert });
   };
 
-  playSound = (soundKey, startPoint = 0, volume = 1) => {
-    const audio = document.querySelector(`[data-sound=${soundKey}]`);
-    audio.currentTime = startPoint;
-    audio.volume = volume;
-    audio.play();
-  };
-
   render() {
     return (
       <div
@@ -335,11 +134,125 @@ class App extends React.Component {
           dismissAlert={this.dismissAlert}
         ></Alert>
         <Alert
+          content={this.state.alerts.victory.content}
+          shown={this.state.alerts.victory.shown}
+          menu={{
+            name: "victory",
+            options: [
+              {
+                title: "Play Again",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.victory.shown = false;
+
+                  this.setState({
+                    alerts,
+                    activeMenuName: "board",
+                    gameActive: true,
+                  });
+                },
+                selected: true,
+              },
+              {
+                title: "Main Menu",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.victory.shown = false;
+                  alerts.mainMenu.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: false,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "victory",
+          }}
+          name="victory"
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+        <Alert
           name="main-menu"
           content={<h1>Pozo</h1>}
           menu={{
             name: "main-menu",
-            options: this.state.menus.mainMenu,
+            options: [
+              {
+                title: "Start Game",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.mainMenu.shown = false;
+                  console.log("You clicked on 'Start Game!'");
+                  this.setState({ activeMenuName: "game", gameActive: true });
+                },
+              },
+              {
+                title: "Instructions",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.instructions.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "instructions",
+                  });
+                },
+              },
+              // {
+              //   title: "Options",
+              //   action: () => {
+              //     console.log("Options");
+              //   },
+              //   selected: false,
+              // },
+              {
+                title: "Credits",
+                action: () => {
+                  this.showAlert(
+                    <React.Fragment>
+                      <h1 className="small-headline">Credits</h1>
+                      <dl>
+                        <dt>Development</dt>
+                        <dd>Ian MacIntosh</dd>
+                        <dt>Sound Effects</dt>
+                        <dd>
+                          <a href="https://freesound.org/people/Breviceps/">
+                            Breviceps
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                        <dd>
+                          <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                            LittleRobotSoundFactory
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                        <dd>
+                          <a href="https://freesound.org/people/LukeSharples/">
+                            LukeSharples
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                        <dd>
+                          <a href="https://freesound.org/people/SgtPepperArc360/">
+                            SgtPepperArc360
+                          </a>{" "}
+                          (soundeffects.org)
+                        </dd>
+                      </dl>
+
+                      <p>
+                        This game is derivative of the mid-1990's arcade puzzle
+                        game <i>Zoop</i>, which was developed by Hookstone Media
+                        and published by Viacom New Media.
+                      </p>
+                    </React.Fragment>,
+                    false
+                  );
+                },
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "mainMenu",
           }}
           shown={this.state.alerts.mainMenu.shown}
         ></Alert>
@@ -354,7 +267,35 @@ class App extends React.Component {
           content={this.state.alerts.gameOver.content}
           menu={{
             name: "game-over",
-            options: this.state.menus.gameOver,
+            options: [
+              {
+                title: "Try Again",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.gameOver.shown = false;
+
+                  this.setState({
+                    alerts,
+                    gameActive: true,
+                  });
+                },
+                selected: true,
+              },
+              {
+                title: "Main Menu",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.gameOver.shown = false;
+                  alerts.mainMenu.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: false,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "gameOver",
           }}
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
@@ -363,7 +304,21 @@ class App extends React.Component {
           content={this.state.alerts.instructions.content}
           menu={{
             name: "instructions",
-            options: this.state.menus.instructions,
+            options: [
+              {
+                title: "Continue",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.instructions.shown = false;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: true,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "instructions",
           }}
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}
