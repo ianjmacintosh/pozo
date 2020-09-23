@@ -340,7 +340,6 @@ class Board extends React.Component {
   };
 
   start = (stageNumber = 0) => {
-    console.log("Starting!");
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
