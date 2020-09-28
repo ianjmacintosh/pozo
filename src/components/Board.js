@@ -1,4 +1,5 @@
 import React from "react";
+import "./Board.css";
 import "./Alert.css";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";

@@ -19,14 +19,6 @@ body {
   display: grid;
 }
 
-.board {
-  margin: auto;
-
-  --short-field-size: 5;
-  --long-field-size: 8;
-  --square-size: 40px;
-}
-
 h1 {
   font-family: "Bebas Neue", sans-serif;
   text-align: center;
