@@ -4,6 +4,7 @@ import "./Alert.css";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
 import Homebase from "./Homebase";
+import ControlPanel from "./ControlPanel";
 import Counter from "./Counter";
 import { getRandomInt } from "../helpers";
 import { gsap } from "gsap";
@@ -619,6 +620,7 @@ class Board extends React.Component {
           <audio data-sound="stageClear" src={stageClearSound}></audio>
         </main>
         <footer>
+          <ControlPanel />
           <Counter count={this.state.monstersRemaining} />
         </footer>
       </div>
