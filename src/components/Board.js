@@ -168,6 +168,15 @@ class Board extends React.Component {
     this.setState({ paused });
   };
 
+  squareSize = () => {
+    return parseInt(
+      getComputedStyle(document.querySelector(".board")).getPropertyValue(
+        "--square-size"
+      ),
+      10
+    );
+  };
+
   endStage = (playerDidWin) => {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
@@ -405,7 +414,7 @@ class Board extends React.Component {
     // Find out direction to strike (up, left, down, right)
     let x = 0,
       y = 0,
-      squareSize = 40,
+      squareSize = this.squareSize(),
       sizeOfQueue = this.state.fields[field].queueLengthLimit * squareSize,
       heroToEdge = 0,
       distanceToTravel = 0;
