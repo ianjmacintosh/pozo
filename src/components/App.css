@@ -17,6 +17,8 @@ body {
 
 .App {
   display: grid;
+
+  --square-size: 40px;
 }
 
 .board {
