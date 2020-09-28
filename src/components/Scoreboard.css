@@ -1,9 +1,10 @@
 @import "../css/colors.css";
+@import "../css/typography.css";
 
 /** Scoreboard styles */
 .scoreboard {
-  font-size: 48px;
+  font-size: var(--h3-size);
   font-family: "Bebas Neue", cursive;
   color: var(--white);
-  text-shadow: 3px 3px 0 var(--shadow);
+  text-shadow: var(--h3-shadow);
 }
