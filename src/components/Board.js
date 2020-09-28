@@ -1,4 +1,5 @@
 import React from "react";
+import "./Board.css";
 import "./Alert.css";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
@@ -166,6 +167,15 @@ class Board extends React.Component {
 
     paused = !paused;
     this.setState({ paused });
+  };
+
+  squareSize = () => {
+    return parseInt(
+      getComputedStyle(document.querySelector(".board")).getPropertyValue(
+        "--square-size"
+      ),
+      10
+    );
   };
 
   endStage = (playerDidWin) => {
@@ -405,7 +415,7 @@ class Board extends React.Component {
     // Find out direction to strike (up, left, down, right)
     let x = 0,
       y = 0,
-      squareSize = 40,
+      squareSize = this.squareSize(),
       sizeOfQueue = this.state.fields[field].queueLengthLimit * squareSize,
       heroToEdge = 0,
       distanceToTravel = 0;

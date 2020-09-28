@@ -3,40 +3,12 @@
   background: #f0e2e7;
   grid-column: 2;
   grid-row: 2;
-}
-
-.home-base {
+  width: calc(var(--square-size) * 4);
+  height: calc(var(--square-size) * 4);
   display: grid;
-  grid-template-columns: repeat(4, 40px);
-  grid-template-rows: repeat(4, 40px);
-  gap: 1px;
-}
+  grid-template-columns: repeat(4, var(--square-size));
+  grid-template-rows: repeat(4, var(--square-size));
 
-.home-base__square {
-  background-color: #f7f7ff;
-}
-
-.player {
-  width: 40px;
-  height: 40px;
-}
-
-.player svg path {
-  fill: #f00;
-}
-
-.player--up {
-  transform: rotate(0deg);
-}
-
-.player--right {
-  transform: rotate(90deg);
-}
-
-.player--down {
-  transform: rotate(180deg);
-}
-
-.player--left {
-  transform: rotate(270deg);
+  --hero-x: 1;
+  --hero-y: 1;
 }

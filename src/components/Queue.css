@@ -10,26 +10,27 @@
 }
 
 .queue li {
-  height: 40px;
-  width: 40px;
+  height: var(--square-size);
+  width: var(--square-size);
+  transform: scale(0.6);
 }
 
 .up-field .queue {
   flex-direction: column-reverse;
-  width: 40px;
+  width: var(--square-size);
 }
 
 .left-field .queue {
   flex-direction: row-reverse;
-  height: 40px;
+  height: var(--square-size);
 }
 
 .right-field .queue {
   flex-direction: row;
-  height: 40px;
+  height: var(--square-size);
 }
 
 .down-field .queue {
   flex-direction: column;
-  width: 40px;
+  width: var(--square-size);
 }

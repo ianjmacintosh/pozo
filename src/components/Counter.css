@@ -1,4 +1,5 @@
 @import "../css/colors.css";
+@import "../css/typography.css";
 
 /** Counter styles */
 footer {
@@ -8,8 +9,8 @@ footer {
   justify-items: end;
 }
 .counter {
-  font-size: 36px;
+  font-size: var(--h3-size);
   font-family: "Bebas Neue", sans-serif;
   color: var(--white);
-  text-shadow: 3px 3px 0 var(--shadow);
+  text-shadow: var(--h3-shadow);
 }
