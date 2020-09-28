@@ -36,23 +36,3 @@ code {
   height: 30px;
   margin: 4px;
 }
-
-.hero svg path {
-  fill: #f00;
-}
-
-.hero--up svg {
-  transform: rotate(0deg);
-}
-
-.hero--right svg {
-  transform: rotate(90deg);
-}
-
-.hero--down svg {
-  transform: rotate(180deg);
-}
-
-.hero--left svg {
-  transform: rotate(270deg);
-}
