@@ -12,6 +12,7 @@
 .queue li {
   height: var(--square-size);
   width: var(--square-size);
+  transform: scale(0.6);
 }
 
 .up-field .queue {
