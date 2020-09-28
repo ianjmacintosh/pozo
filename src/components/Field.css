@@ -2,21 +2,21 @@
 .field {
   background: #f8f2f4;
   display: grid;
-  width: 160px;
-  height: 160px;
+  width: calc(4 * var(--square-size));
+  height: calc(4 * var(--square-size));
   grid-gap: 0;
 }
 
 .up-field,
 .down-field {
-  grid-template-columns: repeat(4, 40px);
-  height: 200px;
+  grid-template-columns: repeat(4, var(--square-size));
+  height: calc(var(--short-field-size) * var(--square-size));
 }
 
 .left-field,
 .right-field {
-  grid-template-rows: repeat(4, 40px);
-  width: 320px;
+  grid-template-rows: repeat(4, var(--square-size));
+  width: calc(var(--long-field-size) * var(--square-size));
 }
 
 .up-field {
