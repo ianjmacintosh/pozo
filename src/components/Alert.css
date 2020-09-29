@@ -1,4 +1,5 @@
 @import "../css/animations.css";
+@import "../css/typography.css";
 @import "../css/colors.css";
 
 /** Alert */
@@ -14,12 +15,17 @@
   font-size: 48px;
   font-family: "Bebas Neue", sans-serif;
   z-index: 2;
-  opacity: 0;
+}
+
+.alert.main-menu h1 {
+  font-size: var(--h1-size);
 }
 
 .alert .alert-content {
   align-self: center;
-  width: 640px;
+  max-width: 640px;
+  width: auto;
+  padding: 10px;
 }
 
 .alert .center {

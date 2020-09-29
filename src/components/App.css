@@ -19,10 +19,6 @@ body {
   display: grid;
 }
 
-.board {
-  margin: auto;
-}
-
 h1 {
   font-family: "Bebas Neue", sans-serif;
   text-align: center;

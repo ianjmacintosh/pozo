@@ -8,8 +8,32 @@
   transform-origin: center;
 }
 
-.hero.grow-in svg {
-  animation: grow-in cubic-bezier(0.175, 0.885, 0.32, 1.275) 400ms;
+.hero {
+  width: var(--square-size);
+  height: var(--square-size);
+  grid-column: var(--hero-x);
+  grid-row: var(--hero-y);
+}
+
+.hero svg {
+  width: var(--square-size);
+  height: var(--square-size);
+}
+
+.hero--up svg {
+  transform: rotate(0deg);
+}
+
+.hero--right svg {
+  transform: rotate(90deg);
+}
+
+.hero--down svg {
+  transform: rotate(180deg);
+}
+
+.hero--left svg {
+  transform: rotate(270deg);
 }
 
 .hero--0 svg path {

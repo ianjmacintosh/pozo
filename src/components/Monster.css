@@ -1,20 +1,15 @@
 @import "../css/colors.css";
 
 /** Monster styles */
-.monster {
-  transform: scale(0.55);
-}
-
 .monster path,
 .monster rect {
   stroke: black;
   stroke-width: 1px;
 }
 
-.monster span {
-  display: block;
-  height: 40px;
-  width: 40px;
+.monster svg {
+  height: 100%;
+  width: 100%;
 }
 
 .monster .shape {

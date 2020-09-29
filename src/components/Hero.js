@@ -11,11 +11,14 @@ class Hero extends React.Component {
           "--hero-y": this.props.y,
         }}
       >
-        <svg>
+        <svg viewBox="0 0 40 40">
           <path
-            xmlns="http://www.w3.org/2000/svg"
-            d="m0,30l14,-30l14,30l-28,0z"
-          ></path>
+            id="svg_4"
+            d="m3,40
+            l17,-40
+            l17,40z"
+            stroke="null"
+          />
         </svg>
       </div>
     );
