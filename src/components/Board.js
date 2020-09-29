@@ -183,7 +183,6 @@ class Board extends React.Component {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
     this.setState({ redAlert: false });
-    this.props.changeGameActive(false);
 
     if (playerDidWin) {
       let currentStage = this.state.currentStage + 1;
@@ -192,9 +191,11 @@ class Board extends React.Component {
         this.setState({ currentStage });
         this.start(currentStage);
       } else {
+        this.props.changeGameActive(false);
         this.props.showAlert("victory", false);
       }
     } else {
+      this.props.changeGameActive(false);
       this.props.playSound("gameOver");
       this.props.showAlert("gameOver", false);
     }
