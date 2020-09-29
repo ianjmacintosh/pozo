@@ -1,4 +1,12 @@
+@import "../css/animations.css";
+
 /** Hero styles */
+.hero path {
+  stroke: var(--shadow);
+  stroke-width: 5px;
+  transform: scale(0.7);
+  transform-origin: center;
+}
 
 .hero {
   width: var(--square-size);
