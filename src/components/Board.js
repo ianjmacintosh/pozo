@@ -119,7 +119,7 @@ class Board extends React.Component {
   };
 
   reportElimination = (monstersEliminated) => {
-    this.playSound("eliminate");
+    this.props.playSound("eliminate");
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
   };
@@ -188,14 +188,14 @@ class Board extends React.Component {
     if (playerDidWin) {
       let currentStage = this.state.currentStage + 1;
       if (stages[currentStage]) {
-        this.playSound("stageClear");
+        this.props.playSound("stageClear");
         this.setState({ currentStage });
         this.start(currentStage);
       } else {
         this.props.showAlert("victory", false);
       }
     } else {
-      this.playSound("gameOver");
+      this.props.playSound("gameOver");
       this.props.showAlert("gameOver", false);
     }
   };
@@ -343,21 +343,11 @@ class Board extends React.Component {
     this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
   };
 
-  playSound = (soundKey, startPoint = 0, volume = 1) => {
-    if (this.props.muted) {
-      return;
-    }
-    const audio = document.querySelector(`[data-sound=${soundKey}]`);
-    audio.currentTime = startPoint;
-    audio.volume = volume;
-    audio.play();
-  };
-
   start = (stageNumber = 0) => {
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 0) {
-        this.playSound("menuSelect", 0, 0.2);
+        this.props.playSound("menuSelect", 0, 0.2);
       }
     });
 
@@ -414,7 +404,7 @@ class Board extends React.Component {
     }
 
     // Play sound
-    this.playSound("strike", 0, 0.5);
+    this.props.playSound("strike", 0, 0.5);
 
     // Find out direction to strike (up, left, down, right)
     let x = 0,
@@ -530,7 +520,7 @@ class Board extends React.Component {
     }
     // If there's a monster in the queue struck
     else if (monsterQueue.length > 0) {
-      this.playSound("swap");
+      this.props.playSound("swap");
       // Report streak end via App.endStreak()
       if (this.state.streak > 0) {
         this.endStreak();
@@ -570,7 +560,7 @@ class Board extends React.Component {
 
   // Walk accepts a direction, and calls move
   walk = (direction) => {
-    this.playSound("walk", 0, 0.15);
+    this.props.playSound("walk", 0, 0.15);
     // Each movement updates app state for hero x & y
     const directionChanges = {
         up: [0, -1],

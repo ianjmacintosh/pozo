@@ -1,9 +1,10 @@
 import React from "react";
 
 import MenuOption from "./MenuOption";
-import { playSound } from "../helpers";
 
 import "./Menu.css";
+import menuMoveSound from "../sounds/menuMove.wav";
+import menuSelectSound from "../sounds/menuSelect.wav";
 
 class Menu extends React.Component {
   state = {
@@ -55,7 +56,7 @@ class Menu extends React.Component {
   };
 
   changeMenuOption = (advance) => {
-    playSound("menuMove", 0.05);
+    this.props.playSound("menuMove", 0.05);
 
     // Get index of selected menu option
     let menuOption = this.state.focusedMenuItem;
@@ -94,6 +95,8 @@ class Menu extends React.Component {
             ></MenuOption>
           ))}
         </ul>
+        <audio data-sound="menuSelect" src={menuSelectSound}></audio>
+        <audio data-sound="menuMove" src={menuMoveSound}></audio>
       </div>
     );
   }
