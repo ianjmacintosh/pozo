@@ -6,7 +6,10 @@ import "./Homebase.css";
 class Homebase extends React.Component {
   render() {
     return (
-      <div className="homebase">
+      <div
+        className="homebase"
+        onClick={() => this.props.handleKeypress({ key: "Enter" })}
+      >
         <Hero
           orientation={this.props.heroOrientation}
           x={this.props.heroX}

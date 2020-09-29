@@ -595,15 +595,40 @@ class Board extends React.Component {
           <Scoreboard score={this.state.score} />
         </header>
         <main>
-          <Field direction="up" queues={this.state.fields.up.queues} />
-          <Field direction="left" queues={this.state.fields.left.queues} />
-          <Field direction="right" queues={this.state.fields.right.queues} />
-          <Field direction="down" queues={this.state.fields.down.queues} />
+          <Field
+            direction="up"
+            queues={this.state.fields.up.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowUp" });
+            }}
+          />
+          <Field
+            direction="left"
+            queues={this.state.fields.left.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowLeft" });
+            }}
+          />
+          <Field
+            direction="right"
+            queues={this.state.fields.right.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowRight" });
+            }}
+          />
+          <Field
+            direction="down"
+            queues={this.state.fields.down.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowDown" });
+            }}
+          />
           <Homebase
             heroX={this.state.hero.x}
             heroY={this.state.hero.y}
             heroOrientation={this.state.hero.orientation}
             heroColor={this.state.hero.color}
+            handleKeypress={this.handleKeypress}
           />
           <audio data-sound="eliminate" src={eliminateSound}></audio>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
