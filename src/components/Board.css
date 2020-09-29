@@ -18,7 +18,7 @@ footer {
 
 @media (min-width: 320px) {
   .board {
-    --square-size: 20px;
+    --square-size: 18px;
   }
 }
 
