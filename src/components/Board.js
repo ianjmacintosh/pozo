@@ -1,6 +1,7 @@
 import React from "react";
 import "./Board.css";
 import "./Alert.css";
+import Hammer from "react-hammerjs";
 import Scoreboard from "./Scoreboard";
 import Field from "./Field";
 import Homebase from "./Homebase";
@@ -224,6 +225,19 @@ class Board extends React.Component {
         this.endStage(true);
       }
     });
+  };
+
+  handleTouchEvent = (event) => {
+    if (event.type === "tap") {
+      this.handleKeypress({ key: "Enter" });
+    }
+    const directions = {
+      2: "ArrowLeft",
+      4: "ArrowRight",
+      8: "ArrowUp",
+      16: "ArrowDown",
+    };
+    this.handleKeypress({ key: directions[event.direction] });
   };
 
   handleKeypress = ({ key }) => {
@@ -594,25 +608,33 @@ class Board extends React.Component {
         <header>
           <Scoreboard score={this.state.score} />
         </header>
-        <main>
-          <Field direction="up" queues={this.state.fields.up.queues} />
-          <Field direction="left" queues={this.state.fields.left.queues} />
-          <Field direction="right" queues={this.state.fields.right.queues} />
-          <Field direction="down" queues={this.state.fields.down.queues} />
-          <Homebase
-            heroX={this.state.hero.x}
-            heroY={this.state.hero.y}
-            heroOrientation={this.state.hero.orientation}
-            heroColor={this.state.hero.color}
-          />
-          <audio data-sound="eliminate" src={eliminateSound}></audio>
-          <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-          <audio data-sound="strike" src={strikeSound}></audio>
-          <audio data-sound="walk" src={walkSound}></audio>
-          <audio data-sound="swap" src={swapSound}></audio>
-          <audio data-sound="gameOver" src={gameOverSound}></audio>
-          <audio data-sound="stageClear" src={stageClearSound}></audio>
-        </main>
+
+        <Hammer
+          onTap={this.handleTouchEvent}
+          onSwipe={this.handleTouchEvent}
+          direction="DIRECTION_ALL"
+        >
+          <main>
+            <Field direction="up" queues={this.state.fields.up.queues} />
+            <Field direction="left" queues={this.state.fields.left.queues} />
+            <Field direction="right" queues={this.state.fields.right.queues} />
+            <Field direction="down" queues={this.state.fields.down.queues} />
+            <Homebase
+              heroX={this.state.hero.x}
+              heroY={this.state.hero.y}
+              heroOrientation={this.state.hero.orientation}
+              heroColor={this.state.hero.color}
+              handleKeypress={this.handleKeypress}
+            />
+            <audio data-sound="eliminate" src={eliminateSound}></audio>
+            <audio data-sound="menuSelect" src={menuSelectSound}></audio>
+            <audio data-sound="strike" src={strikeSound}></audio>
+            <audio data-sound="walk" src={walkSound}></audio>
+            <audio data-sound="swap" src={swapSound}></audio>
+            <audio data-sound="gameOver" src={gameOverSound}></audio>
+            <audio data-sound="stageClear" src={stageClearSound}></audio>
+          </main>
+        </Hammer>
         <footer>
           <ControlPanel
             muted={this.props.muted}
