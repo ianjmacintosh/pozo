@@ -344,6 +344,9 @@ class Board extends React.Component {
   };
 
   playSound = (soundKey, startPoint = 0, volume = 1) => {
+    if (this.props.muted) {
+      return;
+    }
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
     audio.currentTime = startPoint;
     audio.volume = volume;
@@ -620,7 +623,10 @@ class Board extends React.Component {
           <audio data-sound="stageClear" src={stageClearSound}></audio>
         </main>
         <footer>
-          <ControlPanel />
+          <ControlPanel
+            muted={this.props.muted}
+            toggleMute={this.props.toggleMute}
+          />
           <Counter count={this.state.monstersRemaining} />
         </footer>
       </div>

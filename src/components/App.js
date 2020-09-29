@@ -11,6 +11,7 @@ import menuSelectSound from "../sounds/menuSelect.wav";
 
 class App extends React.Component {
   state = {
+    muted: true,
     alert: {
       content: "",
       shown: false,
@@ -85,6 +86,16 @@ class App extends React.Component {
     alerts[alertName] = { ...alerts[alertName], ...newAlertObject };
 
     this.setState({ alerts });
+  };
+
+  toggleMute = () => {
+    console.log(
+      `Turning mute from ${this.state.muted} to ${!this.state.muted}`
+    );
+    let muted = !this.state.muted;
+    this.setState({
+      muted,
+    });
   };
 
   showAlert = (content, autodismiss = true, persistent = false) => {
@@ -336,6 +347,8 @@ class App extends React.Component {
           isGameActive={this.state.gameActive}
           showAlert={this.showAlert}
           updateAlert={this.updateAlert}
+          muted={this.state.muted}
+          toggleMute={this.toggleMute}
         />
       </div>
     );
