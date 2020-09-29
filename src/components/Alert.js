@@ -53,6 +53,7 @@ class Alert extends React.Component {
           options={this.props.menu.options}
           name={this.props.menuName}
           hasFocus={this.props.menu.hasFocus}
+          playSound={this.props.playSound}
         />
       );
     }

@@ -2,12 +2,6 @@
 @import "../css/typography.css";
 
 /** Counter styles */
-footer {
-  display: grid;
-  grid-auto-columns: max-content;
-  justify-content: end;
-  justify-items: end;
-}
 .counter {
   font-size: var(--h3-size);
   font-family: "Bebas Neue", sans-serif;
