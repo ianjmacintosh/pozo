@@ -44,7 +44,6 @@ class Hero extends React.Component {
     if (key in keyMappings) {
       const command = keyMappings[key];
 
-      console.log(command);
       if (this.props.canMove) {
         if (command === "strike") {
           let direction = this.state.orientation,
@@ -58,7 +57,6 @@ class Hero extends React.Component {
 
           this.strike(direction, queue, color);
         } else {
-          console.log("Time to walk")
           this.walk(command);
         }
       }
