@@ -14,6 +14,9 @@ import Field from "./Field";
 // Homebase stores the hero
 import Homebase from "./Homebase";
 
+// Hero represents the player's status (position, orientation, color)
+import Hero from "./Hero";
+
 // Control Panel allows players to change settings
 import ControlPanel from "./ControlPanel";
 
@@ -672,12 +675,15 @@ class Board extends React.Component {
             }}
           />
           <Homebase
-            heroX={this.state.hero.x}
-            heroY={this.state.hero.y}
-            heroOrientation={this.state.hero.orientation}
-            heroColor={this.state.hero.color}
             handleKeypress={this.handleKeypress}
-          />
+          >
+            <Hero
+              orientation={this.state.hero.orientation}
+              x={this.state.hero.x}
+              y={this.state.hero.y}
+              color={this.state.hero.color}
+            />
+          </Homebase>
           <audio data-sound="eliminate" src={eliminateSound}></audio>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="strike" src={strikeSound}></audio>
