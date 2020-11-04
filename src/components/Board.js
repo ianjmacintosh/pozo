@@ -1,14 +1,32 @@
+// Purpose of this component:
+// Define the DOM hierarchy all components associated with the "game board"
+
 import React from "react";
 import "./Board.css";
 import "./Alert.css";
+
+// Scoreboard shows the current score
 import Scoreboard from "./Scoreboard";
+
+// Fields store queues, which may contain monsters
 import Field from "./Field";
+
+// Homebase stores the hero
 import Homebase from "./Homebase";
+
+// Control Panel allows players to change settings
 import ControlPanel from "./ControlPanel";
+
+// Counter shows how many monsters remain on this stage
 import Counter from "./Counter";
+
+// Get random int provides a random number generator
 import { getRandomInt } from "../helpers";
+
+// GreenSock Animation Platform provides animation methods
 import { gsap } from "gsap";
 
+// All these sounds are used by audio elements
 import strikeSound from "../sounds/strike.wav";
 import walkSound from "../sounds/walk.wav";
 import eliminateSound from "../sounds/eliminate.wav";
@@ -82,6 +100,7 @@ class Board extends React.Component {
     base: {
       size: 4,
     },
+    // I don't know where I should store these properties:
     streak: 0,
     score: 0,
     monstersRemaining: 0,
