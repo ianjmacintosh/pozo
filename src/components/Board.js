@@ -72,20 +72,20 @@ class Board extends React.Component {
     fields: {
       up: {
         // Up and down queues will end the game when their length > 5
-        queueLengthLimit: 5,
+        queueLengthLimit: this.props.shortQueueSize,
         queues: [[], [], [], []],
       },
       left: {
         // Left and right queues will end the game when their length > 8
-        queueLengthLimit: 8,
+        queueLengthLimit: this.props.longQueueSize,
         queues: [[], [], [], []],
       },
       right: {
-        queueLengthLimit: 8,
+        queueLengthLimit: this.props.longQueueSize,
         queues: [[], [], [], []],
       },
       down: {
-        queueLengthLimit: 5,
+        queueLengthLimit: this.props.shortQueueSize,
         queues: [[], [], [], []],
       },
     },
@@ -135,27 +135,6 @@ class Board extends React.Component {
         this.endStage(true);
       }
     });
-  };
-
-  // Homebase needs this
-  // This method changes the hero's color
-  changeColor = (newColor) => {
-    const hero = { ...this.state.hero };
-    hero.color = newColor;
-
-    // Update app state for hero color
-    this.setState({ hero });
-  };
-
-  // Homebase needs this
-  // This method returns the computed size of a square
-  squareSize = () => {
-    return parseInt(
-      getComputedStyle(document.querySelector(".board")).getPropertyValue(
-        "--square-size"
-      ),
-      10
-    );
   };
 
   // Scoreboard needs this
@@ -431,7 +410,10 @@ class Board extends React.Component {
           >
             <Hero
             canMove={this.props.isGameActive}
-            playSound={this.props.playSound}/>
+            playSound={this.props.playSound}
+            longQueueSize={this.props.longQueueSize}
+            shortQueueSize={this.props.shortQueueSize}
+            />
           </Homebase>
           <audio data-sound="eliminate" src={eliminateSound}></audio>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>

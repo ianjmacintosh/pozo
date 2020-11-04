@@ -361,6 +361,8 @@ class App extends React.Component {
           updateAlert={this.updateAlert}
           muted={this.state.muted}
           toggleMute={this.toggleMute}
+          longQueueSize={8}
+          shortQueueSize={5}
         />
       </div>
     );

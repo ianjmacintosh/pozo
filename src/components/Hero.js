@@ -100,16 +100,24 @@ class Hero extends React.Component {
   };
 
   // Homebase needs this
-  // This method does too much
-  strike = (field, queue, strikeColor) => {
+  // This method changes the hero's color
+  changeColor = (newColor) => {
+    const hero = { ...this.state.hero };
+    hero.color = newColor;
+
+    // Update app state for hero color
+    this.setState({ hero });
+  };
+
+  animateStrike = (field) => {
     // Play sound
     this.props.playSound("strike", 0, 0.5);
 
     // Find out direction to strike (up, left, down, right)
     let x = 0,
       y = 0,
-      squareSize = this.squareSize(),
-      sizeOfQueue = this.state.fields[field].queueLengthLimit * squareSize,
+      squareSize = parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10),
+      sizeOfQueue = (field === "up" || field === "down" ? this.props.shortQueueSize : this.props.longQueueSize) * squareSize,
       heroToEdge = 0,
       distanceToTravel = 0;
 
@@ -118,19 +126,19 @@ class Hero extends React.Component {
     switch (field) {
       case "up":
         // 1 should go just the distance of the queue
-        heroToEdge = (this.state.hero.y - 1) * squareSize;
+        heroToEdge = (this.state.y - 1) * squareSize;
         break;
 
       case "down":
-        heroToEdge = (4 - this.state.hero.y) * squareSize;
+        heroToEdge = (4 - this.state.y) * squareSize;
         break;
 
       case "left":
-        heroToEdge = (this.state.hero.x - 1) * squareSize;
+        heroToEdge = (this.state.x - 1) * squareSize;
         break;
 
       case "right":
-        heroToEdge = (4 - this.state.hero.x) * squareSize;
+        heroToEdge = (4 - this.state.x) * squareSize;
         break;
 
       default:
@@ -159,6 +167,17 @@ class Hero extends React.Component {
       x: 0,
       y: 0,
     });
+
+  }
+
+  // Homebase needs this
+  // This method does too much
+  // 1. Animate the hero
+  // 2. Update the target queue
+  // 3. Change color
+  // 4. Flip orientation
+  strike = (field, queue, strikeColor) => {
+    this.animateStrike(field, queue);
 
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
