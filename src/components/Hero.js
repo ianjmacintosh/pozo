@@ -167,19 +167,11 @@ class Hero extends React.Component {
       x: 0,
       y: 0,
     });
-
   }
 
-  // Homebase needs this
-  // This method does too much
-  // 1. Animate the hero
-  // 2. Update the target queue
-  // 3. Change color
-  // 4. Flip orientation
-  strike = (field, queue, strikeColor) => {
-    this.animateStrike(field, queue);
-
+  strikeQueue = (field, queue, strikeColor) => {
     // Handler reads hero coords and direction to determine which queue to strike
+    /*
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
       monsterQueue = targetQueue.filter((item) => item.type === "monster"),
@@ -275,6 +267,18 @@ class Hero extends React.Component {
 
     hero.orientation = newDirection;
     this.setState({ hero });
+    */
+  }
+
+  // Homebase needs this
+  // This method does too much
+  // 1. Animate the hero
+  // 2. Update the target queue
+  // 3. Change color
+  // 4. Flip orientation
+  strike = (field, queue, strikeColor) => {
+    this.animateStrike(field, queue);
+    this.strikeQueue(field, queue, strikeColor);
   };
 
   render() {
