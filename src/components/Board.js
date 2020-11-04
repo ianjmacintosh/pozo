@@ -273,8 +273,92 @@ class Board extends React.Component {
   };
 
   // Hero needs this
+  // This method applies the strike method to the queue requested
   handleStrikeCall = (field, queue, color) => {
     console.log(`Striking ${field} queue #${queue} with ${color}`)
+
+    console.log(`Going to call strike with ${color}`);
+    this.strike(this.state.fields[field].queues[queue], color)
+  }
+
+  // Board needs this
+  // This method returns a queue after a strike
+  strike = (contents, color) => {
+    console.log(`Struck with ${color}`);
+    console.log(`If we leave it alone, it looks like:`);
+    console.table(contents);
+
+    let monsterQueue = contents.filter((item) => item.type === "monster"),
+      monsterColor,
+      topMonster;
+
+    if (monsterQueue.length > 0) {
+      topMonster = contents.find((item) => item.type === "monster");
+      monsterColor = topMonster.color;
+    } else {
+      monsterColor = null;
+    }
+
+    // If monster is same color, eliminate it
+    if (color === monsterColor) {
+      // Update streak
+      const streak = 1 + this.state.streak;
+      this.setState({ streak });
+
+      // Convert monster to ghost
+      topMonster.content = 100 * streak;
+      topMonster.type = "ghost";
+
+      // Remove the ghost
+      setTimeout(() => {
+        const index = contents.indexOf(topMonster);
+        contents.splice(index, 1);
+      }, 2000);
+
+      // // Measure queues length to update "red alert" status
+      // const hasEnoughRoom = (queue, lengthLimit) => {
+      //   const nonGhosts = queue.filter((element) => element.type !== "ghost");
+
+      //   return lengthLimit - nonGhosts.length > 1;
+      // };
+
+      // if (
+      //   fields.down.queues.every((queue) =>
+      //     hasEnoughRoom(queue, fields.down.queueLengthLimit)
+      //   ) &&
+      //   fields.up.queues.every((queue) =>
+      //     hasEnoughRoom(queue, fields.up.queueLengthLimit)
+      //   ) &&
+      //   fields.left.queues.every((queue) =>
+      //     hasEnoughRoom(queue, fields.left.queueLengthLimit)
+      //   ) &&
+      //   fields.right.queues.every((queue) =>
+      //     hasEnoughRoom(queue, fields.right.queueLengthLimit)
+      //   )
+      // ) {
+      //   this.setState({ redAlert: false });
+      // }
+
+      // this.props.reportElimination(1);
+      // this.strike(color);
+      return;
+    }
+    // If there's a monster in the queue struck, swap colors
+    else if (monsterQueue.length > 0) {
+      this.props.playSound("swap");
+      // Report streak end via App.endStreak()
+      if (this.state.streak > 0) {
+        // this.endStreak();
+      }
+
+      //   Update hero color
+      // this.changeColor(monsterColor);
+
+      //   Update monster color
+      monsterQueue[0].color = color;
+
+      return contents;
+    }
   }
 
   // Multiple components need this; Field and Alert

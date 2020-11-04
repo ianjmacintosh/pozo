@@ -13,7 +13,10 @@ class Field extends React.Component {
         }}
       >
         {this.props.queues.map((key, index) => (
-          <Queue key={index} contents={this.props.queues[index]} />
+          <Queue
+            key={index}
+            contents={this.props.queues[index]}
+             />
         ))}
       </div>
     );
