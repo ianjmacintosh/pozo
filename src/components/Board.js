@@ -30,8 +30,6 @@ import { getRandomInt } from "../helpers";
 import { gsap } from "gsap";
 
 // All these sounds are used by audio elements
-import strikeSound from "../sounds/strike.wav";
-import walkSound from "../sounds/walk.wav";
 import eliminateSound from "../sounds/eliminate.wav";
 import swapSound from "../sounds/swap.wav";
 import gameOverSound from "../sounds/gameOver.wav";
@@ -94,12 +92,6 @@ class Board extends React.Component {
         queues: [[], [], [], []],
       },
     },
-    hero: {
-      color: 0,
-      x: 1,
-      y: 1,
-      orientation: "up",
-    },
     base: {
       size: 4,
     },
@@ -155,37 +147,6 @@ class Board extends React.Component {
     hero.color = newColor;
 
     // Update app state for hero color
-    this.setState({ hero });
-  };
-
-  // Homebase needs this
-  // This method updates the hero's coordinates and orientation
-  // Walk accepts a direction, and calls move
-  walk = (direction) => {
-    this.props.playSound("walk", 0, 0.15);
-    // Each movement updates app state for hero x & y
-    const directionChanges = {
-        up: [0, -1],
-        right: [1, 0],
-        down: [0, 1],
-        left: [-1, 0],
-      },
-      baseSize = this.state.base.size;
-
-    // Update hero coordinates based on direction movement
-    let hero = { ...this.state.hero };
-
-    hero.orientation = direction;
-
-    // Each coordinate must be between 1 and 4 (inclusive)
-    hero.x += directionChanges[direction][0];
-    hero.x = Math.max(1, hero.x);
-    hero.x = Math.min(baseSize, hero.x);
-
-    hero.y += directionChanges[direction][1];
-    hero.y = Math.max(1, hero.y);
-    hero.y = Math.min(baseSize, hero.y);
-
     this.setState({ hero });
   };
 
@@ -522,63 +483,20 @@ class Board extends React.Component {
     }
   };
 
-  // Multiple components need this; Hero and whoever needs "pause"
-  // This method handles input from the user to make the hero move
+  // Board needs this
+  // This method handles input from the user to pause the game
   handleKeypress = ({ key }) => {
-    // Each movement updates app state for hero x & y
     const keyMappings = {
-      Escape: "pause",
-
-      w: "up",
-      d: "right",
-      s: "down",
-      a: "left",
-      " ": "strike",
-      z: "strike",
-
-      W: "up",
-      D: "right",
-      S: "down",
-      A: "left",
-      Z: "strike",
-
-      ArrowUp: "up",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-      Enter: "strike",
+      Escape: "pause"
     };
 
     if (key in keyMappings) {
       const command = keyMappings[key];
+
       // If it's a pause button, run the pause command
       if (command === "pause") {
         this.pause();
         return;
-      }
-
-      const isPaused = this.state.paused;
-      if (isPaused) {
-        return;
-      }
-
-      // Determine if user is controlling hero in game or navigating menu
-      // If playing game:
-      if (this.props.isGameActive) {
-        if (keyMappings[key] === "strike") {
-          let direction = this.state.hero.orientation,
-            queue = this.state.hero.y - 1,
-            color = this.state.hero.color;
-
-          // If the hero is pointed north or south, use X coord for queue
-          if (direction === "up" || direction === "down") {
-            queue = this.state.hero.x - 1;
-          }
-
-          this.strike(direction, queue, color);
-        } else {
-          this.walk(keyMappings[key]);
-        }
       }
     }
   };
@@ -678,16 +596,11 @@ class Board extends React.Component {
             handleKeypress={this.handleKeypress}
           >
             <Hero
-              orientation={this.state.hero.orientation}
-              x={this.state.hero.x}
-              y={this.state.hero.y}
-              color={this.state.hero.color}
-            />
+            canMove={this.props.isGameActive}
+            playSound={this.props.playSound}/>
           </Homebase>
           <audio data-sound="eliminate" src={eliminateSound}></audio>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-          <audio data-sound="strike" src={strikeSound}></audio>
-          <audio data-sound="walk" src={walkSound}></audio>
           <audio data-sound="swap" src={swapSound}></audio>
           <audio data-sound="gameOver" src={gameOverSound}></audio>
           <audio data-sound="stageClear" src={stageClearSound}></audio>
