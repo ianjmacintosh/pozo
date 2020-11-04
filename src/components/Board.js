@@ -130,6 +130,7 @@ class Board extends React.Component {
   }
 
   // Counter needs this
+  // This method updates the counter when a monster is eliminated
   updateCounter = (monsterCount) => {
     let monstersRemaining = this.state.monstersRemaining;
     monstersRemaining -= monsterCount;
@@ -145,6 +146,7 @@ class Board extends React.Component {
   };
 
   // Homebase needs this
+  // This method changes the hero's color
   changeColor = (newColor) => {
     const hero = { ...this.state.hero };
     hero.color = newColor;
@@ -154,6 +156,7 @@ class Board extends React.Component {
   };
 
   // Homebase needs this
+  // This method updates the hero's coordinates and orientation
   // Walk accepts a direction, and calls move
   walk = (direction) => {
     this.props.playSound("walk", 0, 0.15);
@@ -184,6 +187,7 @@ class Board extends React.Component {
   };
 
   // Homebase needs this
+  // This method returns the computed size of a square
   squareSize = () => {
     return parseInt(
       getComputedStyle(document.querySelector(".board")).getPropertyValue(
@@ -194,6 +198,7 @@ class Board extends React.Component {
   };
 
   // Homebase needs this
+  // This method does too much
   strike = (field, queue, strikeColor) => {
     if (!this.props.isGameActive) {
       console.log("Game is not active");
@@ -356,6 +361,7 @@ class Board extends React.Component {
   };
 
   // Scoreboard needs this
+  // This method defines behavior when eliminating a monster
   reportElimination = (monstersEliminated) => {
     this.props.playSound("eliminate");
     this.updateScoreboard(monstersEliminated);
@@ -363,6 +369,7 @@ class Board extends React.Component {
   };
 
   // Scoreboard needs this
+  // This method reports eliminations to the scoreboard
   updateScoreboard = (monsterCount) => {
     let score = this.state.score,
       streak = this.state.streak,
@@ -375,11 +382,13 @@ class Board extends React.Component {
   };
 
   // Scoreboard needs this (probably)
+  // This method updates the streak property
   endStreak = () => {
     this.setState({ streak: 0 });
   };
 
   // Multiple components need this; Hero and Field
+  // This method prevents hero from moving and monsters from generating
   pause = () => {
     let paused = this.state.paused;
 
@@ -424,6 +433,7 @@ class Board extends React.Component {
   };
 
   // Field needs this
+  // This method adds a monster to a field's queue
   // Update state to add monster of randomColor to randomQueue of randomField
   addMonster = (direction = "up", queueNumber = 0, colorNumber = 0) => {
     // Update the state for the given queue to add a monster to it
@@ -460,6 +470,7 @@ class Board extends React.Component {
   };
 
   // Field needs this
+  // This method chooses the queue to add a monster to
   chooseQueue = () => {
     console.log("Choosing a queue");
     let fieldNumber = getRandomInt(0, 3),
@@ -484,7 +495,8 @@ class Board extends React.Component {
     this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
   };
 
-  // Multiple components need this; Hero, Field, and Alert
+  // Multiple components need this; Field and Alert
+  // This method updates the board
   endStage = (playerDidWin) => {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
@@ -508,6 +520,7 @@ class Board extends React.Component {
   };
 
   // Multiple components need this; Hero and whoever needs "pause"
+  // This method handles input from the user to make the hero move
   handleKeypress = ({ key }) => {
     // Each movement updates app state for hero x & y
     const keyMappings = {
@@ -567,7 +580,8 @@ class Board extends React.Component {
     }
   };
 
-  // Multiple components need this; Field and Hero
+  // Multiple components need this; Field, Scoreboard, Counter, and Hero
+  // This method sets the board
   start = (stageNumber = 0) => {
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
