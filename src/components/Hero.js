@@ -165,6 +165,27 @@ class Hero extends React.Component {
       x: 0,
       y: 0,
     });
+
+    // Flip orientation
+    let newOrientation;
+    let orientation = this.state.orientation;
+
+    switch (orientation) {
+      case "up":
+        newOrientation = "down";
+        break;
+      case "down":
+        newOrientation = "up";
+        break;
+      case "left":
+        newOrientation = "right";
+        break;
+      default:
+        newOrientation = "left";
+        break;
+    }
+
+    this.setState({ orientation: newOrientation });
   }
 
   strikeQueue = (field, queue, strikeColor) => {
@@ -243,37 +264,15 @@ class Hero extends React.Component {
 
       this.setState({ fields });
     }
-
-    // Flip orientation
-    let hero = this.state.hero;
-    let newDirection;
-
-    switch (hero.orientation) {
-      case "up":
-        newDirection = "down";
-        break;
-      case "down":
-        newDirection = "up";
-        break;
-      case "left":
-        newDirection = "right";
-        break;
-      default:
-        newDirection = "left";
-        break;
-    }
-
-    hero.orientation = newDirection;
-    this.setState({ hero });
     */
   }
 
   // Homebase needs this
   // This method does too much
   // 1. Animate the hero
-  // 2. Update the target queue
-  // 3. Change color
-  // 4. Flip orientation
+  // 2. Flip the hero direction
+  // 3. Update the target queue
+  // 4. Change color based on what the queue sends back
   strike = (field, queue, strikeColor) => {
     this.animateStrike(field, queue);
     this.strikeQueue(field, queue, strikeColor);
