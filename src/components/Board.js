@@ -272,6 +272,11 @@ class Board extends React.Component {
     this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
   };
 
+  // Hero needs this
+  handleStrikeCall = (field, queue, color) => {
+    console.log(`Striking ${field} queue #${queue} with ${color}`)
+  }
+
   // Multiple components need this; Field and Alert
   // This method updates the board
   endStage = (playerDidWin) => {
@@ -413,6 +418,7 @@ class Board extends React.Component {
             playSound={this.props.playSound}
             longQueueSize={this.props.longQueueSize}
             shortQueueSize={this.props.shortQueueSize}
+            handleStrikeCall={this.handleStrikeCall}
             />
           </Homebase>
           <audio data-sound="eliminate" src={eliminateSound}></audio>

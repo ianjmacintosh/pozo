@@ -188,12 +188,6 @@ class Hero extends React.Component {
     this.setState({ orientation: newOrientation });
   }
 
-  strikeQueue = (field, queue, strikeColor) => {
-    // Dispatch a strike to the named queue
-    // That queue may respond with a request for hero to change color
-    console.log(`Striking at ${field} field, queue #${queue} with a ${strikeColor}`);
-  }
-
   // Homebase needs this
   // This method does too much
   // 1. Animate the hero
@@ -202,7 +196,8 @@ class Hero extends React.Component {
   // 4. Change color based on what the queue sends back
   strike = (field, queue, strikeColor) => {
     this.animateStrike(field, queue);
-    this.strikeQueue(field, queue, strikeColor);
+
+    this.props.handleStrikeCall(field, queue, strikeColor);
   };
 
   render() {
