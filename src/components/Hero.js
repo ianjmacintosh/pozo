@@ -189,6 +189,10 @@ class Hero extends React.Component {
   }
 
   strikeQueue = (field, queue, strikeColor) => {
+    // Dispatch a strike to the named queue
+    // That queue may respond with a request for hero to change color
+    console.log(`Striking at ${field} field, queue #${queue} with a ${strikeColor}`);
+
     // Handler reads hero coords and direction to determine which queue to strike
     /*
     let fields = { ...this.state.fields },
