@@ -102,11 +102,6 @@ class Hero extends React.Component {
   // Homebase needs this
   // This method does too much
   strike = (field, queue, strikeColor) => {
-    if (!this.props.isGameActive) {
-      console.log("Game is not active");
-      return;
-    }
-
     // Play sound
     this.props.playSound("strike", 0, 0.5);
 
@@ -164,6 +159,7 @@ class Hero extends React.Component {
       x: 0,
       y: 0,
     });
+
     // Handler reads hero coords and direction to determine which queue to strike
     let fields = { ...this.state.fields },
       targetQueue = fields[field].queues[queue],
