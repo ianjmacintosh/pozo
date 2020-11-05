@@ -23,8 +23,10 @@ import ControlPanel from "./ControlPanel";
 // Counter shows how many monsters remain on this stage
 import Counter from "./Counter";
 
-// Get random int provides a random number generator
-import { getRandomInt } from "../helpers";
+// getRandomInt is a random number generator
+// isMonster is a filter to check if a queue item is a monster
+// isGhost is a filter to check if a queue item is a ghost
+import { getRandomInt, isMonster, isGhost } from "../helpers";
 
 // All these sounds are used by audio elements
 import eliminateSound from "../sounds/eliminate.wav";
@@ -282,20 +284,20 @@ class Board extends React.Component {
 
     // Make a copy of the fields
     let newFields = {...this.state.fields},
-      targetQueue = [...this.state.fields[field].queues[queue]],
+      targetQueue = [...newFields[field].queues[queue]],
       newQueue = this.getStrikeResults(targetQueue, color);
+
+    // Record how many monsters were eliminated
+    const monstersEliminated = targetQueue.filter(isMonster).length - newQueue.filter(isMonster).length;
 
     // Update new fields copy with new queue copy
     newFields[field].queues[queue] = newQueue;
 
-    // Record how many monsters were eliminated
-    const monstersEliminated = targetQueue.length - newQueue.length;
-
     // If the queue has a monster left in it, update hero color
-    if (newQueue.some(item => item.type === "monster")) {
+    if (newQueue.some(isMonster)) {
       // Get the color of the first monster in the queue
       const firstMonsterColor = targetQueue
-        .filter((item) => item.type === "monster") // Filter the ghosts out
+        .filter(isMonster) // Filter the ghosts out
         .find((item) => item.color !== color).color
 
       // Update the hero color
@@ -311,7 +313,7 @@ class Board extends React.Component {
       let newFields = {...this.state.fields};
 
       // Remove the ghosts from that copy
-      newFields[field].queues[queue] = newQueue.filter(item => item.type !== "ghost");;
+      newFields[field].queues[queue] = newQueue.filter(isMonster);
 
       // Update the fields
       this.setState({ fields: newFields });
@@ -336,7 +338,7 @@ class Board extends React.Component {
     // See https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
     let newContents = [...contents],
       // Get a list of _just_ the monsters
-      monsterQueue = newContents.filter((item) => item.type === "monster");
+      monsterQueue = newContents.filter(isMonster);
 
     // Process the queue, removing items of the same color until hitting a different-colored item
     for (const monster of monsterQueue) {

@@ -10,3 +10,11 @@ export function playSound(soundKey, startPoint = 0, volume = 1) {
   audio.volume = volume;
   audio.play();
 }
+
+export function isMonster(item) {
+  return item.type === "monster";
+}
+
+export function isGhost(item) {
+  return item.type === "ghost";
+}
