@@ -305,6 +305,18 @@ class Board extends React.Component {
     // Update the counter
     this.updateCounter(monstersEliminated)
 
+    // Set a timer to remove the ghosts
+    setTimeout(() => {
+      // Copy the current fields
+      let newFields = {...this.state.fields};
+
+      // Remove the ghosts from that copy
+      newFields[field].queues[queue] = newQueue.filter(item => item.type !== "ghost");;
+
+      // Update the fields
+      this.setState({ fields: newFields });
+    }, 750);
+
     // Update the queue (by updating every single field 🤢)
     this.setState({
       fields: newFields
