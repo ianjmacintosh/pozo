@@ -16,6 +16,9 @@ describe("Board", () => {
         // A short queue
         const sampleQueue1 = [{"type":"monster","color":1},{"type":"monster","color":2}];
 
+        // A longer queue
+        const sampleQueue2 = [{"type":"monster","color":1},{"type":"monster","color":1},{"type":"monster","color":1}];
+
         it("exists", () => {
             expect(subject);
         })
@@ -32,9 +35,22 @@ describe("Board", () => {
             it("changes the first item's color to the strike color", () => {
                 expect(subject(sampleQueue1, 0)[0].color).toBe(0);
             })
-
         })
 
+        describe("when called with a color that's the same as the first item", () => {
+            it("loses an item", () => {
+                expect(subject(sampleQueue1, 1)).toHaveLength(1);
+            })
 
+            it("gets its second item's color changed to the strike color", () => {
+                expect(subject(sampleQueue1, 1)[0].color).toBe(1);
+            })
+        })
+
+        describe("when called with a color that's the same color as all items", () => {
+            it("clears the queue", () => {
+                expect(subject(sampleQueue2, 1)).toHaveLength(0);
+            })
+        })
     })
 })
