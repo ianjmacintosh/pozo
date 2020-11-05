@@ -278,7 +278,7 @@ class Board extends React.Component {
   handleStrikeCall = (field, queue, color) => {
     // 🙅🏻‍♂️ TODO
     // Since setState doesn't support nested objects, updating a monster in a queue in a field requires
-    //   making a copy of the fields, then updating the object. This is extremely bad for performance!
+    //   making a copy of all fields, then updating the object. This is extremely bad for performance!
 
     // Make a copy of the fields
     let newFields = {...this.state.fields},
