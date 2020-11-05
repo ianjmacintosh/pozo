@@ -281,15 +281,28 @@ class Board extends React.Component {
     //   making a copy of the fields, then updating the object. This is extremely bad for performance!
 
     // Make a copy of the fields
-    const newFields = {...this.state.fields};
+    let newFields = {...this.state.fields},
+      targetQueue = this.state.fields[field].queues[queue],
+      newQueue = [...newFields[field].queues[queue]];
 
     // Update the relevant queue on that field
-    newFields[field].queues[queue] = this.strike(this.state.fields[field].queues[queue], color);
+    newQueue = this.strike(targetQueue, color);
+
+    // Update new fields copy with new queue copy
+    newFields[field].queues[queue] = newQueue;
+
+    // Record how many monsters were eliminated
+    const monstersEliminated = targetQueue.length - newQueue.length;
+
+    // Update the counter
+    this.updateCounter(monstersEliminated)
 
     // Update the state
     this.setState({
       fields: newFields
     });
+
+
   }
 
   changeHeroColor = (color) => {
@@ -313,9 +326,6 @@ class Board extends React.Component {
       if (monster.color === strikeColor) {
         // Remove the monster from the contents
         newContents.splice(newContents.indexOf(monster), 1);
-
-        // Update the counter
-        this.updateCounter(1);
       }
 
       // If the monster is not the same color as the strike, swap colors
