@@ -276,10 +276,20 @@ class Board extends React.Component {
   // Hero needs this
   // This method applies the strike method to the queue requested
   handleStrikeCall = (field, queue, color) => {
-    console.log("The queue starts as");
-    console.table(this.state.fields[field].queues[queue]);
-    console.log("and turns into");
-    console.table(this.strike(this.state.fields[field].queues[queue], color))
+    // 🙅🏻‍♂️ TODO
+    // Since setState doesn't support nested objects, updating a monster in a queue in a field requires
+    //   making a copy of the fields, then updating the object. This is extremely bad for performance!
+
+    // Make a copy of the fields
+    const newFields = {...this.state.fields};
+
+    // Update the relevant queue on that field
+    newFields[field].queues[queue] = this.strike(this.state.fields[field].queues[queue], color);
+
+    // Update the state
+    this.setState({
+      fields: newFields
+    });
   }
 
   changeHeroColor = (color) => {
