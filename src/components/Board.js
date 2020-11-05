@@ -94,6 +94,7 @@ class Board extends React.Component {
     },
     // I don't know where I should store these properties:
     streak: 0,
+    heroColor: 0,
     score: 0,
     monstersRemaining: 0,
     currentStage: 0,
@@ -281,8 +282,10 @@ class Board extends React.Component {
     console.table(this.strike(this.state.fields[field].queues[queue], color))
   }
 
-  updateHeroColor = (color) => {
-    console.log("Update hero color to " + color);
+  changeHeroColor = (color) => {
+    this.setState({
+      heroColor: color
+    })
   }
 
   // Board needs this
@@ -308,7 +311,7 @@ class Board extends React.Component {
         let newMonster = {...newContents[newContents.indexOf(monster)]};
 
         // Update the hero color to the old monster's color
-        this.updateHeroColor(monster.color);
+        this.changeHeroColor(monster.color);
 
         // Change the new monster's color
         newMonster.color = strikeColor;
@@ -458,11 +461,12 @@ class Board extends React.Component {
             handleKeypress={this.handleKeypress}
           >
             <Hero
-            canMove={this.props.isGameActive}
-            playSound={this.props.playSound}
-            longQueueSize={this.props.longQueueSize}
-            shortQueueSize={this.props.shortQueueSize}
-            handleStrikeCall={this.handleStrikeCall}
+              color={this.state.heroColor}
+              canMove={this.props.isGameActive}
+              playSound={this.props.playSound}
+              longQueueSize={this.props.longQueueSize}
+              shortQueueSize={this.props.shortQueueSize}
+              handleStrikeCall={this.handleStrikeCall}
             />
           </Homebase>
           <audio data-sound="eliminate" src={eliminateSound}></audio>

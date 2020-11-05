@@ -9,7 +9,6 @@ import { gsap } from "gsap";
 
 class Hero extends React.Component {
   state = {
-    color: 0,
     x: 1,
     y: 1,
     orientation: "up",
@@ -48,7 +47,7 @@ class Hero extends React.Component {
         if (command === "strike") {
           let direction = this.state.orientation,
             queue = this.state.y - 1,
-            color = this.state.color;
+            color = this.props.color;
 
           // If the hero is pointed north or south, use X coord for queue
           if (direction === "up" || direction === "down") {
@@ -203,7 +202,7 @@ class Hero extends React.Component {
   render() {
     return (
       <div
-        className={`hero hero--${this.state.orientation} hero--${this.state.color}`}
+        className={`hero hero--${this.state.orientation} hero--${this.props.color}`}
         style={{
           "--hero-x": this.state.x,
           "--hero-y": this.state.y,
