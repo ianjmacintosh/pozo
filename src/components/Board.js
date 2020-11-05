@@ -291,10 +291,12 @@ class Board extends React.Component {
     // Record how many monsters were eliminated
     const monstersEliminated = targetQueue.length - newQueue.length;
 
-    // If the queue has anything left in it, update hero color
-    if (newQueue.length > 0) {
+    // If the queue has a monster left in it, update hero color
+    if (newQueue.some(item => item.type === "monster")) {
       // Get the color of the first monster in the queue
-      const firstMonsterColor = targetQueue.find((item) => item.color !== color).color
+      const firstMonsterColor = targetQueue
+        .filter((item) => item.type === "monster") // Filter the ghosts out
+        .find((item) => item.color !== color).color
 
       // Update the hero color
       this.changeHeroColor(firstMonsterColor);
@@ -303,7 +305,7 @@ class Board extends React.Component {
     // Update the counter
     this.updateCounter(monstersEliminated)
 
-    // Update the queue (by updating every single field 🤧)
+    // Update the queue (by updating every single field 🤢)
     this.setState({
       fields: newFields
     });
@@ -328,8 +330,9 @@ class Board extends React.Component {
     for (const monster of monsterQueue) {
       // If monster is same color as the strike, eliminate it
       if (monster.color === strikeColor) {
-        // Remove the monster from the contents
-        newContents.splice(newContents.indexOf(monster), 1);
+        // Turn monster into a ghost
+        monster.type = "ghost"
+        monster.content = "100"
       }
 
       // If the monster is not the same color as the strike, swap colors

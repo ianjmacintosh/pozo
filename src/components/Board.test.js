@@ -5,19 +5,20 @@ import Board from "./Board";
 
 describe("Board", () => {
     const wrapper = shallow(<Board />),
-        instance = wrapper.instance(),
-        subject = instance.getStrikeResults;
+        instance = wrapper.instance();
 
     describe("'strike' method", () => {
+        const subject = instance.getStrikeResults;
+
         // Queues to experiment with:
         // Empty queue
-        const sampleQueue0 = [];
+        const sampleQueue0 = [],
 
         // A short queue
-        const sampleQueue1 = [{"type":"monster","color":1},{"type":"monster","color":2}];
+            sampleQueue1 = [{"type":"monster","color":1},{"type":"monster","color":2}],
 
         // A longer queue
-        const sampleQueue2 = [{"type":"monster","color":1},{"type":"monster","color":1},{"type":"monster","color":1}];
+            sampleQueue2 = [{"type":"monster","color":1},{"type":"monster","color":1},{"type":"monster","color":1}];
 
         it("exists", () => {
             expect(subject);
@@ -38,18 +39,30 @@ describe("Board", () => {
         })
 
         describe("when called with a color that's the same as the first item", () => {
-            it("loses an item", () => {
-                expect(subject(sampleQueue1, 1)).toHaveLength(1);
+            it("stays the same length", () => {
+                expect(subject(sampleQueue1, 1)).toHaveLength(2);
             })
 
-            it("gets its second item's color changed to the strike color", () => {
-                expect(subject(sampleQueue1, 1)[0].color).toBe(1);
+            it("has one ghost", () => {
+                expect(subject(sampleQueue1, 1).filter((item) => item.type === "ghost")).toHaveLength(1);
+            })
+
+            it("returns a list with the first monster's color updated to be the strike color", () => {
+                expect(subject(sampleQueue1, 1).find((item) => item.type === "monster").color).toBe(1);
             })
         })
 
         describe("when called with a color that's the same color as all items", () => {
-            it("clears the queue", () => {
-                expect(subject(sampleQueue2, 1)).toHaveLength(0);
+            it("stays the same length", () => {
+                expect(subject(sampleQueue2, 1)).toHaveLength(3);
+            })
+
+            it("has three ghosts", () => {
+                expect(subject(sampleQueue2, 1).filter((item) => item.type === "ghost")).toHaveLength(3);
+            })
+
+            it("has zero monsters", () => {
+                expect(subject(sampleQueue2, 1).filter((item) => item.type === "monster")).toHaveLength(0);
             })
         })
     })
