@@ -303,13 +303,14 @@ class Board extends React.Component {
 
       // If the color is another color, swap colors
       else {
-        // Update the hero color to the monster's color
-        this.updateHeroColor(monster.color);
         // Make a new monster from the old monster
         let newMonster = {...newContents[newContents.indexOf(monster)]};
 
+        // Update the hero color to the old monster's color
+        this.updateHeroColor(monster.color);
+
         // Change the new monster's color
-        newMonster.color = 5;
+        newMonster.color = strikeColor;
 
         // Update the new contents array with the new monster
         newContents[newContents.indexOf(monster)] = newMonster;
