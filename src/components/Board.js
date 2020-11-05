@@ -291,17 +291,18 @@ class Board extends React.Component {
     // Make a safe copy of contents
     // See https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
     let newContents = [...contents],
+      // Get a list of _just_ the monsters
       monsterQueue = newContents.filter((item) => item.type === "monster");
 
-    // Process the queue, using the color
+    // Process the queue, removing items of the same color until hitting a different-colored item
     monsterQueue.forEach(monster => {
-      // If monster is same color, eliminate it
+      // If monster is same color as the strike, eliminate it
       if (monster.color === strikeColor) {
         // Remove the monster from the contents
         newContents.splice(newContents.indexOf(monster), 1);
       }
 
-      // If the color is another color, swap colors
+      // If the monster is not the same color as the strike, swap colors
       else {
         // Make a new monster from the old monster
         let newMonster = {...newContents[newContents.indexOf(monster)]};
