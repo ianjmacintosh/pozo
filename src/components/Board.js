@@ -313,6 +313,9 @@ class Board extends React.Component {
       if (monster.color === strikeColor) {
         // Remove the monster from the contents
         newContents.splice(newContents.indexOf(monster), 1);
+
+        // Update the counter
+        this.updateCounter(1);
       }
 
       // If the monster is not the same color as the strike, swap colors
