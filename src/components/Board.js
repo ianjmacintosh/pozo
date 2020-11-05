@@ -298,7 +298,7 @@ class Board extends React.Component {
       monsterQueue = newContents.filter((item) => item.type === "monster");
 
     // Process the queue, removing items of the same color until hitting a different-colored item
-    monsterQueue.forEach(monster => {
+    for (const monster of monsterQueue) {
       // If monster is same color as the strike, eliminate it
       if (monster.color === strikeColor) {
         // Remove the monster from the contents
@@ -318,8 +318,11 @@ class Board extends React.Component {
 
         // Update the new contents array with the new monster
         newContents[newContents.indexOf(monster)] = newMonster;
+
+        // Stop processing the queue
+        break;
       }
-    });
+    }
 
     return newContents;
   }
