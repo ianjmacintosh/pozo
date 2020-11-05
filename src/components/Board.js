@@ -282,11 +282,8 @@ class Board extends React.Component {
 
     // Make a copy of the fields
     let newFields = {...this.state.fields},
-      targetQueue = this.state.fields[field].queues[queue],
-      newQueue = [...newFields[field].queues[queue]];
-
-    // Update the relevant queue on that field
-    newQueue = this.strike(targetQueue, color);
+      targetQueue = [...this.state.fields[field].queues[queue]],
+      newQueue = this.getStrikeResults(targetQueue, color);
 
     // Update new fields copy with new queue copy
     newFields[field].queues[queue] = newQueue;
@@ -294,10 +291,19 @@ class Board extends React.Component {
     // Record how many monsters were eliminated
     const monstersEliminated = targetQueue.length - newQueue.length;
 
+    // If the queue has anything left in it, update hero color
+    if (newQueue.length > 0) {
+      // Get the color of the first monster in the queue
+      const firstMonsterColor = targetQueue.find((item) => item.color !== color).color
+
+      // Update the hero color
+      this.changeHeroColor(firstMonsterColor);
+    }
+
     // Update the counter
     this.updateCounter(monstersEliminated)
 
-    // Update the state
+    // Update the queue (by updating every single field 🤧)
     this.setState({
       fields: newFields
     });
@@ -311,7 +317,7 @@ class Board extends React.Component {
 
   // Board needs this
   // This method returns a queue after a strike
-  strike = (contents, strikeColor) => {
+  getStrikeResults = (contents, strikeColor) => {
     // Make a safe copy of contents
     // See https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
     let newContents = [...contents],
@@ -328,16 +334,13 @@ class Board extends React.Component {
 
       // If the monster is not the same color as the strike, swap colors
       else {
-        // Make a new monster from the old monster
-        let newMonster = {...newContents[newContents.indexOf(monster)]};
+        // Make a new-colored monster from the old monster
+        let newMonster = {
+          ...newContents[newContents.indexOf(monster)],
+          color: strikeColor
+        };
 
-        // Update the hero color to the old monster's color
-        this.changeHeroColor(monster.color);
-
-        // Change the new monster's color
-        newMonster.color = strikeColor;
-
-        // Update the new contents array with the new monster
+        // Replace the old monster with the new monster in the new queue
         newContents[newContents.indexOf(monster)] = newMonster;
 
         // Stop processing the queue

@@ -6,7 +6,7 @@ import Board from "./Board";
 describe("Board", () => {
     const wrapper = shallow(<Board />),
         instance = wrapper.instance(),
-        subject = instance.strike;
+        subject = instance.getStrikeResults;
 
     describe("'strike' method", () => {
         // Queues to experiment with:
