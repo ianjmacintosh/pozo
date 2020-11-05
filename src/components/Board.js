@@ -301,8 +301,6 @@ class Board extends React.Component {
     this.setState({
       fields: newFields
     });
-
-
   }
 
   changeHeroColor = (color) => {
