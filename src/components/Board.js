@@ -25,8 +25,7 @@ import Counter from "./Counter";
 
 // getRandomInt is a random number generator
 // isMonster is a filter to check if a queue item is a monster
-// isGhost is a filter to check if a queue item is a ghost
-import { getRandomInt, isMonster, isGhost } from "../helpers";
+import { getRandomInt, isMonster } from "../helpers";
 
 // All these sounds are used by audio elements
 import eliminateSound from "../sounds/eliminate.wav";
@@ -297,7 +296,7 @@ class Board extends React.Component {
     if (newQueue.some(isMonster)) {
       // Get the color of the first monster in the queue
       const firstMonsterColor = targetQueue
-        .filter(isMonster) // Filter the ghosts out
+        .filter(isMonster) // Only look for monsters
         .find((item) => item.color !== color).color
 
       // Update the hero color
