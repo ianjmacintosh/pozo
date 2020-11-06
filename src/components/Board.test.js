@@ -27,8 +27,8 @@ describe("Board", () => {
         // A very short queue
             sampleQueue3 = [{type: "monster", color: 1}];
 
-        it("exists", () => {
-            expect(subject);
+        it("is not undefined", () => {
+            expect(subject).not.toBeUndefined();
         })
 
         it("returns an empty queue when given an empty queue", () => {
@@ -107,7 +107,7 @@ describe("Board", () => {
     describe("'handleStrikeCall' method", () => {
         const subject = instance.handleStrikeCall;
 
-        it("exists", () => {
+        it("is not undefined", () => {
             expect(subject).not.toBeUndefined();
         })
 
