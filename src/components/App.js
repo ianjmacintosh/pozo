@@ -60,6 +60,7 @@ class App extends React.Component {
         shown: false,
       },
     },
+    stage: 0,
     activeMenuName: "mainMenu",
     redAlert: false,
     gameActive: false,
@@ -83,6 +84,10 @@ class App extends React.Component {
     console.log(`Game active: ${newState}`);
     this.setState({ gameActive: newState });
   };
+
+  setStage = (newStage) => {
+    this.setState({ stage: newStage });
+  }
 
   monsterTimer = null;
   waveTimer = null;
@@ -139,7 +144,7 @@ class App extends React.Component {
   render() {
     return (
       <div
-        className={`App stage${this.state.currentStage} ${
+        className={`App ${this.state.gameActive ? "stage" + this.state.stage : "" } ${
           this.state.redAlert ? "red-alert" : ""
         }`}
       >
@@ -356,11 +361,13 @@ class App extends React.Component {
         <Board
           playSound={this.playSound}
           changeGameActive={this.changeGameActive}
-          isGameActive={this.state.gameActive}
           showAlert={this.showAlert}
           updateAlert={this.updateAlert}
-          muted={this.state.muted}
+          setStage={this.setStage}
           toggleMute={this.toggleMute}
+          isGameActive={this.state.gameActive}
+          muted={this.state.muted}
+          stage={this.state.stage}
           longQueueSize={8}
           shortQueueSize={5}
         />
