@@ -424,6 +424,8 @@ class Board extends React.Component {
       }
     });
 
+    this.props.setStage(stageNumber);
+
     // Clear all queues
     let fields = this.state.fields;
     fields.up.queues = [[], [], [], []];
@@ -455,17 +457,13 @@ class Board extends React.Component {
         }, this.state.stageSettings.waveDuration * 1000);
       };
 
-    // Apply stage color scheme
-    document.body.classList.remove(`stage${stageNumber - 1}`);
-    document.body.classList.add(`stage${stageNumber}`);
-
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
     this.setState({
       monstersRemaining: stageSettings.monsters,
     });
     this.props.updateAlert("stageAnnouncement", {
-      content: <h1>{`Stage ${this.props.stage}`}</h1>,
+      content: <h1>{`Stage ${stageNumber}`}</h1>,
     });
     this.props.showAlert("stageAnnouncement");
   };
