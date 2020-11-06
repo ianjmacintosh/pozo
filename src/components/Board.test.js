@@ -7,7 +7,8 @@ describe("Board", () => {
     const wrapper = shallow(<Board
         playSound={jest.fn()}
         updateAlert={jest.fn()}
-        showAlert={jest.fn()}/>),
+        showAlert={jest.fn()}
+        changeGameActive={jest.fn()}/>),
         instance = wrapper.instance();
 
     describe("'getStrikeResults' method", () => {

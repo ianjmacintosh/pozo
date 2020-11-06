@@ -98,7 +98,6 @@ class Board extends React.Component {
     heroColor: 0,
     score: 0,
     monstersRemaining: 0,
-    currentStage: 0,
     stageSettings: {
       monsters: 0,
       creationRate: 0,
@@ -378,16 +377,17 @@ class Board extends React.Component {
     this.setState({ redAlert: false });
 
     if (playerDidWin) {
-      let currentStage = this.state.currentStage + 1;
+      let currentStage = this.props.stage + 1;
       if (stages[currentStage]) {
         this.props.playSound("stageClear");
-        this.setState({ currentStage });
+        this.props.setStage(currentStage);
         this.start(currentStage);
       } else {
         this.props.changeGameActive(false);
         this.props.showAlert("victory", false);
       }
     } else {
+      this.props.setStage(0)
       this.props.changeGameActive(false);
       this.props.playSound("gameOver");
       this.props.showAlert("gameOver", false);
@@ -464,7 +464,7 @@ class Board extends React.Component {
       monstersRemaining: stageSettings.monsters,
     });
     this.props.updateAlert("stageAnnouncement", {
-      content: <h1>{`Stage ${this.state.currentStage}`}</h1>,
+      content: <h1>{`Stage ${this.props.stage}`}</h1>,
     });
     this.props.showAlert("stageAnnouncement");
   };
