@@ -151,8 +151,7 @@ class Board extends React.Component {
   // This method reports eliminations to the scoreboard
   updateScoreboard = (monsterCount) => {
     let score = this.state.score,
-      streak = this.state.streak,
-      pointsToAdd = monsterCount * 100 * streak;
+      pointsToAdd = monsterCount * 100;
 
     score += pointsToAdd;
 
@@ -304,7 +303,7 @@ class Board extends React.Component {
     }
 
     // Update the counter
-    this.updateCounter(monstersEliminated)
+    this.reportElimination(monstersEliminated);
 
     // Set a timer to remove the ghosts
     setTimeout(() => {
