@@ -4,7 +4,10 @@ import { shallow } from 'enzyme';
 import Board from "./Board";
 
 describe("Board", () => {
-    const wrapper = shallow(<Board />),
+    const wrapper = shallow(<Board
+        playSound={jest.fn()}
+        updateAlert={jest.fn()}
+        showAlert={jest.fn()}/>),
         instance = wrapper.instance();
 
     describe("'getStrikeResults' method", () => {
@@ -105,6 +108,19 @@ describe("Board", () => {
 
         it("exists", () => {
             expect(subject).not.toBeUndefined();
+        })
+
+        it("calls 'getStrikeResults'", () => {
+            // Arrange
+            const spy = jest.spyOn(instance, "getStrikeResults");
+
+            // Act
+            subject("up", 0, 0);
+
+            // Assert
+            expect(spy).toHaveBeenCalled();
+
+            spy.mockRestore();
         })
     })
 })
