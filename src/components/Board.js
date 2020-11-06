@@ -306,20 +306,21 @@ class Board extends React.Component {
 
     // Set a timer to remove the ghosts
     setTimeout(() => {
-      // Copy the current fields
-      let newFields = {...this.state.fields};
-
-      // Remove the ghosts from that copy
-      newFields[field].queues[queue] = newQueue.filter(isMonster);
-
-      // Update the fields
-      this.setState({ fields: newFields });
+      let fieldCopy = this.state.fields;
+      let queueCopy = fieldCopy[field].queues[queue];
+      fieldCopy[field].queues[queue] = this.getWithoutGhosts(queueCopy);
     }, 750);
 
     // Update the queue (by updating every single field 🤢)
     this.setState({
       fields: newFields
     });
+    }
+
+  getWithoutGhosts = (queue) => {
+    return queue.filter((item) => {
+      return item.type !== "ghost"
+    })
   }
 
   changeHeroColor = (color) => {
