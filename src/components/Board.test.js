@@ -137,19 +137,6 @@ describe("Board", () => {
             spy.mockRestore();
         })
 
-        it("calls 'reportElimination'", () => {
-            // Arrange
-            const spy = jest.spyOn(instance, "reportElimination");
-
-            // Act
-            subject("up", 0, 0);
-
-            // Assert
-            expect(spy).toHaveBeenCalled();
-
-            spy.mockRestore();
-        })
-
         it("updates the score when eliminating one monster", () => {
             // Arrange
             const spy = jest.spyOn(instance, "reportElimination");
