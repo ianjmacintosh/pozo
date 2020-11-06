@@ -99,4 +99,12 @@ describe("Board", () => {
             })
         })
     })
+
+    describe("'handleStrikeCall' method", () => {
+        const subject = instance.handleStrikeCall;
+
+        it("exists", () => {
+            expect(subject).not.toBeUndefined();
+        })
+    })
 })
