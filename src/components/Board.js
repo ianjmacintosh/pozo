@@ -283,7 +283,7 @@ class Board extends React.Component {
 
     // Make a copy of the fields
     let newFields = {...this.state.fields},
-      targetQueue = [...newFields[field].queues[queue]],
+      targetQueue = newFields[field].queues[queue],
       newQueue = this.getStrikeResults(targetQueue, color);
 
     // Record how many monsters were eliminated

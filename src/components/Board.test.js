@@ -7,7 +7,7 @@ describe("Board", () => {
     const wrapper = shallow(<Board />),
         instance = wrapper.instance();
 
-    describe("'strike' method", () => {
+    describe("'getStrikeResults' method", () => {
         const subject = instance.getStrikeResults;
 
         // Queues to experiment with:
@@ -52,6 +52,20 @@ describe("Board", () => {
 
             it("returns a list with the first monster's color updated to be the strike color", () => {
                 expect(subject(sampleQueue1, 1).find((item) => item.type === "monster").color).toBe(1);
+            })
+
+            it("does not change the reference it's given", () => {
+                // Arrange
+                // Make a deep copy of sample queue #3
+                // NOTE: Lodash offers a safer approach, but this is OK for now
+                // NOTE: Read more about this at https://blog.logrocket.com/methods-for-deep-cloning-objects-in-javascript/
+                let safeQueueCopy = JSON.parse(JSON.stringify(sampleQueue1));
+
+                // Act
+                subject(safeQueueCopy, 1);
+
+                // Assert
+                expect(safeQueueCopy).toStrictEqual(sampleQueue1)
             })
         })
 
