@@ -18,7 +18,10 @@ describe("Board", () => {
             sampleQueue1 = [{"type":"monster","color":1},{"type":"monster","color":2}],
 
         // A longer queue
-            sampleQueue2 = [{"type":"monster","color":1},{"type":"monster","color":1},{"type":"monster","color":1}];
+            sampleQueue2 = [{"type":"monster","color":1},{"type":"monster","color":1},{"type":"monster","color":1}],
+
+        // A very short queue
+            sampleQueue3 = [{type: "monster", color: 1}];
 
         it("exists", () => {
             expect(subject);
@@ -63,6 +66,22 @@ describe("Board", () => {
 
             it("has zero monsters", () => {
                 expect(subject(sampleQueue2, 1).filter((item) => item.type === "monster")).toHaveLength(0);
+            })
+        })
+
+        describe("when applying a color to a one item queue whose item is that color", () => {
+            it("does not change the reference it's given", () => {
+                // Arrange
+                // Make a deep copy of sample queue #3
+                // NOTE: Lodash offers a safer approach, but this is OK for now
+                // NOTE: Read more about this at https://blog.logrocket.com/methods-for-deep-cloning-objects-in-javascript/
+                let safeQueueCopy = JSON.parse(JSON.stringify(sampleQueue3));
+
+                // Act
+                subject(safeQueueCopy, 1);
+
+                // Assert
+                expect(safeQueueCopy).toStrictEqual(sampleQueue3)
             })
         })
     })
