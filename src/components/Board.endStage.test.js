@@ -20,14 +20,14 @@ describe("Board", () => {
             expect(subject).not.toBeUndefined();
         })
 
-        it("sets stage to 0 if the player lost", () => {
+        it("sets stage to 1 if the player lost", () => {
             // Arrange
 
             // Act
             subject(false);
 
             // Assert
-            expect(mockedSetStage).toHaveBeenCalledWith(0);
+            expect(mockedSetStage).toHaveBeenCalledWith(1);
         })
     })
 })

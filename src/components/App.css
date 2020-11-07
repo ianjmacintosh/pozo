@@ -53,22 +53,22 @@ main {
 }
 
 /* Stage Color Schemes */
-.App.stage0 {
+.App.stage1 {
   background: var(--violet-blue-crayola);
 }
 
-.App.stage1 {
+.App.stage2 {
   background: var(--inchworm);
 }
 
-.App.stage2 {
+.App.stage3 {
   background: var(--yellow-pantone);
 }
 
-.App.stage3 {
+.App.stage4 {
   background: var(--sky-blue-crayola);
 }
 
-.App.stage4 {
+.App.stage5 {
   background: var(--orange-pantone);
 }

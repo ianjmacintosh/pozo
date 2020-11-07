@@ -379,7 +379,7 @@ class Board extends React.Component {
 
     if (playerDidWin) {
       let currentStage = this.props.stage + 1;
-      if (stages[currentStage]) {
+      if (stages[currentStage - 1]) {
         this.props.playSound("stageClear");
         this.props.setStage(currentStage);
         this.start(currentStage);
@@ -388,7 +388,7 @@ class Board extends React.Component {
         this.props.showAlert("victory", false);
       }
     } else {
-      this.props.setStage(0)
+      this.props.setStage(1)
       this.props.changeGameActive(false);
       this.props.playSound("gameOver");
       this.props.showAlert("gameOver", false);
@@ -415,10 +415,10 @@ class Board extends React.Component {
 
   // Multiple components need this; Field, Scoreboard, Counter, and Hero
   // This method sets the board
-  start = (stageNumber = 0) => {
+  start = (stageNumber = 1) => {
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
-      if (stageNumber === 0) {
+      if (stageNumber === 1) {
         this.props.playSound("menuSelect", 0, 0.2);
         this.setState({ score: 0 });
       }
@@ -434,7 +434,7 @@ class Board extends React.Component {
     fields.right.queues = [[], [], [], []];
     this.setState({ fields });
 
-    const stageSettings = { ...stages[stageNumber] },
+    const stageSettings = { ...stages[stageNumber - 1] },
       setTimers = () => {
         clearInterval(this.monsterTimer);
         clearInterval(this.waveTimer);
