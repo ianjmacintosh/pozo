@@ -25,7 +25,7 @@ describe("Board", () => {
 
             // Act
             // Start stage 0
-            subject(0);
+            subject(1);
 
             // Assert
             // Confirm the scoreboard shows 0
