@@ -306,7 +306,7 @@ class Board extends React.Component {
       this.setState({ streak });
     }
     // Clear the streak if no monsters were eliminated
-    else {
+    else if (targetQueue.filter(isMonster).length !== 0) {
       this.setState({ streak: 0 });
     }
 
