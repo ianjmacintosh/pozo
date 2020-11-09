@@ -299,6 +299,8 @@ class Board extends React.Component {
       if (item.type === "ghost") {
           item.content = 100 * (index + streak);
       }
+
+      return item;
     })
 
       this.setState({ streak });
