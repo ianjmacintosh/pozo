@@ -148,11 +148,13 @@ class Board extends React.Component {
 
   // Scoreboard needs this
   // This method reports eliminations to the scoreboard
-  updateScoreboard = (monsterCount) => {
-    let score = this.state.score,
-      pointsToAdd = monsterCount * 100;
+  updateScoreboard = (monstersEliminated) => {
+    // Update score appropriately
+    let score = this.state.score;
 
-    score += pointsToAdd;
+    for (let i = 0, streak = this.state.streak; i < monstersEliminated; i += 1) {
+      score += 100 * (i + streak);
+    }
 
     // Scoreboard.update() manages streak tally? Need to figure out how to manage this
     this.setState({ score });
@@ -292,6 +294,13 @@ class Board extends React.Component {
       let streak = this.state.streak;
       streak++;
 
+    // Update new queue copy with correct ghost scores
+    newQueue.map((item, index) => {
+      if (item.type === "ghost") {
+          item.content = 100 * (index + streak);
+      }
+    })
+
       this.setState({ streak });
     }
     // Clear the streak if no monsters were eliminated
@@ -313,7 +322,7 @@ class Board extends React.Component {
       this.changeHeroColor(firstMonsterColor);
     }
 
-    // Update the counter
+    // Do everything associated with clearing monsters
     this.reportElimination(monstersEliminated);
 
     // Set a timer to remove the ghosts

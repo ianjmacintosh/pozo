@@ -369,15 +369,15 @@ describe("Board", () => {
             expect(wrapper.state("fields").up.queues[0]).toStrictEqual([
                 {
                     type: "ghost",
-                    content: "100"
+                    content: 100
                 },
                 {
                     type: "ghost",
-                    content: "200"
+                    content: 200
                 },
                 {
                     type: "ghost",
-                    content: "300"
+                    content: 300
                 },
             ]);
         })
