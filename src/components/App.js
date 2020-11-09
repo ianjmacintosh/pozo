@@ -47,6 +47,50 @@ class App extends React.Component {
         ),
         shown: false,
       },
+      credits: {
+        content: (
+                <React.Fragment>
+                  <h1 className="small-headline">Credits</h1>
+                  <dl>
+                    <dt>Development</dt>
+                    <dd>Ian MacIntosh</dd>
+                    <dt>Sound Effects</dt>
+                    <dd>
+                      <a href="https://freesound.org/people/Breviceps/">
+                        Breviceps
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                    <dd>
+                      <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                        LittleRobotSoundFactory
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                    <dd>
+                      <a href="https://freesound.org/people/LukeSharples/">
+                        LukeSharples
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                    <dd>
+                      <a href="https://freesound.org/people/SgtPepperArc360/">
+                        SgtPepperArc360
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                  </dl>
+
+                  <p>
+                    This game is derivative of the mid-1990's arcade puzzle
+                    game <i>Zoop</i>, which was developed by Hookstone Media
+                    and published by Viacom New Media.
+                  </p>
+                </React.Fragment>
+        ),
+        shown: false,
+
+      },
       victory: {
         content: <h1>Victory</h1>,
         shown: false,
@@ -280,47 +324,12 @@ class App extends React.Component {
               {
                 title: "Credits",
                 action: () => {
-                  this.showAlert(
-                    <React.Fragment>
-                      <h1 className="small-headline">Credits</h1>
-                      <dl>
-                        <dt>Development</dt>
-                        <dd>Ian MacIntosh</dd>
-                        <dt>Sound Effects</dt>
-                        <dd>
-                          <a href="https://freesound.org/people/Breviceps/">
-                            Breviceps
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                        <dd>
-                          <a href="https://freesound.org/people/LittleRobotSoundFactory/">
-                            LittleRobotSoundFactory
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                        <dd>
-                          <a href="https://freesound.org/people/LukeSharples/">
-                            LukeSharples
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                        <dd>
-                          <a href="https://freesound.org/people/SgtPepperArc360/">
-                            SgtPepperArc360
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                      </dl>
-
-                      <p>
-                        This game is derivative of the mid-1990's arcade puzzle
-                        game <i>Zoop</i>, which was developed by Hookstone Media
-                        and published by Viacom New Media.
-                      </p>
-                    </React.Fragment>,
-                    false
-                  );
+                  let alerts = this.state.alerts;
+                  alerts.credits.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "credits",
+                  });
                 },
               },
             ],
@@ -352,6 +361,31 @@ class App extends React.Component {
             hasFocus: this.state.activeMenuName === "instructions",
           }}
           shown={this.state.alerts.instructions.shown}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+
+        {/* "Credits" Announcement */}
+        <Alert
+          playSound={this.playSound}
+          content={this.state.alerts.credits.content}
+          menu={{
+            name: "credits",
+            options: [{
+                title: "Continue",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.credits.shown = false;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: true,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "credits",
+          }}
+          shown={this.state.alerts.credits.shown}
           dismissAlert={this.dismissAlert}
         ></Alert>
 
