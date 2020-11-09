@@ -30,11 +30,16 @@
   font-size: 48px;
 }
 
+.menu li {
+  transition: 50ms all;
+}
+
 .menu li span {
   cursor: pointer;
 }
 
 .menu .selected {
+  transform: scale(1.3);
   color: var(--blue);
   animation-name: pulse;
   animation-duration: 600ms;
