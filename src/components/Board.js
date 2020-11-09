@@ -295,7 +295,7 @@ class Board extends React.Component {
       streak++;
 
     // Update new queue copy with correct ghost scores
-    newQueue.map((item, index) => {
+    newQueue = newQueue.map((item, index) => {
       if (item.type === "ghost") {
           item.content = 100 * (index + streak);
       }
