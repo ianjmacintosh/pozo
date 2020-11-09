@@ -253,5 +253,135 @@ describe("Board", () => {
             expect(wrapper.state("streak")).toBe(0);
         })
 
+
+        it("updates the score more when on a streak", () => {
+            // Arrange
+            wrapper.setState({
+                streak: 0,
+                score: 0
+            });
+
+            wrapper.setState({
+                fields: {
+                    up: {
+                        // Up and down queues will end the game when their length > 5
+                        queueLengthLimit: 5,
+                        queues: [[
+                            {
+                                type: "monster",
+                                color: 0
+                            }
+                        ], [
+
+                            {
+                                type: "monster",
+                                color: 0
+                            }
+                        ], [
+                            {
+                                type: "monster",
+                                color: 1
+                            }
+                        ], []],
+                    },
+                    left: {
+                        // Left and right queues will end the game when their length > 8
+                        queueLengthLimit: 8,
+                        queues: [[], [], [], []],
+                      },
+                      right: {
+                        queueLengthLimit: 8,
+                        queues: [[], [], [], []],
+                      },
+                      down: {
+                        queueLengthLimit: 5,
+                        queues: [[], [], [], []],
+                      },
+                }
+            });
+
+            // Act
+            subject("up", 0, 0);
+            subject("up", 1, 0);
+
+            // Assert
+            expect(wrapper.state("score")).toBe(300);
+        })
+
+        it("updates the ghosts scores appropriately", () => {
+            // Arrange
+            wrapper.setState({
+                streak: 0,
+                score: 0
+            });
+
+            wrapper.setState({
+                fields: {
+                    up: {
+                        // Up and down queues will end the game when their length > 5
+                        queueLengthLimit: 5,
+                        queues: [[
+                            {
+                                type: "monster",
+                                color: 0
+                            },
+                            {
+                                type: "monster",
+                                color: 0
+                            },
+                            {
+                                type: "monster",
+                                color: 0
+                            },
+                        ], [
+
+                            {
+                                type: "monster",
+                                color: 0
+                            }
+                        ], [
+                            {
+                                type: "monster",
+                                color: 1
+                            }
+                        ], []],
+                    },
+                    left: {
+                        // Left and right queues will end the game when their length > 8
+                        queueLengthLimit: 8,
+                        queues: [[], [], [], []],
+                      },
+                      right: {
+                        queueLengthLimit: 8,
+                        queues: [[], [], [], []],
+                      },
+                      down: {
+                        queueLengthLimit: 5,
+                        queues: [[], [], [], []],
+                      },
+                }
+            });
+
+            // Act
+            subject("up", 0, 0);
+
+            // Assert
+            expect(wrapper.state("fields").up.queues[0]).toStrictEqual([
+                {
+                    type: "ghost",
+                    content: "100"
+                },
+                {
+                    type: "ghost",
+                    content: "200"
+                },
+                {
+                    type: "ghost",
+                    content: "300"
+                },
+            ]);
+        })
+
+
     })
 })
