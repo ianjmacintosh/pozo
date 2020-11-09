@@ -8,6 +8,7 @@ body {
   background: #fff;
   overflow: hidden;
   position: relative;
+  margin: 0;
 }
 
 #root {
