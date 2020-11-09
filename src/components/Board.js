@@ -287,6 +287,14 @@ class Board extends React.Component {
     // Record how many monsters were eliminated
     const monstersEliminated = targetQueue.filter(isMonster).length - newQueue.filter(isMonster).length;
 
+    // Update streak if monsters were eliminated
+    if (monstersEliminated) {
+      let streak = this.state.streak;
+      streak++;
+
+      this.setState({ streak });
+    }
+
     // Update new fields copy with new queue copy
     newFields[field].queues[queue] = newQueue;
 
