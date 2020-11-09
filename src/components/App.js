@@ -148,6 +148,8 @@ class App extends React.Component {
           this.state.redAlert ? "red-alert" : ""
         }`}
       >
+
+        {/* "Stage 1" Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alerts.stageAnnouncement.content}
@@ -156,6 +158,8 @@ class App extends React.Component {
           autodismiss={true}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Victory" Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alerts.victory.content}
@@ -196,6 +200,8 @@ class App extends React.Component {
           name="victory"
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Main Menu" Announcement */}
         <Alert
           playSound={this.playSound}
           name="main-menu"
@@ -281,6 +287,8 @@ class App extends React.Component {
           }}
           shown={this.state.alerts.mainMenu.shown}
         ></Alert>
+
+        {/* Utility Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alert.content}
@@ -288,6 +296,8 @@ class App extends React.Component {
           autodismiss={this.state.alert.autodismiss}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Game Over" Announcement */}
         <Alert
           playSound={this.playSound}
           name="game-over"
@@ -327,6 +337,8 @@ class App extends React.Component {
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Instructions" Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alerts.instructions.content}
