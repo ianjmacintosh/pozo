@@ -366,8 +366,7 @@ class Board extends React.Component {
       // If monster is same color as the strike, replace it with a ghost
       if (monster.color === strikeColor) {
         let newGhost = {
-          type: "ghost",
-          content: "100"
+          type: "ghost"
         };
 
         // Turn monster into a ghost
