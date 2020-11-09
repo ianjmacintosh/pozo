@@ -215,7 +215,7 @@ describe("Board", () => {
             expect(wrapper.state("streak")).toBe(1);
         })
 
-        it("clears the streak when striking does not eliminate a monster", () => {
+        it("clears the streak when swapping colors with a monster", () => {
             // Arrange
             wrapper.setState({ streak: 1 });
             wrapper.setState({
@@ -253,6 +253,43 @@ describe("Board", () => {
             expect(wrapper.state("streak")).toBe(0);
         })
 
+        it("clears the streak when swapping colors with a monster", () => {
+            // Arrange
+            wrapper.setState({ streak: 1 });
+            wrapper.setState({
+                fields: {
+                    up: {
+                        // Up and down queues will end the game when their length > 5
+                        queueLengthLimit: 5,
+                        queues: [[
+                            {
+                                type: "monster",
+                                color: 0
+                            }
+                        ], [], [], []],
+                    },
+                    left: {
+                        // Left and right queues will end the game when their length > 8
+                        queueLengthLimit: 8,
+                        queues: [[], [], [], []],
+                      },
+                      right: {
+                        queueLengthLimit: 8,
+                        queues: [[], [], [], []],
+                      },
+                      down: {
+                        queueLengthLimit: 5,
+                        queues: [[], [], [], []],
+                      },
+                }
+            });
+
+            // Act
+            subject("up", 1, 1);
+
+            // Assert
+            expect(wrapper.state("streak")).toBe(1);
+        })
 
         it("updates the score more when on a streak", () => {
             // Arrange
