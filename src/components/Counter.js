@@ -3,7 +3,9 @@ import "./Counter.css";
 
 class Counter extends React.Component {
   render() {
-    return <div className="counter">{this.props.count}</div>;
+    let monstersRemaining = this.props.count;
+
+    return <div className="counter">{monstersRemaining}</div>;
   }
 }
 

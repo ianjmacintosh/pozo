@@ -66,3 +66,33 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Coverage
+```
+-------------------|----------|----------|----------|----------|-------------------|
+File               |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+-------------------|----------|----------|----------|----------|-------------------|
+All files          |     23.6 |     8.02 |    16.35 |    23.71 |                   |
+ src               |        2 |        0 |        5 |        2 |                   |
+  helpers.js       |    11.11 |        0 |       25 |    11.11 |2,3,4,8,9,10,11,19 |
+  index.js         |        0 |      100 |      100 |        0 |              7,17 |
+  serviceWorker.js |        0 |        0 |        0 |        0 |... 32,133,135,138 |
+ src/components    |    27.86 |    10.57 |    20.51 |    27.93 |                   |
+  Alert.js         |     4.35 |        0 |        0 |     4.35 |... 50,51,61,62,64 |
+  App.js           |     19.4 |    16.67 |    17.65 |     19.4 |... 17,339,340,341 |
+  Board.js         |     58.5 |    31.25 |    44.83 |     58.5 |... 83,490,497,504 |
+  ControlPanel.js  |        0 |        0 |        0 |        0 |                 6 |
+  Counter.js       |        0 |      100 |        0 |        0 |               6,8 |
+  Field.js         |        0 |      100 |        0 |        0 |           8,12,16 |
+  Ghost.js         |        0 |      100 |        0 |        0 |                 7 |
+  Hero.js          |        0 |        0 |        0 |        0 |... 96,197,199,203 |
+  Homebase.js      |        0 |      100 |        0 |        0 |              7,10 |
+  Menu.js          |        0 |        0 |        0 |        0 |... 76,79,80,84,88 |
+  MenuOption.js    |        0 |        0 |        0 |        0 |                 5 |
+  Monster.js       |        0 |      100 |        0 |        0 |                 6 |
+  Queue.js         |        0 |        0 |        0 |        0 |     8,13,16,17,19 |
+  Scoreboard.js    |        0 |      100 |        0 |        0 |                 6 |
+ src/js            |        0 |        0 |        0 |        0 |                   |
+  homebase.js      |        0 |        0 |        0 |        0 |... 52,54,61,70,73 |
+-------------------|----------|----------|----------|----------|-------------------|
+```

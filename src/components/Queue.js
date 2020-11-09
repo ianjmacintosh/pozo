@@ -5,12 +5,9 @@ import Ghost from "./Ghost";
 import "./Queue.css";
 
 class Queue extends React.Component {
-  reportElimination = () => {
-    // Set streak to on
-    // Call Counter.update()
-    // Call Monster.strike() on next monster (if exists)
-    // If no next monster exists on queue, call Scoreboard.update()
-  };
+  state = {
+    contents: []
+  }
 
   render() {
     return (

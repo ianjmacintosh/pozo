@@ -3,7 +3,7 @@
 .ghost {
   height: 40px;
   width: 40px;
-  font-size: 36px;
+  font-size: 24px;
   font-family: "Bebas Neue", cursive;
   animation: 250ms fade-in forwards, 250ms grow-in forwards,
     250ms slide-up 500ms forwards, 250ms fade-out 500ms forwards;

@@ -47,6 +47,50 @@ class App extends React.Component {
         ),
         shown: false,
       },
+      credits: {
+        content: (
+                <React.Fragment>
+                  <h1 className="small-headline">Credits</h1>
+                  <dl>
+                    <dt>Development</dt>
+                    <dd>Ian MacIntosh</dd>
+                    <dt>Sound Effects</dt>
+                    <dd>
+                      <a href="https://freesound.org/people/Breviceps/">
+                        Breviceps
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                    <dd>
+                      <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                        LittleRobotSoundFactory
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                    <dd>
+                      <a href="https://freesound.org/people/LukeSharples/">
+                        LukeSharples
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                    <dd>
+                      <a href="https://freesound.org/people/SgtPepperArc360/">
+                        SgtPepperArc360
+                      </a>{" "}
+                      (soundeffects.org)
+                    </dd>
+                  </dl>
+
+                  <p>
+                    This game is derivative of the mid-1990's arcade puzzle
+                    game <i>Zoop</i>, which was developed by Hookstone Media
+                    and published by Viacom New Media.
+                  </p>
+                </React.Fragment>
+        ),
+        shown: false,
+
+      },
       victory: {
         content: <h1>Victory</h1>,
         shown: false,
@@ -60,6 +104,7 @@ class App extends React.Component {
         shown: false,
       },
     },
+    stage: 0,
     activeMenuName: "mainMenu",
     redAlert: false,
     gameActive: false,
@@ -83,6 +128,10 @@ class App extends React.Component {
     console.log(`Game active: ${newState}`);
     this.setState({ gameActive: newState });
   };
+
+  setStage = (newStage) => {
+    this.setState({ stage: newStage });
+  }
 
   monsterTimer = null;
   waveTimer = null;
@@ -139,10 +188,12 @@ class App extends React.Component {
   render() {
     return (
       <div
-        className={`App stage${this.state.currentStage} ${
+        className={`App ${this.state.gameActive ? "stage" + this.state.stage : "" } ${
           this.state.redAlert ? "red-alert" : ""
         }`}
       >
+
+        {/* "Stage 1" Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alerts.stageAnnouncement.content}
@@ -151,6 +202,8 @@ class App extends React.Component {
           autodismiss={true}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Victory" Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alerts.victory.content}
@@ -191,98 +244,8 @@ class App extends React.Component {
           name="victory"
           dismissAlert={this.dismissAlert}
         ></Alert>
-        <Alert
-          playSound={this.playSound}
-          name="main-menu"
-          content={<h1>Pozo</h1>}
-          menu={{
-            name: "main-menu",
-            options: [
-              {
-                title: "Start Game",
-                action: () => {
-                  let alerts = this.state.alerts;
-                  alerts.mainMenu.shown = false;
-                  console.log("You clicked on 'Start Game!'");
-                  this.setState({ activeMenuName: "game", gameActive: true });
-                },
-              },
-              {
-                title: "Instructions",
-                action: () => {
-                  let alerts = this.state.alerts;
-                  alerts.instructions.shown = true;
-                  this.setState({
-                    alerts,
-                    activeMenuName: "instructions",
-                  });
-                },
-              },
-              // {
-              //   title: "Options",
-              //   action: () => {
-              //     console.log("Options");
-              //   },
-              //   selected: false,
-              // },
-              {
-                title: "Credits",
-                action: () => {
-                  this.showAlert(
-                    <React.Fragment>
-                      <h1 className="small-headline">Credits</h1>
-                      <dl>
-                        <dt>Development</dt>
-                        <dd>Ian MacIntosh</dd>
-                        <dt>Sound Effects</dt>
-                        <dd>
-                          <a href="https://freesound.org/people/Breviceps/">
-                            Breviceps
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                        <dd>
-                          <a href="https://freesound.org/people/LittleRobotSoundFactory/">
-                            LittleRobotSoundFactory
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                        <dd>
-                          <a href="https://freesound.org/people/LukeSharples/">
-                            LukeSharples
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                        <dd>
-                          <a href="https://freesound.org/people/SgtPepperArc360/">
-                            SgtPepperArc360
-                          </a>{" "}
-                          (soundeffects.org)
-                        </dd>
-                      </dl>
 
-                      <p>
-                        This game is derivative of the mid-1990's arcade puzzle
-                        game <i>Zoop</i>, which was developed by Hookstone Media
-                        and published by Viacom New Media.
-                      </p>
-                    </React.Fragment>,
-                    false
-                  );
-                },
-              },
-            ],
-            hasFocus: this.state.activeMenuName === "mainMenu",
-          }}
-          shown={this.state.alerts.mainMenu.shown}
-        ></Alert>
-        <Alert
-          playSound={this.playSound}
-          content={this.state.alert.content}
-          shown={this.state.alert.shown}
-          autodismiss={this.state.alert.autodismiss}
-          dismissAlert={this.dismissAlert}
-        ></Alert>
+        {/* "Game Over" Announcement */}
         <Alert
           playSound={this.playSound}
           name="game-over"
@@ -322,6 +285,60 @@ class App extends React.Component {
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Main Menu" Announcement */}
+        <Alert
+          playSound={this.playSound}
+          name="main-menu"
+          content={<h1>Pozo</h1>}
+          menu={{
+            name: "main-menu",
+            options: [
+              {
+                title: "Start Game",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.mainMenu.shown = false;
+                  console.log("You clicked on 'Start Game!'");
+                  this.setState({ activeMenuName: "game", gameActive: true });
+                },
+              },
+              {
+                title: "Instructions",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.instructions.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "instructions",
+                  });
+                },
+              },
+              // {
+              //   title: "Options",
+              //   action: () => {
+              //     console.log("Options");
+              //   },
+              //   selected: false,
+              // },
+              {
+                title: "Credits",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.credits.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "credits",
+                  });
+                },
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "mainMenu",
+          }}
+          shown={this.state.alerts.mainMenu.shown}
+        ></Alert>
+
+        {/* "Instructions" Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alerts.instructions.content}
@@ -346,6 +363,33 @@ class App extends React.Component {
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* "Credits" Announcement */}
+        <Alert
+          playSound={this.playSound}
+          content={this.state.alerts.credits.content}
+          menu={{
+            name: "credits",
+            options: [{
+                title: "Continue",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.credits.shown = false;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: true,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "credits",
+          }}
+          shown={this.state.alerts.credits.shown}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+
+        {/* Utility Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alert.content}
@@ -353,14 +397,19 @@ class App extends React.Component {
           autodismiss={this.state.alert.autodismiss}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
         <Board
           playSound={this.playSound}
           changeGameActive={this.changeGameActive}
-          isGameActive={this.state.gameActive}
           showAlert={this.showAlert}
           updateAlert={this.updateAlert}
-          muted={this.state.muted}
+          setStage={this.setStage}
           toggleMute={this.toggleMute}
+          isGameActive={this.state.gameActive}
+          muted={this.state.muted}
+          stage={this.state.stage}
+          longQueueSize={8}
+          shortQueueSize={5}
         />
       </div>
     );
