@@ -201,6 +201,47 @@ class App extends React.Component {
           dismissAlert={this.dismissAlert}
         ></Alert>
 
+        {/* "Game Over" Announcement */}
+        <Alert
+          playSound={this.playSound}
+          name="game-over"
+          content={this.state.alerts.gameOver.content}
+          menu={{
+            name: "game-over",
+            options: [
+              {
+                title: "Try Again",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.gameOver.shown = false;
+
+                  this.setState({
+                    alerts,
+                    gameActive: true,
+                  });
+                },
+                selected: true,
+              },
+              {
+                title: "Main Menu",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.gameOver.shown = false;
+                  alerts.mainMenu.shown = true;
+                  this.setState({
+                    alerts,
+                    activeMenuName: "mainMenu",
+                  });
+                },
+                selected: false,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "gameOver",
+          }}
+          shown={this.state.alerts.gameOver.shown}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+
         {/* "Main Menu" Announcement */}
         <Alert
           playSound={this.playSound}
@@ -288,56 +329,6 @@ class App extends React.Component {
           shown={this.state.alerts.mainMenu.shown}
         ></Alert>
 
-        {/* Utility Announcement */}
-        <Alert
-          playSound={this.playSound}
-          content={this.state.alert.content}
-          shown={this.state.alert.shown}
-          autodismiss={this.state.alert.autodismiss}
-          dismissAlert={this.dismissAlert}
-        ></Alert>
-
-        {/* "Game Over" Announcement */}
-        <Alert
-          playSound={this.playSound}
-          name="game-over"
-          content={this.state.alerts.gameOver.content}
-          menu={{
-            name: "game-over",
-            options: [
-              {
-                title: "Try Again",
-                action: () => {
-                  let alerts = this.state.alerts;
-                  alerts.gameOver.shown = false;
-
-                  this.setState({
-                    alerts,
-                    gameActive: true,
-                  });
-                },
-                selected: true,
-              },
-              {
-                title: "Main Menu",
-                action: () => {
-                  let alerts = this.state.alerts;
-                  alerts.gameOver.shown = false;
-                  alerts.mainMenu.shown = true;
-                  this.setState({
-                    alerts,
-                    activeMenuName: "mainMenu",
-                  });
-                },
-                selected: false,
-              },
-            ],
-            hasFocus: this.state.activeMenuName === "gameOver",
-          }}
-          shown={this.state.alerts.gameOver.shown}
-          dismissAlert={this.dismissAlert}
-        ></Alert>
-
         {/* "Instructions" Announcement */}
         <Alert
           playSound={this.playSound}
@@ -363,6 +354,8 @@ class App extends React.Component {
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
+        {/* Utility Announcement */}
         <Alert
           playSound={this.playSound}
           content={this.state.alert.content}
@@ -370,6 +363,7 @@ class App extends React.Component {
           autodismiss={this.state.alert.autodismiss}
           dismissAlert={this.dismissAlert}
         ></Alert>
+
         <Board
           playSound={this.playSound}
           changeGameActive={this.changeGameActive}
