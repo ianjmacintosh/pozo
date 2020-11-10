@@ -9,7 +9,7 @@ class ControlPanel extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleToggleClick} className="mute-button">
+        <button onClick={this.handleToggleClick} className="mute-button" data-testid="mute-toggleSfx">
           <span role="img" aria-label="Toggle sound">
             {this.props.muted ? "🔇" : "🔈"}
           </span>
