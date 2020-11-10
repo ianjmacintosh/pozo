@@ -8,6 +8,8 @@ import "./App.css";
 class App extends React.Component {
   state = {
     muted: true,
+    sfxMuted: true,
+    musicMuted: true,
     alert: {
       content: "",
       shown: false,
@@ -114,8 +116,8 @@ class App extends React.Component {
     window.addEventListener("keydown", this.handleKeypress);
   }
 
-  playSound = (soundKey, startPoint = 0, volume = 1) => {
-    if (this.state.muted) {
+  playSound = (soundKey, startPoint = 0, volume = 1, isSoundEffect = true) => {
+    if (isSoundEffect && this.state.sfxMuted) {
       return;
     }
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
@@ -150,6 +152,26 @@ class App extends React.Component {
     let muted = !this.state.muted;
     this.setState({
       muted,
+    });
+  };
+
+  toggleSfxMute = () => {
+    console.log(
+      `Turning mute from ${this.state.sfxMuted} to ${!this.state.sfxMuted}`
+    );
+    let sfxMuted = !this.state.sfxMuted;
+    this.setState({
+      sfxMuted,
+    });
+  };
+
+  toggleMusicMute = () => {
+    console.log(
+      `Turning mute from ${this.state.musicMuted} to ${!this.state.musicMuted}`
+    );
+    let musicMuted = !this.state.musicMuted;
+    this.setState({
+      musicMuted,
     });
   };
 
@@ -405,8 +427,12 @@ class App extends React.Component {
           updateAlert={this.updateAlert}
           setStage={this.setStage}
           toggleMute={this.toggleMute}
+          toggleSfxMute={this.toggleSfxMute}
+          toggleMusicMute={this.toggleMusicMute}
           isGameActive={this.state.gameActive}
           muted={this.state.muted}
+          sfxMuted={this.state.sfxMuted}
+          musicMuted={this.state.musicMuted}
           stage={this.state.stage}
           longQueueSize={8}
           shortQueueSize={5}

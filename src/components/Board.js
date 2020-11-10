@@ -547,6 +547,8 @@ class Board extends React.Component {
           <ControlPanel
             muted={this.props.muted}
             toggleMute={this.props.toggleMute}
+            toggleSfxMute={this.props.toggleSfxMute}
+            toggleMusicMute={this.props.toggleMusicMute}
           />
           <Counter count={this.state.monstersRemaining} />
         </footer>
