@@ -446,6 +446,7 @@ class Board extends React.Component {
       if (stageNumber === 1) {
         this.props.playSound("menuSelect", 0, 0.2);
         this.setState({ score: 0 });
+        this.props.changeMusic("music");
       }
     });
 
@@ -550,6 +551,8 @@ class Board extends React.Component {
         <footer>
           <ControlPanel
             muted={this.props.muted}
+            sfxMuted={this.props.sfxMuted}
+            musicMuted={this.props.musicMuted}
             toggleMute={this.props.toggleMute}
             toggleSfxMute={this.props.toggleSfxMute}
             toggleMusicMute={this.props.toggleMusicMute}

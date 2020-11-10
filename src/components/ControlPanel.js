@@ -14,18 +14,26 @@ class ControlPanel extends React.Component {
 
   render() {
     return (
+      <React.Fragment>
       <div>
-        <button onClick={this.handleSfxToggleClick} className="mute-button" data-testid="mute-toggleSfx">
+        <button onClick={this.handleSfxToggleClick}
+        className={`mute-button ${this.props.sfxMuted ? 'muted' : ''}`}
+        data-testid="mute-toggleSfx">
           <span role="img" aria-label="Toggle sound">
-            {this.props.muted ? "🔕" : "🔔"}
-          </span>
-        </button>
-        <button onClick={this.handleMusicToggleClick} className="mute-button" data-testid="mute-toggleMusic">
-          <span role="img" aria-label="Toggle sound">
-            {this.props.muted ? "🔇🎼" : "🔈🎼"}
+            🔔
           </span>
         </button>
       </div>
+      <div>
+        <button onClick={this.handleMusicToggleClick}
+        className={`mute-button ${this.props.musicMuted ? 'muted' : ''}`}
+        data-testid="mute-toggleMusic">
+          <span role="img" aria-label="Toggle sound">
+            🎷
+          </span>
+        </button>
+      </div>
+      </React.Fragment>
     );
   }
 }

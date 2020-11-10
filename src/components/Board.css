@@ -13,7 +13,7 @@ footer {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 40px 1fr;
-  justify-items: end;
+  justify-items: start;
 }
 
 @media (min-width: 320px) {

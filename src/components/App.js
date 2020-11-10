@@ -8,8 +8,8 @@ import "./App.css";
 class App extends React.Component {
   state = {
     muted: true,
-    sfxMuted: true,
-    musicMuted: true,
+    sfxMuted: false,
+    musicMuted: false,
     alert: {
       content: "",
       shown: false,
@@ -116,8 +116,21 @@ class App extends React.Component {
     window.addEventListener("keydown", this.handleKeypress);
   }
 
-  playSound = (soundKey, startPoint = 0, volume = 1, isSoundEffect = true) => {
-    if (isSoundEffect && this.state.sfxMuted) {
+  changeMusic = (songKey, stopMusic = false) => {
+    const audio = document.querySelector(`[data-sound=${songKey}]`);
+
+    if (stopMusic) {
+      audio.pause();
+      return;
+    }
+
+    audio.currentTime = 0;
+    audio.volume = 0.6;
+    audio.play();
+  };
+
+  playSound = (soundKey, startPoint = 0, volume = 1) => {
+    if (this.state.sfxMuted) {
       return;
     }
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
@@ -170,6 +183,13 @@ class App extends React.Component {
       `Turning mute from ${this.state.musicMuted} to ${!this.state.musicMuted}`
     );
     let musicMuted = !this.state.musicMuted;
+    if (!musicMuted) {
+      // Play sound; start at 0m00s, volume at 60%, isSoundEffect = false
+      this.changeMusic("music");
+    } else {
+      this.changeMusic("music", true);
+    }
+
     this.setState({
       musicMuted,
     });
@@ -422,6 +442,7 @@ class App extends React.Component {
 
         <Board
           playSound={this.playSound}
+          changeMusic={this.changeMusic}
           changeGameActive={this.changeGameActive}
           showAlert={this.showAlert}
           updateAlert={this.updateAlert}
