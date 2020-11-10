@@ -1,98 +1,79 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Overview
 
-## Available Scripts
+Pozo is a clone of Zoop, the arcade puzzle game from 1995.
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+Install all the dependencies
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### Coverage
+```bash
+npm install
 ```
--------------------|----------|----------|----------|----------|-------------------|
-File               |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
--------------------|----------|----------|----------|----------|-------------------|
-All files          |     23.6 |     8.02 |    16.35 |    23.71 |                   |
- src               |        2 |        0 |        5 |        2 |                   |
-  helpers.js       |    11.11 |        0 |       25 |    11.11 |2,3,4,8,9,10,11,19 |
-  index.js         |        0 |      100 |      100 |        0 |              7,17 |
-  serviceWorker.js |        0 |        0 |        0 |        0 |... 32,133,135,138 |
- src/components    |    27.86 |    10.57 |    20.51 |    27.93 |                   |
-  Alert.js         |     4.35 |        0 |        0 |     4.35 |... 50,51,61,62,64 |
-  App.js           |     19.4 |    16.67 |    17.65 |     19.4 |... 17,339,340,341 |
-  Board.js         |     58.5 |    31.25 |    44.83 |     58.5 |... 83,490,497,504 |
-  ControlPanel.js  |        0 |        0 |        0 |        0 |                 6 |
-  Counter.js       |        0 |      100 |        0 |        0 |               6,8 |
-  Field.js         |        0 |      100 |        0 |        0 |           8,12,16 |
-  Ghost.js         |        0 |      100 |        0 |        0 |                 7 |
-  Hero.js          |        0 |        0 |        0 |        0 |... 96,197,199,203 |
-  Homebase.js      |        0 |      100 |        0 |        0 |              7,10 |
-  Menu.js          |        0 |        0 |        0 |        0 |... 76,79,80,84,88 |
-  MenuOption.js    |        0 |        0 |        0 |        0 |                 5 |
-  Monster.js       |        0 |      100 |        0 |        0 |                 6 |
-  Queue.js         |        0 |        0 |        0 |        0 |     8,13,16,17,19 |
-  Scoreboard.js    |        0 |      100 |        0 |        0 |                 6 |
- src/js            |        0 |        0 |        0 |        0 |                   |
-  homebase.js      |        0 |        0 |        0 |        0 |... 52,54,61,70,73 |
--------------------|----------|----------|----------|----------|-------------------|
+
+## Running Locally
+
+```bash
+npm start
 ```
+
+## Playing
+
+Navigate to http://localhost:3000/ in your web browser
+
+---
+
+# Developer Instructions
+
+## Disclaimer
+
+I used building this game as an opportunity to get experience building an application using React. As a result, there are probably a lot of things that someone starting a project like this with any experience would do differently. There are definitely things _I'd_ do differently. But what I wouldn't change is the way I got started: start building, follow a process to keep the work going forward, but don't spend hours considering architectural decisions without having enough context or understanding to make sense of them. Put another way: without experience, it's really hard to know a good decision from a bad one.
+
+## Running Tests
+
+```bash
+npm test
+```
+
+I didn't write any tests for Pozo until the first public release was almost finished. I have some experience with Jest, so I started writing unit tests with Jest and Enzyme. Adapting what I knew to line up with React was a bit of a challenge, and my first tests seemed stilted; making a wrapper, then an instance, then calling methods within that instance and checking state seemed weird. Some articles I found along the way tried to persuade me to do things differently, and it seems like Kent C. Dodds's `testing-library` is much more popular. But I wanted to write unit tests the way I was used to, so I forced it.
+
+https://www.vinta.com.br/blog/2019/testing-your-react-components-part-2/
+https://medium.com/opendoor-labs/testing-react-components-with-jest-a7e8e4d312d8
+https://medium.com/javascript-scene/unit-testing-react-components-aeda9a44aae2
+https://willowtreeapps.com/ideas/best-practices-for-unit-testing-with-a-react-redux-approach
+
+I refactored my code to follow more of a "pure functions" approach, which helped me uncover some bugs I didn't know I had. I was really suspicious when some of these seemed to "vanish" under closer inspection, specifically an issue with the closure from the timer to clearing ghosts eliminated any changes to that queue that happened while the ghosts were animating out. This article seemed very comprehensive but I wasn't able to follow it all the way through since the bugs disappeared:
+https://dmitripavlutin.com/react-hooks-stale-closures/
+
+There's still plenty more to test. The biggest architectural blunder I think I made was handling the field-queue structure in a way that makes it impossible for a single queue to update without needing React to re-render every field, queue, and item within each queue whenever ANY queue's contents change. I'm not sure exactly how to fix this issue, but probably the easiest first step would be to make a component soley responsible for holding all the fields and homebase -- right now the Board component is out of control.
+
+The reason I added tests was to help me refactor safely, but there's still a ton of room for improvement when it comes to code coverage.
+
+## Open Questions
+
+As I was building the app, I had the idea to record whenever I ran into trouble or had a general React question.
+
+Here they are:
+
+- When should I define a routine on a child component vs App.js?
+  Specifically, should I write strike routines to pass down strike handling from App to Field to Queue to Monster? Or should I handle it all in App?
+
+  https://stackoverflow.com/questions/37949981/call-child-method-from-parent
+
+- How should I store my CSS? Should I break it up into CSS files for each component?
+
+- What's the right way to handle cases where I need to set state and immediately perform a task afterwards based on that state?
+
+- Is it normal to have a ton of functions hanging off App.js? Seems bad
+
+- What's the right way to handle keypresses to navigate through the menu vs move hero?
+
+- The main menu state vs props seems weird -- managing menuOption vs a boolean in menuOptions?
+
+- Approach for alert seems odd. Should I make a new alert window and get rid of it once it animates? Right now I'm removing a class once the animation has completed. Seems weird.
+
+## Next Infrastructure Steps
+
+- Follow a consistent approach for testing, improve code coverage
+- Refactor away from the monolithic `fields` object in `<Board>`
+- Handle `<Alert>` and `<Menu>` instances more elegantly; use abstraction
+- Continue decomposing application until functionality is evenly distributed throughout different components; aim for no components longer than 200 lines
