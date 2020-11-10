@@ -28,6 +28,7 @@ import Counter from "./Counter";
 import { getRandomInt, isMonster } from "../helpers";
 
 // All these sounds are used by audio elements
+import salgre from "../sounds/salgre.mp3";
 import eliminateSound from "../sounds/eliminate.wav";
 import swapSound from "../sounds/swap.wav";
 import gameOverSound from "../sounds/gameOver.wav";
@@ -443,6 +444,7 @@ class Board extends React.Component {
       if (stageNumber === 1) {
         this.props.playSound("menuSelect", 0, 0.2);
         this.setState({ score: 0 });
+        this.props.changeMusic("music");
       }
     });
 
@@ -537,6 +539,7 @@ class Board extends React.Component {
               handleStrikeCall={this.handleStrikeCall}
             />
           </Homebase>
+          <audio data-sound="music" src={salgre}></audio>
           <audio data-sound="eliminate" src={eliminateSound}></audio>
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="swap" src={swapSound}></audio>
@@ -546,7 +549,11 @@ class Board extends React.Component {
         <footer>
           <ControlPanel
             muted={this.props.muted}
+            sfxMuted={this.props.sfxMuted}
+            musicMuted={this.props.musicMuted}
             toggleMute={this.props.toggleMute}
+            toggleSfxMute={this.props.toggleSfxMute}
+            toggleMusicMute={this.props.toggleMusicMute}
           />
           <Counter count={this.state.monstersRemaining} />
         </footer>

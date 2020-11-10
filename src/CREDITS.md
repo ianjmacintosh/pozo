@@ -11,3 +11,7 @@ Menu select
 
 https://freesound.org/people/LittleRobotSoundFactory/sounds/270401/
 Hero move
+
+Gypsy Dance - Topher Mohr and Alex Elena.mp3
+Salgre - Jimmy Fontanez_Media Right Productions.mp3
+The Messenger - Silent Partner.mp3

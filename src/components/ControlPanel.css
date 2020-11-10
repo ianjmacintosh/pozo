@@ -4,3 +4,7 @@ button {
   font-size: 28px;
   cursor: pointer;
 }
+
+button.muted {
+  filter: grayscale(100%);
+}

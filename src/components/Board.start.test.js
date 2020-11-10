@@ -8,6 +8,7 @@ describe("Board", () => {
         playSound={jest.fn()}
         updateAlert={jest.fn()}
         showAlert={jest.fn()}
+        changeMusic={jest.fn()}
         setStage={jest.fn()}/>),
         instance = wrapper.instance();
 
