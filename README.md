@@ -1,3 +1,4 @@
+![Statements]https://img.shields.io/badge/Coverage-35.02%25-red.svg
 # Overview
 
 Pozo is a clone of Zoop, the arcade puzzle game from 1995.
