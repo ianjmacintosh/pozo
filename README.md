@@ -83,5 +83,6 @@ Here they are:
 
 - Follow a consistent approach for testing, improve code coverage
 - Refactor away from the monolithic `fields` object in `<Board>`
+- Normalize JS formatting (Prettier may help)
 - Handle `<Alert>` and `<Menu>` instances more elegantly; use abstraction
 - Continue decomposing application until functionality is evenly distributed throughout different components; aim for no components longer than 200 lines
