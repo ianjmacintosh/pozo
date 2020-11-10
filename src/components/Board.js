@@ -29,8 +29,8 @@ import { getRandomInt, isMonster } from "../helpers";
 
 // All these sounds are used by audio elements
 import salgre from "../sounds/salgre.mp3";
-import gypsyDance from "../sounds/gypsyDance.mp3";
-import silentPartner from "../sounds/silentPartner.mp3";
+// import gypsyDance from "../sounds/gypsyDance.mp3";
+// import silentPartner from "../sounds/silentPartner.mp3";
 import eliminateSound from "../sounds/eliminate.wav";
 import swapSound from "../sounds/swap.wav";
 import gameOverSound from "../sounds/gameOver.wav";
