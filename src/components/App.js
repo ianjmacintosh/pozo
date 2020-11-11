@@ -56,6 +56,8 @@ class App extends React.Component {
                   <dl>
                     <dt>Development</dt>
                     <dd>Ian MacIntosh</dd>
+                    <dt>Music</dt>
+                    <dd><i>Salgre</i> by Jimmy Fontanez &amp; Media Right Productions</dd>
                     <dt>Sound Effects</dt>
                     <dd>
                       <a href="https://freesound.org/people/Breviceps/">
