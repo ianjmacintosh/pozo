@@ -7,4 +7,97 @@
   font-family: "Bebas Neue", sans-serif;
   color: var(--white);
   text-shadow: var(--h3-shadow);
+  animation-iteration-count: 1;
+  animation-duration: 500ms;
+  display: block;
+}
+
+.counter.shake1 {
+  animation-name: shake1;
+}
+
+.counter.shake2 {
+  animation-name: shake2;
+}
+
+.counter.shake3 {
+  animation-name: shake3;
+}
+
+.counter.shake4 {
+  animation-name: shake4;
+}
+
+.counter.shake5 {
+  animation-name: shake5;
+}
+
+@keyframes shake1 {
+  0% {
+  }
+  33% {
+    transform: rotate(21deg) scale(3);
+  }
+  66% {
+    transform: rotate(-39deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes shake2 {
+  0% {
+  }
+  33% {
+    transform: rotate(-13deg) scale(3);
+  }
+  66% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes shake3 {
+  0% {
+  }
+  33% {
+    transform: rotate(-29deg) scale(3);
+  }
+  66% {
+    transform: rotate(24deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes shake4 {
+  0% {
+  }
+  33% {
+    transform: rotate(8deg) scale(3);
+  }
+  66% {
+    transform: rotate(-18deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes shake5 {
+  0% {
+  }
+  33% {
+    transform: rotate(2deg) scale(3);
+  }
+  66% {
+    transform: rotate(-8deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
 }
