@@ -142,7 +142,7 @@ class Board extends React.Component {
   // Scoreboard needs this
   // This method defines behavior when eliminating a monster
   reportElimination = (monstersEliminated) => {
-    this.props.playSound("eliminate");
+    this.props.playSound("eliminate", 0, 1, 50);
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
   };
