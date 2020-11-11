@@ -308,6 +308,7 @@ class Board extends React.Component {
     }
     // Clear the streak if no monsters were eliminated
     else if (targetQueue.filter(isMonster).length !== 0) {
+      this.props.playSound("swap", 0, 1, 0);
       this.setState({ streak: 0 });
     }
 
