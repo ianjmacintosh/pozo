@@ -8,8 +8,8 @@ import "./App.css";
 class App extends React.Component {
   state = {
     muted: true,
-    sfxMuted: false,
-    musicMuted: false,
+    sfxMuted: true,
+    musicMuted: true,
     alert: {
       content: "",
       shown: false,
@@ -184,16 +184,18 @@ class App extends React.Component {
       `Turning mute from ${this.state.musicMuted} to ${!this.state.musicMuted}`
     );
     let musicMuted = !this.state.musicMuted;
-    if (!musicMuted) {
-      // Play sound; start at 0m00s, volume at 60%, isSoundEffect = false
-      this.changeMusic("music");
-    } else {
-      this.changeMusic("music", true);
-    }
 
     this.setState({
       musicMuted,
     });
+
+    if (musicMuted) {
+      // Turn the music off
+      this.changeMusic("music", true);
+    } else {
+      // Start the music!
+      this.changeMusic("music");
+    }
   };
 
   showAlert = (content, autodismiss = true, persistent = false) => {
