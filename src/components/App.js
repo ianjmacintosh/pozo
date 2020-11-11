@@ -129,7 +129,7 @@ class App extends React.Component {
     audio.play();
   };
 
-  playSound = (soundKey, startPoint = 0, volume = 1) => {
+  playSound = (soundKey, startPoint = 0, volume = 1, delay = 0) => {
     if (this.state.sfxMuted) {
       return;
     }
@@ -137,7 +137,9 @@ class App extends React.Component {
     if (!audio) { return; }
     audio.currentTime = startPoint;
     audio.volume = volume;
-    audio.play();
+    setTimeout(() => {
+      audio.play();
+    }, delay)
   };
 
   changeGameActive = (newState) => {

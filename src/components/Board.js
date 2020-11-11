@@ -34,6 +34,7 @@ import swapSound from "../sounds/swap.wav";
 import gameOverSound from "../sounds/gameOver.wav";
 import stageClearSound from "../sounds/stageClear.wav";
 import menuSelectSound from "../sounds/menuSelect.wav";
+import splashSound from "../sounds/splash.wav";
 
 const stages = [
   {
@@ -142,7 +143,7 @@ class Board extends React.Component {
   // Scoreboard needs this
   // This method defines behavior when eliminating a monster
   reportElimination = (monstersEliminated) => {
-    this.props.playSound("eliminate");
+    this.props.playSound("eliminate", 0, 1, 50);
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
   };
@@ -308,6 +309,7 @@ class Board extends React.Component {
     }
     // Clear the streak if no monsters were eliminated
     else if (targetQueue.filter(isMonster).length !== 0) {
+      this.props.playSound("swap", 0, 1, 0);
       this.setState({ streak: 0 });
     }
 
@@ -326,7 +328,9 @@ class Board extends React.Component {
     }
 
     // Do everything associated with clearing monsters
-    this.reportElimination(monstersEliminated);
+    if (monstersEliminated > 0) {
+      this.reportElimination(monstersEliminated);
+    }
 
     // Set a timer to remove the ghosts
     setTimeout(() => {
@@ -408,6 +412,7 @@ class Board extends React.Component {
         this.start(currentStage);
       } else {
         this.props.changeGameActive(false);
+        this.props.playSound("victory");
         this.props.showAlert("victory", false);
       }
     } else {
@@ -546,6 +551,7 @@ class Board extends React.Component {
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="swap" src={swapSound}></audio>
           <audio data-sound="gameOver" src={gameOverSound}></audio>
+          <audio data-sound="victory" src={splashSound}></audio>
           <audio data-sound="stageClear" src={stageClearSound}></audio>
         </main>
         <footer>
