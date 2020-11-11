@@ -134,6 +134,7 @@ class App extends React.Component {
       return;
     }
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
+    if (!audio) { return; }
     audio.currentTime = startPoint;
     audio.volume = volume;
     audio.play();
