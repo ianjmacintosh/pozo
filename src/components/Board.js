@@ -442,9 +442,11 @@ class Board extends React.Component {
     // Activate game
     this.setState({ gameActive: true, redAlert: false }, () => {
       if (stageNumber === 1) {
-        this.props.playSound("menuSelect", 0, 0.2);
         this.setState({ score: 0 });
-        this.props.changeMusic("music");
+        if (this.props.musicMuted === false) {
+          this.props.changeMusic("music");
+        }
+        this.props.playSound("menuSelect", 0, 0.2);
       }
     });
 
