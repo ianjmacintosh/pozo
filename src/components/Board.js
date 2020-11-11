@@ -326,7 +326,9 @@ class Board extends React.Component {
     }
 
     // Do everything associated with clearing monsters
-    this.reportElimination(monstersEliminated);
+    if (monstersEliminated > 0) {
+      this.reportElimination(monstersEliminated);
+    }
 
     // Set a timer to remove the ghosts
     setTimeout(() => {
