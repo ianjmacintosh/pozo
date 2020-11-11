@@ -34,6 +34,7 @@ import swapSound from "../sounds/swap.wav";
 import gameOverSound from "../sounds/gameOver.wav";
 import stageClearSound from "../sounds/stageClear.wav";
 import menuSelectSound from "../sounds/menuSelect.wav";
+import splashSound from "../sounds/splash.wav";
 
 const stages = [
   {
@@ -411,6 +412,7 @@ class Board extends React.Component {
         this.start(currentStage);
       } else {
         this.props.changeGameActive(false);
+        this.props.playSound("victory");
         this.props.showAlert("victory", false);
       }
     } else {
@@ -549,6 +551,7 @@ class Board extends React.Component {
           <audio data-sound="menuSelect" src={menuSelectSound}></audio>
           <audio data-sound="swap" src={swapSound}></audio>
           <audio data-sound="gameOver" src={gameOverSound}></audio>
+          <audio data-sound="victory" src={splashSound}></audio>
           <audio data-sound="stageClear" src={stageClearSound}></audio>
         </main>
         <footer>
