@@ -107,11 +107,14 @@ class Board extends React.Component {
       rateMultiplier: 0,
     },
     paused: false,
+    squareSize: "40px"
   };
 
   componentDidUpdate(prevProps) {
     if (this.props.isGameActive !== prevProps.isGameActive) {
       if (this.props.isGameActive) {
+        let squareSize = parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10);
+        this.setState({ squareSize });
         this.start();
       } else {
         clearInterval(this.monsterTimer);
@@ -540,7 +543,7 @@ class Board extends React.Component {
               handleKeypress={this.handleKeypress}
             >
               <Hero
-                squareSize={parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10)}
+                squareSize={this.state.squareSize}
                 showAlert={this.props.showAlert}
                 color={this.state.heroColor}
                 canMove={this.props.isGameActive}
