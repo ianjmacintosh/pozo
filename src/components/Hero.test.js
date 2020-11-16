@@ -17,17 +17,58 @@ describe("Hero", () => {
         instance = wrapper.instance();
 
 
-        it("sets a timeout", () => {
-            // Arrange
-            jest.useFakeTimers();
+    it("sets a timeout", () => {
+        // Arrange
+        jest.useFakeTimers();
 
         // Act
-
-            // Wait 1s
-        shallow(<Hero />);
+        shallow(<Hero
+            showAlert={mockedShowAlert} />);
 
         // Assert
         expect(setTimeout).toHaveBeenCalledTimes(1);
+        jest.clearAllTimers();
+    })
+
+    it("calls showAlert after a second if no button's pushed", () => {
+        const mockedShowAlert = jest.fn();
+
+        // Arrange
+        jest.useFakeTimers();
+        // Mount the component
+        shallow(<Hero
+            canMove={true}
+            showAlert={mockedShowAlert} />);
+
+        // Act
+        // Wait a second
+        jest.runAllTimers();
+
+        // Assert
+        // Confirm showAlert done gots called
+        expect(mockedShowAlert).toHaveBeenCalled();
+    })
+
+    it("doesn't call showAlert after a second if a button's been pushed", () => {
+        const mockedShowAlert = jest.fn();
+
+        // Arrange
+        jest.useFakeTimers();
+        // Mount the component
+        let thisInstance = shallow(<Hero
+            showAlert={mockedShowAlert}
+            canMove={true}
+            playSound={jest.fn()}
+            handleStrikeCall={jest.fn()} />).instance();
+
+        // Act
+        // Wait a second
+        thisInstance.handleKeypress({ key: " " })
+        jest.runAllTimers();
+
+        // Assert
+        // Confirm showAlert done gots called
+        expect(mockedShowAlert).not.toHaveBeenCalled();
     })
 
     describe("'showInGameInstructions' method", () => {
