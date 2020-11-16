@@ -16,17 +16,18 @@ describe("Hero", () => {
     />),
         instance = wrapper.instance();
 
-    it("shows instructions after 1s if no keys get pressed", () => {
-        // Arrange
-        const spy = jest.spyOn(instance, "showInGameInstructions");
+
+        it("sets a timeout", () => {
+            // Arrange
+            jest.useFakeTimers();
 
         // Act
 
             // Wait 1s
-
+        shallow(<Hero />);
 
         // Assert
-        expect(spy).toHaveBeenCalled();
+        expect(setTimeout).toHaveBeenCalledTimes(1);
     })
 
     describe("'showInGameInstructions' method", () => {
@@ -43,8 +44,10 @@ describe("Hero", () => {
             // Assert
             expect(mockedShowAlert).toHaveBeenCalled();
         })
+    })
 
-        it("moving updates 'untouched' state", () => {
+    describe("handleKeypress", () => {
+        it("updates 'untouched' state when given a key", () => {
             // Arrange
             // Act
             instance.handleKeypress({ key: " " });

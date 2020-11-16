@@ -15,6 +15,11 @@ class Hero extends React.Component {
     untouched: true
   }
   componentDidMount() {
+    setTimeout(() => {
+      if (this.state.untouched) {
+        this.showInGameInstructions();
+      }
+    }, 1000);
     window.addEventListener("keydown", this.handleKeypress);
   }
   // This method handles input from the user to make the hero move
