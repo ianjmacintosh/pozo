@@ -12,8 +12,14 @@ class Hero extends React.Component {
     x: 1,
     y: 1,
     orientation: "up",
+    untouched: true
   }
   componentDidMount() {
+    setTimeout(() => {
+      if (this.state.untouched) {
+        this.showInGameInstructions();
+      }
+    }, 8000);
     window.addEventListener("keydown", this.handleKeypress);
   }
   // This method handles input from the user to make the hero move
@@ -44,6 +50,8 @@ class Hero extends React.Component {
       const command = keyMappings[key];
 
       if (this.props.canMove) {
+        this.setState({ untouched: false })
+
         if (command === "strike") {
           let direction = this.state.orientation,
             queue = this.state.y - 1,
@@ -106,6 +114,10 @@ class Hero extends React.Component {
     this.setState({ hero });
   };
 
+  showInGameInstructions = () => {
+    this.props.showAlert("inGameInstructions", true, false);
+  }
+
   animateStrike = (field) => {
     // Play sound
     this.props.playSound("strike", 0, 0.5);
@@ -113,7 +125,7 @@ class Hero extends React.Component {
     // Find out direction to strike (up, left, down, right)
     let x = 0,
       y = 0,
-      squareSize = parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10),
+      squareSize = this.props.squareSize,
       sizeOfQueue = (field === "up" || field === "down" ? this.props.shortQueueSize : this.props.longQueueSize) * squareSize,
       heroToEdge = 0,
       distanceToTravel = 0;

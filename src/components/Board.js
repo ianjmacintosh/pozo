@@ -107,11 +107,14 @@ class Board extends React.Component {
       rateMultiplier: 0,
     },
     paused: false,
+    squareSize: "40px"
   };
 
   componentDidUpdate(prevProps) {
     if (this.props.isGameActive !== prevProps.isGameActive) {
       if (this.props.isGameActive) {
+        let squareSize = parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10);
+        this.setState({ squareSize });
         this.start();
       } else {
         clearInterval(this.monsterTimer);
@@ -500,73 +503,78 @@ class Board extends React.Component {
   };
 
   render() {
-    return (
-      <div className="board">
-        <header>
-          <Scoreboard score={this.state.score} />
-        </header>
-        <main>
-          <Field
-            direction="up"
-            queues={this.state.fields.up.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowUp" });
-            }}
-          />
-          <Field
-            direction="left"
-            queues={this.state.fields.left.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowLeft" });
-            }}
-          />
-          <Field
-            direction="right"
-            queues={this.state.fields.right.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowRight" });
-            }}
-          />
-          <Field
-            direction="down"
-            queues={this.state.fields.down.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowDown" });
-            }}
-          />
-          <Homebase
-            handleKeypress={this.handleKeypress}
-          >
-            <Hero
-              color={this.state.heroColor}
-              canMove={this.props.isGameActive}
-              playSound={this.props.playSound}
-              longQueueSize={this.props.longQueueSize}
-              shortQueueSize={this.props.shortQueueSize}
-              handleStrikeCall={this.handleStrikeCall}
+    if (!this.props.isGameActive) { return null; }
+    else {
+      return (
+        <div className="board">
+          <header>
+            <Scoreboard score={this.state.score} />
+          </header>
+          <main>
+            <Field
+              direction="up"
+              queues={this.state.fields.up.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowUp" });
+              }}
             />
-          </Homebase>
-          <audio data-sound="music" src={salgre}></audio>
-          <audio data-sound="eliminate" src={eliminateSound}></audio>
-          <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-          <audio data-sound="swap" src={swapSound}></audio>
-          <audio data-sound="gameOver" src={gameOverSound}></audio>
-          <audio data-sound="victory" src={splashSound}></audio>
-          <audio data-sound="stageClear" src={stageClearSound}></audio>
-        </main>
-        <footer>
-          <ControlPanel
-            muted={this.props.muted}
-            sfxMuted={this.props.sfxMuted}
-            musicMuted={this.props.musicMuted}
-            toggleMute={this.props.toggleMute}
-            toggleSfxMute={this.props.toggleSfxMute}
-            toggleMusicMute={this.props.toggleMusicMute}
-          />
-          <Counter count={this.state.monstersRemaining} />
-        </footer>
-      </div>
-    );
-  }
+            <Field
+              direction="left"
+              queues={this.state.fields.left.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowLeft" });
+              }}
+            />
+            <Field
+              direction="right"
+              queues={this.state.fields.right.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowRight" });
+              }}
+            />
+            <Field
+              direction="down"
+              queues={this.state.fields.down.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowDown" });
+              }}
+            />
+            <Homebase
+              handleKeypress={this.handleKeypress}
+            >
+              <Hero
+                squareSize={this.state.squareSize}
+                showAlert={this.props.showAlert}
+                color={this.state.heroColor}
+                canMove={this.props.isGameActive}
+                playSound={this.props.playSound}
+                longQueueSize={this.props.longQueueSize}
+                shortQueueSize={this.props.shortQueueSize}
+                handleStrikeCall={this.handleStrikeCall}
+              />
+            </Homebase>
+            <audio data-sound="music" src={salgre}></audio>
+            <audio data-sound="eliminate" src={eliminateSound}></audio>
+            <audio data-sound="menuSelect" src={menuSelectSound}></audio>
+            <audio data-sound="swap" src={swapSound}></audio>
+            <audio data-sound="gameOver" src={gameOverSound}></audio>
+            <audio data-sound="victory" src={splashSound}></audio>
+            <audio data-sound="stageClear" src={stageClearSound}></audio>
+          </main>
+          <footer>
+            <ControlPanel
+              muted={this.props.muted}
+              sfxMuted={this.props.sfxMuted}
+              musicMuted={this.props.musicMuted}
+              toggleMute={this.props.toggleMute}
+              toggleSfxMute={this.props.toggleSfxMute}
+              toggleMusicMute={this.props.toggleMusicMute}
+            />
+            <Counter count={this.state.monstersRemaining} />
+          </footer>
+        </div>
+      );
+    }
+    }
 }
 export default Board;

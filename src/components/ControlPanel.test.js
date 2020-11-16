@@ -1,14 +1,11 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 
-import { shallow } from 'enzyme';
-
-import App from "./App";
 import ControlPanel from "./ControlPanel";
 
 describe("ControlPanel", () => {
     // Arrange
-    render(<App />)
+    render(<ControlPanel />)
 
     describe("sound effects toggle button", () => {
         it("exists", () => {
@@ -41,7 +38,7 @@ describe("ControlPanel", () => {
 
     it("has a sound effects toggle button", () => {
     // Arrange
-    render(<App />)
+    render(<ControlPanel />)
       // Act
         const sfxToggleButton = screen.getByTestId("mute-toggleSfx")
 
@@ -52,7 +49,7 @@ describe("ControlPanel", () => {
 
     it("has a music toggle button", () => {
     // Arrange
-    render(<App />)
+    render(<ControlPanel />)
       // Act
         const musicToggleButton = screen.getByTestId("mute-toggleMusic")
 
