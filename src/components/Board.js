@@ -540,6 +540,7 @@ class Board extends React.Component {
               handleKeypress={this.handleKeypress}
             >
               <Hero
+                squareSize={parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10)}
                 showAlert={this.props.showAlert}
                 color={this.state.heroColor}
                 canMove={this.props.isGameActive}

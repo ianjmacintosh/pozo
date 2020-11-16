@@ -125,7 +125,7 @@ class Hero extends React.Component {
     // Find out direction to strike (up, left, down, right)
     let x = 0,
       y = 0,
-      squareSize = document.querySelector("board") ? parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10) : "10px",
+      squareSize = this.props.squareSize,
       sizeOfQueue = (field === "up" || field === "down" ? this.props.shortQueueSize : this.props.longQueueSize) * squareSize,
       heroToEdge = 0,
       distanceToTravel = 0;
