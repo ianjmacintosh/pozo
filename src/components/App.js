@@ -28,7 +28,7 @@ class App extends React.Component {
       inGameInstructions: {
         content: (
       <React.Fragment>
-      <h1>Use your keyboard arrows to move and spacebar to strike!</h1>
+      <h1>Use your keyboard arrows to move<br />Tap spacebar to strike</h1>
     </React.Fragment>
         ),
         shown: false
