@@ -106,6 +106,10 @@ class Hero extends React.Component {
     this.setState({ hero });
   };
 
+  showInGameInstructions = () => {
+
+  }
+
   animateStrike = (field) => {
     // Play sound
     this.props.playSound("strike", 0, 0.5);
