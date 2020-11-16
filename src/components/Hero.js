@@ -12,6 +12,7 @@ class Hero extends React.Component {
     x: 1,
     y: 1,
     orientation: "up",
+    untouched: true
   }
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeypress);
@@ -44,6 +45,8 @@ class Hero extends React.Component {
       const command = keyMappings[key];
 
       if (this.props.canMove) {
+        this.setState({ untouched: false })
+
         if (command === "strike") {
           let direction = this.state.orientation,
             queue = this.state.y - 1,
@@ -107,7 +110,10 @@ class Hero extends React.Component {
   };
 
   showInGameInstructions = () => {
-
+    this.props.showAlert(
+      <React.Fragment>
+        <h1>Use the arrow keys (↑, ↓, ←, →) to move and spacebar or enter to strike!</h1>
+      </React.Fragment>);
   }
 
   animateStrike = (field) => {

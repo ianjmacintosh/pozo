@@ -4,13 +4,15 @@ import { shallow } from 'enzyme';
 import Hero from "./Hero";
 
 describe("Hero", () => {
-    const wrapper = shallow(<Hero
+    const mockedShowAlert = jest.fn(),
+        wrapper = shallow(<Hero
+            showAlert={mockedShowAlert}
+            canMove={true}
+            playSound={jest.fn()}
+            handleStrikeCall={jest.fn()}
         // color={this.state.heroColor}
-        // canMove={this.props.isGameActive}
-        // playSound={this.props.playSound}
         // longQueueSize={this.props.longQueueSize}
         // shortQueueSize={this.props.shortQueueSize}
-        // handleStrikeCall={this.handleStrikeCall}
     />),
         instance = wrapper.instance();
 
@@ -19,6 +21,23 @@ describe("Hero", () => {
 
         it("is not undefined", () => {
             expect(subject).not.toBeUndefined();
+        })
+
+        it("calls 'showAlert'", () => {
+            // Act
+            subject();
+
+            // Assert
+            expect(mockedShowAlert).toHaveBeenCalled();
+        })
+
+        it("moving updates 'untouched' state", () => {
+            // Arrange
+            // Act
+            instance.handleKeypress({ key: " " });
+
+            // Assert
+            expect(instance.state.untouched).toBe(false);
         })
     })
 });
