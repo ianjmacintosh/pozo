@@ -25,6 +25,14 @@ class App extends React.Component {
         content: "Stage 1",
         shown: false,
       },
+      inGameInstructions: {
+        content: (
+      <React.Fragment>
+      <h1>Use your keyboard arrows to move and spacebar to strike!</h1>
+    </React.Fragment>
+        ),
+        shown: false
+      },
       instructions: {
         content: (
           <React.Fragment>
@@ -212,6 +220,9 @@ class App extends React.Component {
       }
       if (content === "victory") {
         this.setState({ activeMenuName: "victory" });
+      }
+      if (content === "inGameInstructions") {
+        this.setState({ activeMenuName: "inGameInstructions" });
       }
       alerts[content].shown = true;
     } else {
@@ -410,6 +421,31 @@ class App extends React.Component {
             hasFocus: this.state.activeMenuName === "instructions",
           }}
           shown={this.state.alerts.instructions.shown}
+          dismissAlert={this.dismissAlert}
+        ></Alert>
+
+        {/* "Instructions" Announcement */}
+        <Alert
+          playSound={this.playSound}
+          content={this.state.alerts.inGameInstructions.content}
+          menu={{
+            name: "inGameInstructions",
+            options: [
+              {
+                title: "Got It",
+                action: () => {
+                  let alerts = this.state.alerts;
+                  alerts.inGameInstructions.shown = false;
+                  this.setState({
+                    alerts
+                  });
+                },
+                selected: true,
+              },
+            ],
+            hasFocus: this.state.activeMenuName === "inGameInstructions",
+          }}
+          shown={this.state.alerts.inGameInstructions.shown}
           dismissAlert={this.dismissAlert}
         ></Alert>
 

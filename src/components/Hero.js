@@ -115,10 +115,7 @@ class Hero extends React.Component {
   };
 
   showInGameInstructions = () => {
-    this.props.showAlert(
-      <React.Fragment>
-        <h1>Use the arrow keys (↑, ↓, ←, →) to move and spacebar or enter to strike!</h1>
-      </React.Fragment>);
+    this.props.showAlert("inGameInstructions", true, false);
   }
 
   animateStrike = (field) => {
