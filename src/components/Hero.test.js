@@ -16,6 +16,19 @@ describe("Hero", () => {
     />),
         instance = wrapper.instance();
 
+    it("shows instructions after 1s if no keys get pressed", () => {
+        // Arrange
+        const spy = jest.spyOn(instance, "showInGameInstructions");
+
+        // Act
+
+            // Wait 1s
+
+
+        // Assert
+        expect(spy).toHaveBeenCalled();
+    })
+
     describe("'showInGameInstructions' method", () => {
         const subject = instance.showInGameInstructions;
 
