@@ -7,4 +7,15 @@
   font-family: "Bebas Neue", cursive;
   color: var(--white);
   text-shadow: var(--h3-shadow);
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+}
+
+.scoreboard p {
+  margin: 0;
+}
+
+.high-score {
+  text-align: right;
 }
