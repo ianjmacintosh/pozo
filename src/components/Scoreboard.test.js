@@ -2,10 +2,15 @@ import React from 'react';
 import { render, screen } from '@testing-library/react'
 import Scoreboard from "./Scoreboard";
 
-render(<Scoreboard />);
+let score = 0;
+render(<Scoreboard score={score}/>);
 
-const scoreboard = screen.getByTestId("high-score-display");
+const highScore = screen.getByTestId("high-score-display");
 
 test("shows a high score component", () => {
-    expect(scoreboard).toBeDefined();
+    expect(highScore).toBeDefined();
 });
+
+test("starts as 0", () => {
+    expect(highScore.textContent).toBe("0")
+})
