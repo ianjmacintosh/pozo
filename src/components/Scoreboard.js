@@ -6,8 +6,15 @@ class Scoreboard extends React.Component {
     highScore: 0
   };
 
+  componentDidMount() {
+    if (localStorage.getItem("highScore") > 0) {
+      this.setState({ highScore: localStorage.getItem("highScore")})
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.score > this.state.highScore) {
+      localStorage.setItem("highScore", this.props.score);
       this.setState({ highScore: this.props.score })
     }
   }
