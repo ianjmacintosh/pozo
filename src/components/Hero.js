@@ -13,7 +13,7 @@ class Hero extends React.Component {
     y: 1,
     orientation: "up",
     untouched: true
-  }
+  };
   componentDidMount() {
     setTimeout(() => {
       if (this.state.untouched) {
@@ -43,14 +43,14 @@ class Hero extends React.Component {
       ArrowRight: "right",
       ArrowDown: "down",
       ArrowLeft: "left",
-      Enter: "strike",
+      Enter: "strike"
     };
 
     if (key in keyMappings) {
       const command = keyMappings[key];
 
       if (this.props.canMove) {
-        this.setState({ untouched: false })
+        this.setState({ untouched: false });
 
         if (command === "strike") {
           let direction = this.state.orientation,
@@ -73,7 +73,7 @@ class Hero extends React.Component {
   // Hero needs this
   // This method updates the hero's coordinates and orientation
   // Walk accepts a direction, and calls move
-  walk = (direction) => {
+  walk = direction => {
     this.props.playSound("walk", 0, 0.15);
 
     // Each movement updates app state for hero x & y
@@ -81,7 +81,7 @@ class Hero extends React.Component {
         up: [0, -1],
         right: [1, 0],
         down: [0, 1],
-        left: [-1, 0],
+        left: [-1, 0]
       },
       baseSize = 4;
 
@@ -106,7 +106,7 @@ class Hero extends React.Component {
 
   // Homebase needs this
   // This method changes the hero's color
-  changeColor = (newColor) => {
+  changeColor = newColor => {
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
@@ -116,9 +116,9 @@ class Hero extends React.Component {
 
   showInGameInstructions = () => {
     this.props.showAlert("inGameInstructions", true, false);
-  }
+  };
 
-  animateStrike = (field) => {
+  animateStrike = field => {
     // Play sound
     this.props.playSound("strike", 0, 0.5);
 
@@ -126,7 +126,10 @@ class Hero extends React.Component {
     let x = 0,
       y = 0,
       squareSize = this.props.squareSize,
-      sizeOfQueue = (field === "up" || field === "down" ? this.props.shortQueueSize : this.props.longQueueSize) * squareSize,
+      sizeOfQueue =
+        (field === "up" || field === "down"
+          ? this.props.shortQueueSize
+          : this.props.longQueueSize) * squareSize,
       heroToEdge = 0,
       distanceToTravel = 0;
 
@@ -169,12 +172,12 @@ class Hero extends React.Component {
     tl.to(".hero", {
       duration: 0.1,
       x,
-      y,
+      y
     });
     tl.to(".hero", {
       duration: 0.1,
       x: 0,
-      y: 0,
+      y: 0
     });
 
     // Flip orientation
@@ -197,7 +200,7 @@ class Hero extends React.Component {
     }
 
     this.setState({ orientation: newOrientation });
-  }
+  };
 
   // Homebase needs this
   // This method does too much
@@ -214,10 +217,12 @@ class Hero extends React.Component {
   render() {
     return (
       <div
-        className={`hero hero--${this.state.orientation} hero--${this.props.color}`}
+        className={`hero hero--${this.state.orientation} hero--${
+          this.props.color
+        }`}
         style={{
           "--hero-x": this.state.x,
-          "--hero-y": this.state.y,
+          "--hero-y": this.state.y
         }}
       >
         <svg viewBox="0 0 40 40">
@@ -229,8 +234,8 @@ class Hero extends React.Component {
             stroke="null"
           />
         </svg>
-        <audio data-sound="strike" src={strikeSound}></audio>
-        <audio data-sound="walk" src={walkSound}></audio>
+        <audio data-sound="strike" src={strikeSound} />
+        <audio data-sound="walk" src={walkSound} />
       </div>
     );
   }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React from "react";
+import { shallow } from "enzyme";
 
 import App from "./App";
 
@@ -12,14 +12,14 @@ describe("App", () => {
 
     it("exists", () => {
       expect(subject).not.toBeUndefined();
-    })
+    });
 
     it("updates the app div's class when game is active", () => {
       // Arrange
       wrapper.setState({
         gameActive: true,
         stage: 0
-      })
+      });
       expect(wrapper.find(".App").hasClass("stage1")).toBe(false);
 
       // Act
@@ -27,6 +27,6 @@ describe("App", () => {
 
       // Assert
       expect(wrapper.find(".App").hasClass("stage1")).toBe(true);
-    })
-  })
+    });
+  });
 });

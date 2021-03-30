@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 class Alert extends React.Component {
   static propTypes = {
-    shown: PropTypes.bool,
+    shown: PropTypes.bool
   };
 
   componentDidUpdate(prevProps) {
@@ -29,7 +29,7 @@ class Alert extends React.Component {
 
   state = {
     animatingOut: false,
-    shown: this.props.shown,
+    shown: this.props.shown
   };
 
   handleClose = () => {

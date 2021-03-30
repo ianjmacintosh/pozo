@@ -7,7 +7,7 @@ import "./Queue.css";
 class Queue extends React.Component {
   state = {
     contents: []
-  }
+  };
 
   render() {
     return (
