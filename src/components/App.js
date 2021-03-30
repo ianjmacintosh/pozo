@@ -14,22 +14,26 @@ class App extends React.Component {
       content: "",
       shown: false,
       autodismiss: true,
-      persistent: true,
+      persistent: true
     },
     alerts: {
       mainMenu: {
         content: <h1>Pozo</h1>,
-        shown: true,
+        shown: true
       },
       stageAnnouncement: {
         content: "Stage 1",
-        shown: false,
+        shown: false
       },
       inGameInstructions: {
         content: (
-      <React.Fragment>
-      <h1>Use your keyboard arrows to move<br />Tap spacebar to strike</h1>
-    </React.Fragment>
+          <React.Fragment>
+            <h1>
+              Use your keyboard arrows to move
+              <br />
+              Tap spacebar to strike
+            </h1>
+          </React.Fragment>
         ),
         shown: false
       },
@@ -55,57 +59,56 @@ class App extends React.Component {
             </p>
           </React.Fragment>
         ),
-        shown: false,
+        shown: false
       },
       credits: {
         content: (
-                <React.Fragment>
-                  <h1 className="small-headline">Credits</h1>
-                  <dl>
-                    <dt>Development</dt>
-                    <dd>Ian MacIntosh</dd>
-                    <dt>Music</dt>
-                    <dd><i>Salgre</i> by Jimmy Fontanez &amp; Media Right Productions</dd>
-                    <dt>Sound Effects</dt>
-                    <dd>
-                      <a href="https://freesound.org/people/Breviceps/">
-                        Breviceps
-                      </a>{" "}
-                      (soundeffects.org)
-                    </dd>
-                    <dd>
-                      <a href="https://freesound.org/people/LittleRobotSoundFactory/">
-                        LittleRobotSoundFactory
-                      </a>{" "}
-                      (soundeffects.org)
-                    </dd>
-                    <dd>
-                      <a href="https://freesound.org/people/LukeSharples/">
-                        LukeSharples
-                      </a>{" "}
-                      (soundeffects.org)
-                    </dd>
-                    <dd>
-                      <a href="https://freesound.org/people/SgtPepperArc360/">
-                        SgtPepperArc360
-                      </a>{" "}
-                      (soundeffects.org)
-                    </dd>
-                  </dl>
+          <React.Fragment>
+            <h1 className="small-headline">Credits</h1>
+            <dl>
+              <dt>Development</dt>
+              <dd>Ian MacIntosh</dd>
+              <dt>Music</dt>
+              <dd>
+                <i>Salgre</i> by Jimmy Fontanez &amp; Media Right Productions
+              </dd>
+              <dt>Sound Effects</dt>
+              <dd>
+                <a href="https://freesound.org/people/Breviceps/">Breviceps</a>{" "}
+                (soundeffects.org)
+              </dd>
+              <dd>
+                <a href="https://freesound.org/people/LittleRobotSoundFactory/">
+                  LittleRobotSoundFactory
+                </a>{" "}
+                (soundeffects.org)
+              </dd>
+              <dd>
+                <a href="https://freesound.org/people/LukeSharples/">
+                  LukeSharples
+                </a>{" "}
+                (soundeffects.org)
+              </dd>
+              <dd>
+                <a href="https://freesound.org/people/SgtPepperArc360/">
+                  SgtPepperArc360
+                </a>{" "}
+                (soundeffects.org)
+              </dd>
+            </dl>
 
-                  <p>
-                    This game is derivative of the mid-1990's arcade puzzle
-                    game <i>Zoop</i>, which was developed by Hookstone Media
-                    and published by Viacom New Media.
-                  </p>
-                </React.Fragment>
+            <p>
+              This game is derivative of the mid-1990's arcade puzzle game{" "}
+              <i>Zoop</i>, which was developed by Hookstone Media and published
+              by Viacom New Media.
+            </p>
+          </React.Fragment>
         ),
-        shown: false,
-
+        shown: false
       },
       victory: {
         content: <h1>Victory</h1>,
-        shown: false,
+        shown: false
       },
       gameOver: {
         content: (
@@ -113,13 +116,13 @@ class App extends React.Component {
             <h1>Game Over</h1>
           </React.Fragment>
         ),
-        shown: false,
-      },
+        shown: false
+      }
     },
     stage: 0,
     activeMenuName: "mainMenu",
     redAlert: false,
-    gameActive: false,
+    gameActive: false
   };
 
   componentDidMount() {
@@ -144,22 +147,24 @@ class App extends React.Component {
       return;
     }
     const audio = document.querySelector(`[data-sound=${soundKey}]`);
-    if (!audio) { return; }
+    if (!audio) {
+      return;
+    }
     audio.currentTime = startPoint;
     audio.volume = volume;
     setTimeout(() => {
       audio.play();
-    }, delay)
+    }, delay);
   };
 
-  changeGameActive = (newState) => {
+  changeGameActive = newState => {
     console.log(`Game active: ${newState}`);
     this.setState({ gameActive: newState });
   };
 
-  setStage = (newStage) => {
+  setStage = newStage => {
     this.setState({ stage: newStage });
-  }
+  };
 
   monsterTimer = null;
   waveTimer = null;
@@ -177,7 +182,7 @@ class App extends React.Component {
     );
     let muted = !this.state.muted;
     this.setState({
-      muted,
+      muted
     });
   };
 
@@ -187,7 +192,7 @@ class App extends React.Component {
     );
     let sfxMuted = !this.state.sfxMuted;
     this.setState({
-      sfxMuted,
+      sfxMuted
     });
   };
 
@@ -198,7 +203,7 @@ class App extends React.Component {
     let musicMuted = !this.state.musicMuted;
 
     this.setState({
-      musicMuted,
+      musicMuted
     });
 
     if (musicMuted) {
@@ -230,13 +235,13 @@ class App extends React.Component {
         content,
         persistent,
         shown: true,
-        autodismiss,
+        autodismiss
       };
     }
     this.setState({ alerts, alert });
   };
 
-  dismissAlert = (alertName) => {
+  dismissAlert = alertName => {
     let alert = this.state.alert;
     if (alertName) {
       alert = this.state.alerts[alertName];
@@ -248,11 +253,10 @@ class App extends React.Component {
   render() {
     return (
       <div
-        className={`App ${this.state.gameActive ? "stage" + this.state.stage : "" } ${
-          this.state.redAlert ? "red-alert" : ""
-        }`}
+        className={`App ${
+          this.state.gameActive ? "stage" + this.state.stage : ""
+        } ${this.state.redAlert ? "red-alert" : ""}`}
       >
-
         {/* "Stage 1" Announcement */}
         <Alert
           playSound={this.playSound}
@@ -261,7 +265,7 @@ class App extends React.Component {
           name="stageAnnouncement"
           autodismiss={true}
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         {/* "Victory" Announcement */}
         <Alert
@@ -280,10 +284,10 @@ class App extends React.Component {
                   this.setState({
                     alerts,
                     activeMenuName: "board",
-                    gameActive: true,
+                    gameActive: true
                   });
                 },
-                selected: true,
+                selected: true
               },
               {
                 title: "Main Menu",
@@ -293,17 +297,17 @@ class App extends React.Component {
                   alerts.mainMenu.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu",
+                    activeMenuName: "mainMenu"
                   });
                 },
-                selected: false,
-              },
+                selected: false
+              }
             ],
-            hasFocus: this.state.activeMenuName === "victory",
+            hasFocus: this.state.activeMenuName === "victory"
           }}
           name="victory"
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         {/* "Game Over" Announcement */}
         <Alert
@@ -321,10 +325,10 @@ class App extends React.Component {
 
                   this.setState({
                     alerts,
-                    gameActive: true,
+                    gameActive: true
                   });
                 },
-                selected: true,
+                selected: true
               },
               {
                 title: "Main Menu",
@@ -334,17 +338,17 @@ class App extends React.Component {
                   alerts.mainMenu.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu",
+                    activeMenuName: "mainMenu"
                   });
                 },
-                selected: false,
-              },
+                selected: false
+              }
             ],
-            hasFocus: this.state.activeMenuName === "gameOver",
+            hasFocus: this.state.activeMenuName === "gameOver"
           }}
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         {/* "Main Menu" Announcement */}
         <Alert
@@ -361,7 +365,7 @@ class App extends React.Component {
                   alerts.mainMenu.shown = false;
                   console.log("You clicked on 'Start Game!'");
                   this.setState({ activeMenuName: "game", gameActive: true });
-                },
+                }
               },
               {
                 title: "Instructions",
@@ -370,9 +374,9 @@ class App extends React.Component {
                   alerts.instructions.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "instructions",
+                    activeMenuName: "instructions"
                   });
-                },
+                }
               },
               // {
               //   title: "Options",
@@ -388,15 +392,15 @@ class App extends React.Component {
                   alerts.credits.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "credits",
+                    activeMenuName: "credits"
                   });
-                },
-              },
+                }
+              }
             ],
-            hasFocus: this.state.activeMenuName === "mainMenu",
+            hasFocus: this.state.activeMenuName === "mainMenu"
           }}
           shown={this.state.alerts.mainMenu.shown}
-        ></Alert>
+        />
 
         {/* "Instructions" Announcement */}
         <Alert
@@ -412,17 +416,17 @@ class App extends React.Component {
                   alerts.instructions.shown = false;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu",
+                    activeMenuName: "mainMenu"
                   });
                 },
-                selected: true,
-              },
+                selected: true
+              }
             ],
-            hasFocus: this.state.activeMenuName === "instructions",
+            hasFocus: this.state.activeMenuName === "instructions"
           }}
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         {/* "Instructions" Announcement */}
         <Alert
@@ -440,14 +444,14 @@ class App extends React.Component {
                     alerts
                   });
                 },
-                selected: true,
-              },
+                selected: true
+              }
             ],
-            hasFocus: this.state.activeMenuName === "inGameInstructions",
+            hasFocus: this.state.activeMenuName === "inGameInstructions"
           }}
           shown={this.state.alerts.inGameInstructions.shown}
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         {/* "Credits" Announcement */}
         <Alert
@@ -455,24 +459,25 @@ class App extends React.Component {
           content={this.state.alerts.credits.content}
           menu={{
             name: "credits",
-            options: [{
+            options: [
+              {
                 title: "Continue",
                 action: () => {
                   let alerts = this.state.alerts;
                   alerts.credits.shown = false;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu",
+                    activeMenuName: "mainMenu"
                   });
                 },
-                selected: true,
-              },
+                selected: true
+              }
             ],
-            hasFocus: this.state.activeMenuName === "credits",
+            hasFocus: this.state.activeMenuName === "credits"
           }}
           shown={this.state.alerts.credits.shown}
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         {/* Utility Announcement */}
         <Alert
@@ -481,7 +486,7 @@ class App extends React.Component {
           shown={this.state.alert.shown}
           autodismiss={this.state.alert.autodismiss}
           dismissAlert={this.dismissAlert}
-        ></Alert>
+        />
 
         <Board
           playSound={this.playSound}

@@ -41,33 +41,33 @@ const stages = [
     monsters: 5,
     creationRate: 3,
     waveDuration: 10,
-    rateMultiplier: 1.25,
+    rateMultiplier: 1.25
   },
   {
     monsters: 10,
     creationRate: 2,
     waveDuration: 5,
-    rateMultiplier: 1.1,
+    rateMultiplier: 1.1
   },
   {
     monsters: 25,
     creationRate: 2,
     waveDuration: 10,
-    rateMultiplier: 1.75,
+    rateMultiplier: 1.75
   },
   {
     monsters: 50,
     creationRate: 2,
     waveDuration: 5,
-    rateMultiplier: 1.1,
-  },
+    rateMultiplier: 1.1
+  }
 ];
 
 const directionMap = {
   0: "up",
   1: "left",
   2: "right",
-  3: "down",
+  3: "down"
 };
 
 class Board extends React.Component {
@@ -76,24 +76,24 @@ class Board extends React.Component {
       up: {
         // Up and down queues will end the game when their length > 5
         queueLengthLimit: this.props.shortQueueSize,
-        queues: [[], [], [], []],
+        queues: [[], [], [], []]
       },
       left: {
         // Left and right queues will end the game when their length > 8
         queueLengthLimit: this.props.longQueueSize,
-        queues: [[], [], [], []],
+        queues: [[], [], [], []]
       },
       right: {
         queueLengthLimit: this.props.longQueueSize,
-        queues: [[], [], [], []],
+        queues: [[], [], [], []]
       },
       down: {
         queueLengthLimit: this.props.shortQueueSize,
-        queues: [[], [], [], []],
-      },
+        queues: [[], [], [], []]
+      }
     },
     base: {
-      size: 4,
+      size: 4
     },
     // I don't know where I should store these properties:
     streak: 0,
@@ -104,7 +104,7 @@ class Board extends React.Component {
       monsters: 0,
       creationRate: 0,
       waveDuration: 0,
-      rateMultiplier: 0,
+      rateMultiplier: 0
     },
     paused: false,
     squareSize: "40px"
@@ -113,7 +113,12 @@ class Board extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.isGameActive !== prevProps.isGameActive) {
       if (this.props.isGameActive) {
-        let squareSize = parseInt(getComputedStyle(document.querySelector(".board")).getPropertyValue("--square-size"), 10);
+        let squareSize = parseInt(
+          getComputedStyle(document.querySelector(".board")).getPropertyValue(
+            "--square-size"
+          ),
+          10
+        );
         this.setState({ squareSize });
         this.start();
       } else {
@@ -129,7 +134,7 @@ class Board extends React.Component {
 
   // Counter needs this
   // This method updates the counter when a monster is eliminated
-  updateCounter = (monsterCount) => {
+  updateCounter = monsterCount => {
     let monstersRemaining = this.state.monstersRemaining;
     monstersRemaining -= monsterCount;
     if (monstersRemaining <= 0) {
@@ -145,7 +150,7 @@ class Board extends React.Component {
 
   // Scoreboard needs this
   // This method defines behavior when eliminating a monster
-  reportElimination = (monstersEliminated) => {
+  reportElimination = monstersEliminated => {
     this.props.playSound("eliminate", 0, 1, 50);
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
@@ -153,11 +158,15 @@ class Board extends React.Component {
 
   // Scoreboard needs this
   // This method reports eliminations to the scoreboard
-  updateScoreboard = (monstersEliminated) => {
+  updateScoreboard = monstersEliminated => {
     // Update score appropriately
     let score = this.state.score;
 
-    for (let i = 0, streak = this.state.streak; i < monstersEliminated; i += 1) {
+    for (
+      let i = 0, streak = this.state.streak;
+      i < monstersEliminated;
+      i += 1
+    ) {
       score += 100 * (i + streak);
     }
 
@@ -227,7 +236,7 @@ class Board extends React.Component {
     // Add a monster to the front of it
     fields[direction].queues[queueNumber].push({
       type: "monster",
-      color: colorNumber,
+      color: colorNumber
     });
 
     // Update the state
@@ -267,7 +276,7 @@ class Board extends React.Component {
 
     let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
       field.queues.some(
-        (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
+        thisQueue => allQueues[targetQueue].length - thisQueue.length > 1
       );
 
     // Get length of shortest queue
@@ -287,26 +296,27 @@ class Board extends React.Component {
     //   making a copy of all fields, then updating the object. This is extremely bad for performance!
 
     // Make a copy of the fields
-    let newFields = {...this.state.fields},
+    let newFields = { ...this.state.fields },
       targetQueue = newFields[field].queues[queue],
       newQueue = this.getStrikeResults(targetQueue, color);
 
     // Record how many monsters were eliminated
-    const monstersEliminated = targetQueue.filter(isMonster).length - newQueue.filter(isMonster).length;
+    const monstersEliminated =
+      targetQueue.filter(isMonster).length - newQueue.filter(isMonster).length;
 
     // Update the streak if monsters were eliminated
     if (monstersEliminated) {
       let streak = this.state.streak;
       streak++;
 
-    // Update new queue copy with correct ghost scores
-    newQueue = newQueue.map((item, index) => {
-      if (item.type === "ghost") {
+      // Update new queue copy with correct ghost scores
+      newQueue = newQueue.map((item, index) => {
+        if (item.type === "ghost") {
           item.content = 100 * (index + streak);
-      }
+        }
 
-      return item;
-    })
+        return item;
+      });
 
       this.setState({ streak });
     }
@@ -324,7 +334,7 @@ class Board extends React.Component {
       // Get the color of the first monster in the queue
       const firstMonsterColor = targetQueue
         .filter(isMonster) // Only look for monsters
-        .find((item) => item.color !== color).color
+        .find(item => item.color !== color).color;
 
       // Update the hero color
       this.changeHeroColor(firstMonsterColor);
@@ -346,19 +356,19 @@ class Board extends React.Component {
     this.setState({
       fields: newFields
     });
-    }
+  };
 
-  getWithoutGhosts = (queue) => {
-    return queue.filter((item) => {
-      return item.type !== "ghost"
-    })
-  }
+  getWithoutGhosts = queue => {
+    return queue.filter(item => {
+      return item.type !== "ghost";
+    });
+  };
 
-  changeHeroColor = (color) => {
+  changeHeroColor = color => {
     this.setState({
       heroColor: color
-    })
-  }
+    });
+  };
 
   // Board needs this
   // This method returns a queue after a strike
@@ -398,11 +408,11 @@ class Board extends React.Component {
     }
 
     return newContents;
-  }
+  };
 
   // Multiple components need this; Field and Alert
   // This method updates the board
-  endStage = (playerDidWin) => {
+  endStage = playerDidWin => {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
     this.setState({ redAlert: false });
@@ -419,7 +429,7 @@ class Board extends React.Component {
         this.props.showAlert("victory", false);
       }
     } else {
-      this.props.setStage(1)
+      this.props.setStage(1);
       this.props.changeGameActive(false);
       this.props.playSound("gameOver");
       this.props.showAlert("gameOver", false);
@@ -494,17 +504,18 @@ class Board extends React.Component {
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
     this.setState({
-      monstersRemaining: stageSettings.monsters,
+      monstersRemaining: stageSettings.monsters
     });
     this.props.updateAlert("stageAnnouncement", {
-      content: <h1>{`Stage ${stageNumber}`}</h1>,
+      content: <h1>{`Stage ${stageNumber}`}</h1>
     });
     this.props.showAlert("stageAnnouncement");
   };
 
   render() {
-    if (!this.props.isGameActive) { return null; }
-    else {
+    if (!this.props.isGameActive) {
+      return null;
+    } else {
       return (
         <div className="board">
           <header>
@@ -539,9 +550,7 @@ class Board extends React.Component {
                 this.handleKeypress({ key: "ArrowDown" });
               }}
             />
-            <Homebase
-              handleKeypress={this.handleKeypress}
-            >
+            <Homebase handleKeypress={this.handleKeypress}>
               <Hero
                 squareSize={this.state.squareSize}
                 showAlert={this.props.showAlert}
@@ -553,13 +562,13 @@ class Board extends React.Component {
                 handleStrikeCall={this.handleStrikeCall}
               />
             </Homebase>
-            <audio data-sound="music" src={salgre}></audio>
-            <audio data-sound="eliminate" src={eliminateSound}></audio>
-            <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-            <audio data-sound="swap" src={swapSound}></audio>
-            <audio data-sound="gameOver" src={gameOverSound}></audio>
-            <audio data-sound="victory" src={splashSound}></audio>
-            <audio data-sound="stageClear" src={stageClearSound}></audio>
+            <audio data-sound="music" src={salgre} />
+            <audio data-sound="eliminate" src={eliminateSound} />
+            <audio data-sound="menuSelect" src={menuSelectSound} />
+            <audio data-sound="swap" src={swapSound} />
+            <audio data-sound="gameOver" src={gameOverSound} />
+            <audio data-sound="victory" src={splashSound} />
+            <audio data-sound="stageClear" src={stageClearSound} />
           </main>
           <footer>
             <ControlPanel
@@ -575,6 +584,6 @@ class Board extends React.Component {
         </div>
       );
     }
-    }
+  }
 }
 export default Board;

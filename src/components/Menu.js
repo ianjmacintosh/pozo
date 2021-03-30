@@ -8,7 +8,7 @@ import menuSelectSound from "../sounds/menuSelect.wav";
 
 class Menu extends React.Component {
   state = {
-    focusedMenuItem: 0,
+    focusedMenuItem: 0
   };
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeypress);
@@ -37,7 +37,7 @@ class Menu extends React.Component {
       ArrowRight: "right",
       ArrowDown: "down",
       ArrowLeft: "left",
-      Enter: "strike",
+      Enter: "strike"
     };
 
     if (key in keyMappings) {
@@ -55,7 +55,7 @@ class Menu extends React.Component {
     }
   };
 
-  changeMenuOption = (advance) => {
+  changeMenuOption = advance => {
     this.props.playSound("menuMove", 0.05);
 
     // Get index of selected menu option
@@ -77,7 +77,7 @@ class Menu extends React.Component {
   };
 
   chooseMenuOption = () => {
-    this.props.options.find((option) => option.selected === true).action();
+    this.props.options.find(option => option.selected === true).action();
   };
 
   render() {
@@ -92,11 +92,11 @@ class Menu extends React.Component {
               selected={
                 (option.selected = this.state.focusedMenuItem === index)
               }
-            ></MenuOption>
+            />
           ))}
         </ul>
-        <audio data-sound="menuSelect" src={menuSelectSound}></audio>
-        <audio data-sound="menuMove" src={menuMoveSound}></audio>
+        <audio data-sound="menuSelect" src={menuSelectSound} />
+        <audio data-sound="menuMove" src={menuMoveSound} />
       </div>
     );
   }
