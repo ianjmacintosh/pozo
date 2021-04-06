@@ -36,13 +36,13 @@ describe("Board", () => {
       // A short queue
       sampleQueue1 = [
         { type: "monster", color: 1 },
-        { type: "monster", color: 2 }
+        { type: "monster", color: 2 },
       ],
       // A longer queue
       sampleQueue2 = [
         { type: "monster", color: 1 },
         { type: "monster", color: 1 },
-        { type: "monster", color: 1 }
+        { type: "monster", color: 1 },
       ],
       // A very short queue
       sampleQueue3 = [{ type: "monster", color: 1 }];
@@ -72,13 +72,13 @@ describe("Board", () => {
 
       it("has one ghost", () => {
         expect(
-          subject(sampleQueue1, 1).filter(item => item.type === "ghost")
+          subject(sampleQueue1, 1).filter((item) => item.type === "ghost")
         ).toHaveLength(1);
       });
 
       it("returns a list with the first monster's color updated to be the strike color", () => {
         expect(
-          subject(sampleQueue1, 1).find(item => item.type === "monster").color
+          subject(sampleQueue1, 1).find((item) => item.type === "monster").color
         ).toBe(1);
       });
 
@@ -104,13 +104,13 @@ describe("Board", () => {
 
       it("has three ghosts", () => {
         expect(
-          subject(sampleQueue2, 1).filter(item => item.type === "ghost")
+          subject(sampleQueue2, 1).filter((item) => item.type === "ghost")
         ).toHaveLength(3);
       });
 
       it("has zero monsters", () => {
         expect(
-          subject(sampleQueue2, 1).filter(item => item.type === "monster")
+          subject(sampleQueue2, 1).filter((item) => item.type === "monster")
         ).toHaveLength(0);
       });
     });
@@ -166,28 +166,28 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [],
               [],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -213,28 +213,28 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [],
               [],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -259,28 +259,28 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [],
               [],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -302,28 +302,28 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [],
               [],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -345,28 +345,28 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [],
               [],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -380,7 +380,7 @@ describe("Board", () => {
       // Arrange
       wrapper.setState({
         streak: 0,
-        score: 0
+        score: 0,
       });
 
       wrapper.setState({
@@ -392,38 +392,38 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [
                 {
                   type: "monster",
-                  color: 1
-                }
+                  color: 1,
+                },
               ],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -438,7 +438,7 @@ describe("Board", () => {
       // Arrange
       wrapper.setState({
         streak: 0,
-        score: 0
+        score: 0,
       });
 
       wrapper.setState({
@@ -450,46 +450,46 @@ describe("Board", () => {
               [
                 {
                   type: "monster",
-                  color: 0
+                  color: 0,
                 },
                 {
                   type: "monster",
-                  color: 0
+                  color: 0,
                 },
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [
                 {
                   type: "monster",
-                  color: 0
-                }
+                  color: 0,
+                },
               ],
               [
                 {
                   type: "monster",
-                  color: 1
-                }
+                  color: 1,
+                },
               ],
-              []
-            ]
+              [],
+            ],
           },
           left: {
             // Left and right queues will end the game when their length > 8
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           right: {
             queueLengthLimit: 8,
-            queues: [[], [], [], []]
+            queues: [[], [], [], []],
           },
           down: {
             queueLengthLimit: 5,
-            queues: [[], [], [], []]
-          }
-        }
+            queues: [[], [], [], []],
+          },
+        },
       });
 
       // Act
@@ -499,16 +499,16 @@ describe("Board", () => {
       expect(wrapper.state("fields").up.queues[0]).toStrictEqual([
         {
           type: "ghost",
-          content: 100
+          content: 100,
         },
         {
           type: "ghost",
-          content: 200
+          content: 200,
         },
         {
           type: "ghost",
-          content: 300
-        }
+          content: 300,
+        },
       ]);
     });
   });
