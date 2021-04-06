@@ -1,5 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 
 import Board from "./Board";
 
@@ -13,6 +15,17 @@ describe("Board", () => {
       />
     ),
     instance = wrapper.instance();
+
+  it("shows a link to ianjmacintosh.com homepage", () => {
+    render(<Board isGameActive={true}></Board>);
+
+    const personalSiteLink = screen.getByText("Ian J. MacIntosh");
+
+    expect(personalSiteLink).toHaveAttribute(
+      "href",
+      "https://www.ianjmacintosh.com/"
+    );
+  });
 
   describe("'getStrikeResults' method", () => {
     const subject = instance.getStrikeResults;
