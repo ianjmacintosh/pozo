@@ -579,6 +579,10 @@ class Board extends React.Component {
               toggleSfxMute={this.props.toggleSfxMute}
               toggleMusicMute={this.props.toggleMusicMute}
             />
+            <nav role="navigation">
+              Made by{" "}
+              <a href="https://www.ianjmacintosh.com/">Ian J. MacIntosh</a>
+            </nav>
             <Counter count={this.state.monstersRemaining} />
           </footer>
         </div>
