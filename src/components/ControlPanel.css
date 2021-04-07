@@ -1,3 +1,7 @@
+.control-panel {
+  display: flex;
+}
+
 button {
   border: 0;
   background: transparent;

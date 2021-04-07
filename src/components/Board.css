@@ -12,8 +12,25 @@
 footer {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 40px 1fr;
+  grid-auto-columns: 1fr;
   justify-items: start;
+}
+
+.self-promo {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 16px;
+  font-family: "Bebas Neue", sans-serif;
+  color: var(--light-shadow);
+  display: block;
+  text-align: center;
+  justify-self: center;
+  line-height: 43px;
+}
+
+.self-promo a {
+  color: var(--light-shadow);
 }
 
 @media (min-width: 320px) {

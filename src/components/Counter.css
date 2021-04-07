@@ -10,6 +10,7 @@
   animation-iteration-count: 1;
   animation-duration: 500ms;
   display: block;
+  justify-self: right;
 }
 
 .counter.shake1 {

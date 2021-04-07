@@ -41,33 +41,33 @@ const stages = [
     monsters: 5,
     creationRate: 3,
     waveDuration: 10,
-    rateMultiplier: 1.25
+    rateMultiplier: 1.25,
   },
   {
     monsters: 10,
     creationRate: 2,
     waveDuration: 5,
-    rateMultiplier: 1.1
+    rateMultiplier: 1.1,
   },
   {
     monsters: 25,
     creationRate: 2,
     waveDuration: 10,
-    rateMultiplier: 1.75
+    rateMultiplier: 1.75,
   },
   {
     monsters: 50,
     creationRate: 2,
     waveDuration: 5,
-    rateMultiplier: 1.1
-  }
+    rateMultiplier: 1.1,
+  },
 ];
 
 const directionMap = {
   0: "up",
   1: "left",
   2: "right",
-  3: "down"
+  3: "down",
 };
 
 class Board extends React.Component {
@@ -76,24 +76,24 @@ class Board extends React.Component {
       up: {
         // Up and down queues will end the game when their length > 5
         queueLengthLimit: this.props.shortQueueSize,
-        queues: [[], [], [], []]
+        queues: [[], [], [], []],
       },
       left: {
         // Left and right queues will end the game when their length > 8
         queueLengthLimit: this.props.longQueueSize,
-        queues: [[], [], [], []]
+        queues: [[], [], [], []],
       },
       right: {
         queueLengthLimit: this.props.longQueueSize,
-        queues: [[], [], [], []]
+        queues: [[], [], [], []],
       },
       down: {
         queueLengthLimit: this.props.shortQueueSize,
-        queues: [[], [], [], []]
-      }
+        queues: [[], [], [], []],
+      },
     },
     base: {
-      size: 4
+      size: 4,
     },
     // I don't know where I should store these properties:
     streak: 0,
@@ -104,10 +104,10 @@ class Board extends React.Component {
       monsters: 0,
       creationRate: 0,
       waveDuration: 0,
-      rateMultiplier: 0
+      rateMultiplier: 0,
     },
     paused: false,
-    squareSize: "40px"
+    squareSize: "40px",
   };
 
   componentDidUpdate(prevProps) {
@@ -134,7 +134,7 @@ class Board extends React.Component {
 
   // Counter needs this
   // This method updates the counter when a monster is eliminated
-  updateCounter = monsterCount => {
+  updateCounter = (monsterCount) => {
     let monstersRemaining = this.state.monstersRemaining;
     monstersRemaining -= monsterCount;
     if (monstersRemaining <= 0) {
@@ -150,7 +150,7 @@ class Board extends React.Component {
 
   // Scoreboard needs this
   // This method defines behavior when eliminating a monster
-  reportElimination = monstersEliminated => {
+  reportElimination = (monstersEliminated) => {
     this.props.playSound("eliminate", 0, 1, 50);
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
@@ -158,7 +158,7 @@ class Board extends React.Component {
 
   // Scoreboard needs this
   // This method reports eliminations to the scoreboard
-  updateScoreboard = monstersEliminated => {
+  updateScoreboard = (monstersEliminated) => {
     // Update score appropriately
     let score = this.state.score;
 
@@ -236,7 +236,7 @@ class Board extends React.Component {
     // Add a monster to the front of it
     fields[direction].queues[queueNumber].push({
       type: "monster",
-      color: colorNumber
+      color: colorNumber,
     });
 
     // Update the state
@@ -276,7 +276,7 @@ class Board extends React.Component {
 
     let fieldWouldBeUnbalanced = (allQueues, targetQueue) =>
       field.queues.some(
-        thisQueue => allQueues[targetQueue].length - thisQueue.length > 1
+        (thisQueue) => allQueues[targetQueue].length - thisQueue.length > 1
       );
 
     // Get length of shortest queue
@@ -334,7 +334,7 @@ class Board extends React.Component {
       // Get the color of the first monster in the queue
       const firstMonsterColor = targetQueue
         .filter(isMonster) // Only look for monsters
-        .find(item => item.color !== color).color;
+        .find((item) => item.color !== color).color;
 
       // Update the hero color
       this.changeHeroColor(firstMonsterColor);
@@ -354,19 +354,19 @@ class Board extends React.Component {
 
     // Update the queue (by updating every single field 🤢)
     this.setState({
-      fields: newFields
+      fields: newFields,
     });
   };
 
-  getWithoutGhosts = queue => {
-    return queue.filter(item => {
+  getWithoutGhosts = (queue) => {
+    return queue.filter((item) => {
       return item.type !== "ghost";
     });
   };
 
-  changeHeroColor = color => {
+  changeHeroColor = (color) => {
     this.setState({
-      heroColor: color
+      heroColor: color,
     });
   };
 
@@ -384,7 +384,7 @@ class Board extends React.Component {
       // If monster is same color as the strike, replace it with a ghost
       if (monster.color === strikeColor) {
         let newGhost = {
-          type: "ghost"
+          type: "ghost",
         };
 
         // Turn monster into a ghost
@@ -396,7 +396,7 @@ class Board extends React.Component {
         // Make a new-colored monster from the old monster
         let newMonster = {
           ...newContents[newContents.indexOf(monster)],
-          color: strikeColor
+          color: strikeColor,
         };
 
         // Replace the old monster with the new monster in the new queue
@@ -412,7 +412,7 @@ class Board extends React.Component {
 
   // Multiple components need this; Field and Alert
   // This method updates the board
-  endStage = playerDidWin => {
+  endStage = (playerDidWin) => {
     clearInterval(this.monsterTimer);
     clearInterval(this.waveTimer);
     this.setState({ redAlert: false });
@@ -440,7 +440,7 @@ class Board extends React.Component {
   // This method handles input from the user to pause the game
   handleKeypress = ({ key }) => {
     const keyMappings = {
-      Escape: "pause"
+      Escape: "pause",
     };
 
     if (key in keyMappings) {
@@ -504,10 +504,10 @@ class Board extends React.Component {
     // Number of monsters in stage (e.g., 50)
     this.setState({ stageSettings }, setTimers);
     this.setState({
-      monstersRemaining: stageSettings.monsters
+      monstersRemaining: stageSettings.monsters,
     });
     this.props.updateAlert("stageAnnouncement", {
-      content: <h1>{`Stage ${stageNumber}`}</h1>
+      content: <h1>{`Stage ${stageNumber}`}</h1>,
     });
     this.props.showAlert("stageAnnouncement");
   };
@@ -581,6 +581,16 @@ class Board extends React.Component {
             />
             <Counter count={this.state.monstersRemaining} />
           </footer>
+          <nav className="self-promo" role="navigation">
+            Made by{" "}
+            <a
+              href="https://www.ianjmacintosh.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ian J. MacIntosh
+            </a>
+          </nav>
         </div>
       );
     }
