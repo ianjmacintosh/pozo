@@ -14,8 +14,8 @@ class ControlPanel extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div>
+      <div className="control-panel">
+        <div className="audio-control audio-sfx">
           <button
             onClick={this.handleSfxToggleClick}
             className={`mute-button ${this.props.sfxMuted ? "muted" : ""}`}
@@ -26,7 +26,7 @@ class ControlPanel extends React.Component {
             </span>
           </button>
         </div>
-        <div>
+        <div className="audio-control audio-music">
           <button
             onClick={this.handleMusicToggleClick}
             className={`mute-button ${this.props.musicMuted ? "muted" : ""}`}
@@ -37,7 +37,7 @@ class ControlPanel extends React.Component {
             </span>
           </button>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
