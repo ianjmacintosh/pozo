@@ -2,6 +2,8 @@ import React from "react";
 
 import Alert from "./Alert";
 import Board from "./Board";
+import { changeMusic, playSound } from "./AudioPlayer";
+import AudioPlayer from "./AudioPlayer";
 
 import "./App.css";
 
@@ -14,16 +16,16 @@ class App extends React.Component {
       content: "",
       shown: false,
       autodismiss: true,
-      persistent: true
+      persistent: true,
     },
     alerts: {
       mainMenu: {
         content: <h1>Pozo</h1>,
-        shown: true
+        shown: true,
       },
       stageAnnouncement: {
         content: "Stage 1",
-        shown: false
+        shown: false,
       },
       inGameInstructions: {
         content: (
@@ -35,7 +37,7 @@ class App extends React.Component {
             </h1>
           </React.Fragment>
         ),
-        shown: false
+        shown: false,
       },
       instructions: {
         content: (
@@ -59,7 +61,7 @@ class App extends React.Component {
             </p>
           </React.Fragment>
         ),
-        shown: false
+        shown: false,
       },
       credits: {
         content: (
@@ -104,11 +106,11 @@ class App extends React.Component {
             </p>
           </React.Fragment>
         ),
-        shown: false
+        shown: false,
       },
       victory: {
         content: <h1>Victory</h1>,
-        shown: false
+        shown: false,
       },
       gameOver: {
         content: (
@@ -116,53 +118,25 @@ class App extends React.Component {
             <h1>Game Over</h1>
           </React.Fragment>
         ),
-        shown: false
-      }
+        shown: false,
+      },
     },
     stage: 0,
     activeMenuName: "mainMenu",
     redAlert: false,
-    gameActive: false
+    gameActive: false,
   };
 
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeypress);
   }
 
-  changeMusic = (songKey, stopMusic = false) => {
-    const audio = document.querySelector(`[data-sound=${songKey}]`);
-
-    if (stopMusic) {
-      audio.pause();
-      return;
-    }
-
-    audio.currentTime = 0;
-    audio.volume = 0.6;
-    audio.play();
-  };
-
-  playSound = (soundKey, startPoint = 0, volume = 1, delay = 0) => {
-    if (this.state.sfxMuted) {
-      return;
-    }
-    const audio = document.querySelector(`[data-sound=${soundKey}]`);
-    if (!audio) {
-      return;
-    }
-    audio.currentTime = startPoint;
-    audio.volume = volume;
-    setTimeout(() => {
-      audio.play();
-    }, delay);
-  };
-
-  changeGameActive = newState => {
+  changeGameActive = (newState) => {
     console.log(`Game active: ${newState}`);
     this.setState({ gameActive: newState });
   };
 
-  setStage = newStage => {
+  setStage = (newStage) => {
     this.setState({ stage: newStage });
   };
 
@@ -174,45 +148,6 @@ class App extends React.Component {
     alerts[alertName] = { ...alerts[alertName], ...newAlertObject };
 
     this.setState({ alerts });
-  };
-
-  toggleMute = () => {
-    console.log(
-      `Turning mute from ${this.state.muted} to ${!this.state.muted}`
-    );
-    let muted = !this.state.muted;
-    this.setState({
-      muted
-    });
-  };
-
-  toggleSfxMute = () => {
-    console.log(
-      `Turning mute from ${this.state.sfxMuted} to ${!this.state.sfxMuted}`
-    );
-    let sfxMuted = !this.state.sfxMuted;
-    this.setState({
-      sfxMuted
-    });
-  };
-
-  toggleMusicMute = () => {
-    console.log(
-      `Turning mute from ${this.state.musicMuted} to ${!this.state.musicMuted}`
-    );
-    let musicMuted = !this.state.musicMuted;
-
-    this.setState({
-      musicMuted
-    });
-
-    if (musicMuted) {
-      // Turn the music off
-      this.changeMusic("music", true);
-    } else {
-      // Start the music!
-      this.changeMusic("music");
-    }
   };
 
   showAlert = (content, autodismiss = true, persistent = false) => {
@@ -235,13 +170,13 @@ class App extends React.Component {
         content,
         persistent,
         shown: true,
-        autodismiss
+        autodismiss,
       };
     }
     this.setState({ alerts, alert });
   };
 
-  dismissAlert = alertName => {
+  dismissAlert = (alertName) => {
     let alert = this.state.alert;
     if (alertName) {
       alert = this.state.alerts[alertName];
@@ -257,9 +192,10 @@ class App extends React.Component {
           this.state.gameActive ? "stage" + this.state.stage : ""
         } ${this.state.redAlert ? "red-alert" : ""}`}
       >
+        <AudioPlayer></AudioPlayer>
         {/* "Stage 1" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           content={this.state.alerts.stageAnnouncement.content}
           shown={this.state.alerts.stageAnnouncement.shown}
           name="stageAnnouncement"
@@ -269,7 +205,7 @@ class App extends React.Component {
 
         {/* "Victory" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           content={this.state.alerts.victory.content}
           shown={this.state.alerts.victory.shown}
           menu={{
@@ -284,10 +220,10 @@ class App extends React.Component {
                   this.setState({
                     alerts,
                     activeMenuName: "board",
-                    gameActive: true
+                    gameActive: true,
                   });
                 },
-                selected: true
+                selected: true,
               },
               {
                 title: "Main Menu",
@@ -297,13 +233,13 @@ class App extends React.Component {
                   alerts.mainMenu.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu"
+                    activeMenuName: "mainMenu",
                   });
                 },
-                selected: false
-              }
+                selected: false,
+              },
             ],
-            hasFocus: this.state.activeMenuName === "victory"
+            hasFocus: this.state.activeMenuName === "victory",
           }}
           name="victory"
           dismissAlert={this.dismissAlert}
@@ -311,7 +247,7 @@ class App extends React.Component {
 
         {/* "Game Over" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           name="game-over"
           content={this.state.alerts.gameOver.content}
           menu={{
@@ -325,10 +261,10 @@ class App extends React.Component {
 
                   this.setState({
                     alerts,
-                    gameActive: true
+                    gameActive: true,
                   });
                 },
-                selected: true
+                selected: true,
               },
               {
                 title: "Main Menu",
@@ -338,13 +274,13 @@ class App extends React.Component {
                   alerts.mainMenu.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu"
+                    activeMenuName: "mainMenu",
                   });
                 },
-                selected: false
-              }
+                selected: false,
+              },
             ],
-            hasFocus: this.state.activeMenuName === "gameOver"
+            hasFocus: this.state.activeMenuName === "gameOver",
           }}
           shown={this.state.alerts.gameOver.shown}
           dismissAlert={this.dismissAlert}
@@ -352,7 +288,7 @@ class App extends React.Component {
 
         {/* "Main Menu" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           name="main-menu"
           content={<h1>Pozo</h1>}
           menu={{
@@ -365,7 +301,7 @@ class App extends React.Component {
                   alerts.mainMenu.shown = false;
                   console.log("You clicked on 'Start Game!'");
                   this.setState({ activeMenuName: "game", gameActive: true });
-                }
+                },
               },
               {
                 title: "Instructions",
@@ -374,9 +310,9 @@ class App extends React.Component {
                   alerts.instructions.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "instructions"
+                    activeMenuName: "instructions",
                   });
-                }
+                },
               },
               // {
               //   title: "Options",
@@ -392,19 +328,19 @@ class App extends React.Component {
                   alerts.credits.shown = true;
                   this.setState({
                     alerts,
-                    activeMenuName: "credits"
+                    activeMenuName: "credits",
                   });
-                }
-              }
+                },
+              },
             ],
-            hasFocus: this.state.activeMenuName === "mainMenu"
+            hasFocus: this.state.activeMenuName === "mainMenu",
           }}
           shown={this.state.alerts.mainMenu.shown}
         />
 
         {/* "Instructions" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           content={this.state.alerts.instructions.content}
           menu={{
             name: "instructions",
@@ -416,13 +352,13 @@ class App extends React.Component {
                   alerts.instructions.shown = false;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu"
+                    activeMenuName: "mainMenu",
                   });
                 },
-                selected: true
-              }
+                selected: true,
+              },
             ],
-            hasFocus: this.state.activeMenuName === "instructions"
+            hasFocus: this.state.activeMenuName === "instructions",
           }}
           shown={this.state.alerts.instructions.shown}
           dismissAlert={this.dismissAlert}
@@ -430,7 +366,7 @@ class App extends React.Component {
 
         {/* "Instructions" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           content={this.state.alerts.inGameInstructions.content}
           menu={{
             name: "inGameInstructions",
@@ -441,13 +377,13 @@ class App extends React.Component {
                   let alerts = this.state.alerts;
                   alerts.inGameInstructions.shown = false;
                   this.setState({
-                    alerts
+                    alerts,
                   });
                 },
-                selected: true
-              }
+                selected: true,
+              },
             ],
-            hasFocus: this.state.activeMenuName === "inGameInstructions"
+            hasFocus: this.state.activeMenuName === "inGameInstructions",
           }}
           shown={this.state.alerts.inGameInstructions.shown}
           dismissAlert={this.dismissAlert}
@@ -455,7 +391,7 @@ class App extends React.Component {
 
         {/* "Credits" Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           content={this.state.alerts.credits.content}
           menu={{
             name: "credits",
@@ -467,13 +403,13 @@ class App extends React.Component {
                   alerts.credits.shown = false;
                   this.setState({
                     alerts,
-                    activeMenuName: "mainMenu"
+                    activeMenuName: "mainMenu",
                   });
                 },
-                selected: true
-              }
+                selected: true,
+              },
             ],
-            hasFocus: this.state.activeMenuName === "credits"
+            hasFocus: this.state.activeMenuName === "credits",
           }}
           shown={this.state.alerts.credits.shown}
           dismissAlert={this.dismissAlert}
@@ -481,7 +417,7 @@ class App extends React.Component {
 
         {/* Utility Announcement */}
         <Alert
-          playSound={this.playSound}
+          playSound={playSound}
           content={this.state.alert.content}
           shown={this.state.alert.shown}
           autodismiss={this.state.alert.autodismiss}
@@ -489,7 +425,7 @@ class App extends React.Component {
         />
 
         <Board
-          playSound={this.playSound}
+          playSound={playSound}
           changeMusic={this.changeMusic}
           changeGameActive={this.changeGameActive}
           showAlert={this.showAlert}
