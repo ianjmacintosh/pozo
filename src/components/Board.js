@@ -24,7 +24,7 @@ import ControlPanel from "./ControlPanel";
 import Counter from "./Counter";
 
 import AudioPlayer from "./AudioPlayer";
-import { changeMusic, playSound } from "./AudioPlayer";
+import { changeMusic } from "./AudioPlayer";
 
 // getRandomInt is a random number generator
 // isMonster is a filter to check if a queue item is a monster
@@ -147,7 +147,7 @@ class Board extends React.Component {
   // Scoreboard needs this
   // This method defines behavior when eliminating a monster
   reportElimination = (monstersEliminated) => {
-    playSound("eliminate", 0, 1, 50);
+    this.props.handleSound("eliminate", 0, 1, 50);
     this.updateScoreboard(monstersEliminated);
     this.updateCounter(monstersEliminated);
   };
@@ -284,45 +284,6 @@ class Board extends React.Component {
     this.addMonster(directionMap[fieldNumber], queueNumber, colorNumber);
   };
 
-  toggleMute = () => {
-    console.log(
-      `Turning mute from ${this.state.muted} to ${!this.state.muted}`
-    );
-    let muted = !this.state.muted;
-    this.setState({
-      muted,
-    });
-  };
-
-  toggleSfxMute = () => {
-    console.log(
-      `Turning mute from ${this.state.sfxMuted} to ${!this.state.sfxMuted}`
-    );
-    let sfxMuted = !this.state.sfxMuted;
-    this.setState({
-      sfxMuted,
-    });
-  };
-
-  toggleMusicMute = () => {
-    console.log(
-      `Turning mute from ${this.state.musicMuted} to ${!this.state.musicMuted}`
-    );
-    let musicMuted = !this.state.musicMuted;
-
-    this.setState({
-      musicMuted,
-    });
-
-    if (musicMuted) {
-      // Turn the music off
-      changeMusic("song-gypsyDance", true);
-    } else {
-      // Start the music!
-      changeMusic("song-gypsyDance");
-    }
-  };
-
   // Hero needs this
   // This method applies the strike method to the queue requested
   handleStrikeCall = (field, queue, color) => {
@@ -357,7 +318,7 @@ class Board extends React.Component {
     }
     // Clear the streak if no monsters were eliminated
     else if (targetQueue.filter(isMonster).length !== 0) {
-      playSound("swap", 0, 1, 0);
+      this.props.handleSound("swap", 0, 1, 0);
       this.setState({ streak: 0 });
     }
 
@@ -455,18 +416,18 @@ class Board extends React.Component {
     if (playerDidWin) {
       let currentStage = this.props.stage + 1;
       if (stages[currentStage - 1]) {
-        playSound("stageClear");
+        this.props.handleSound("stageClear");
         this.props.setStage(currentStage);
         this.start(currentStage);
       } else {
         this.props.changeGameActive(false);
-        playSound("victory");
+        this.props.handleSound("victory");
         this.props.showAlert("victory", false);
       }
     } else {
       this.props.setStage(1);
       this.props.changeGameActive(false);
-      playSound("gameOver");
+      this.props.handleSound("gameOver");
       this.props.showAlert("gameOver", false);
     }
   };
@@ -499,7 +460,7 @@ class Board extends React.Component {
         if (this.props.musicMuted === false) {
           changeMusic("music");
         }
-        playSound("menuSelect", 0, 0.2);
+        this.props.handleSound("menuSelect", 0, 0.2);
       }
     });
 
@@ -591,7 +552,7 @@ class Board extends React.Component {
                 showAlert={this.props.showAlert}
                 color={this.state.heroColor}
                 canMove={this.props.isGameActive}
-                playSound={playSound}
+                handleSound={this.props.handleSound}
                 longQueueSize={this.props.longQueueSize}
                 shortQueueSize={this.props.shortQueueSize}
                 handleStrikeCall={this.handleStrikeCall}
@@ -603,9 +564,9 @@ class Board extends React.Component {
               muted={this.props.muted}
               sfxMuted={this.props.sfxMuted}
               musicMuted={this.props.musicMuted}
-              toggleMute={this.toggleMute}
-              toggleSfxMute={this.toggleSfxMute}
-              toggleMusicMute={this.toggleMusicMute}
+              toggleMute={this.props.toggleMute}
+              toggleSfxMute={this.props.toggleSfxMute}
+              toggleMusicMute={this.props.toggleMusicMute}
             />
             <Counter count={this.state.monstersRemaining} />
           </footer>

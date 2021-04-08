@@ -2,7 +2,7 @@ import React from "react";
 
 import Alert from "./Alert";
 import Board from "./Board";
-import { changeMusic, playSound } from "./AudioPlayer";
+import { playSound, changeMusic } from "./AudioPlayer";
 import AudioPlayer from "./AudioPlayer";
 
 import "./App.css";
@@ -140,6 +140,45 @@ class App extends React.Component {
     this.setState({ stage: newStage });
   };
 
+  toggleMute = () => {
+    console.log(
+      `Turning mute from ${this.state.muted} to ${!this.state.muted}`
+    );
+    let muted = !this.state.muted;
+    this.setState({
+      muted,
+    });
+  };
+
+  toggleSfxMute = () => {
+    console.log(
+      `Turning mute from ${this.state.sfxMuted} to ${!this.state.sfxMuted}`
+    );
+    let sfxMuted = !this.state.sfxMuted;
+    this.setState({
+      sfxMuted,
+    });
+  };
+
+  toggleMusicMute = () => {
+    console.log(
+      `Turning mute from ${this.state.musicMuted} to ${!this.state.musicMuted}`
+    );
+    let musicMuted = !this.state.musicMuted;
+
+    this.setState({
+      musicMuted,
+    });
+
+    if (musicMuted) {
+      // Turn the music off
+      changeMusic("song-gypsyDance", true);
+    } else {
+      // Start the music!
+      changeMusic("song-gypsyDance");
+    }
+  };
+
   monsterTimer = null;
   waveTimer = null;
 
@@ -185,6 +224,12 @@ class App extends React.Component {
     this.setState({ alert });
   };
 
+  handleSound = (...params) => {
+    if (!this.state.sfxMuted) {
+      playSound(...params);
+    }
+  };
+
   render() {
     return (
       <div
@@ -195,7 +240,7 @@ class App extends React.Component {
         <AudioPlayer></AudioPlayer>
         {/* "Stage 1" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           content={this.state.alerts.stageAnnouncement.content}
           shown={this.state.alerts.stageAnnouncement.shown}
           name="stageAnnouncement"
@@ -205,7 +250,7 @@ class App extends React.Component {
 
         {/* "Victory" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           content={this.state.alerts.victory.content}
           shown={this.state.alerts.victory.shown}
           menu={{
@@ -247,7 +292,7 @@ class App extends React.Component {
 
         {/* "Game Over" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           name="game-over"
           content={this.state.alerts.gameOver.content}
           menu={{
@@ -288,7 +333,7 @@ class App extends React.Component {
 
         {/* "Main Menu" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           name="main-menu"
           content={<h1>Pozo</h1>}
           menu={{
@@ -340,7 +385,7 @@ class App extends React.Component {
 
         {/* "Instructions" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           content={this.state.alerts.instructions.content}
           menu={{
             name: "instructions",
@@ -366,7 +411,7 @@ class App extends React.Component {
 
         {/* "Instructions" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           content={this.state.alerts.inGameInstructions.content}
           menu={{
             name: "inGameInstructions",
@@ -391,7 +436,7 @@ class App extends React.Component {
 
         {/* "Credits" Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           content={this.state.alerts.credits.content}
           menu={{
             name: "credits",
@@ -417,7 +462,7 @@ class App extends React.Component {
 
         {/* Utility Announcement */}
         <Alert
-          playSound={playSound}
+          playSound={this.handleSound}
           content={this.state.alert.content}
           shown={this.state.alert.shown}
           autodismiss={this.state.alert.autodismiss}
@@ -425,7 +470,7 @@ class App extends React.Component {
         />
 
         <Board
-          playSound={playSound}
+          handleSound={this.handleSound}
           changeMusic={this.changeMusic}
           changeGameActive={this.changeGameActive}
           showAlert={this.showAlert}

@@ -7,7 +7,7 @@ describe("Board", () => {
   const mockedSetStage = jest.fn();
   const wrapper = shallow(
       <Board
-        playSound={jest.fn()}
+        handleSound={jest.fn()}
         updateAlert={jest.fn()}
         showAlert={jest.fn()}
         setStage={mockedSetStage}
