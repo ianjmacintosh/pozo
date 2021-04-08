@@ -12,7 +12,7 @@ class Hero extends React.Component {
     x: 1,
     y: 1,
     orientation: "up",
-    untouched: true
+    untouched: true,
   };
   componentDidMount() {
     setTimeout(() => {
@@ -43,7 +43,7 @@ class Hero extends React.Component {
       ArrowRight: "right",
       ArrowDown: "down",
       ArrowLeft: "left",
-      Enter: "strike"
+      Enter: "strike",
     };
 
     if (key in keyMappings) {
@@ -73,15 +73,15 @@ class Hero extends React.Component {
   // Hero needs this
   // This method updates the hero's coordinates and orientation
   // Walk accepts a direction, and calls move
-  walk = direction => {
-    this.props.playSound("walk", 0, 0.15);
+  walk = (direction) => {
+    this.props.handleSound("walk", 0, 0.15);
 
     // Each movement updates app state for hero x & y
     const directionChanges = {
         up: [0, -1],
         right: [1, 0],
         down: [0, 1],
-        left: [-1, 0]
+        left: [-1, 0],
       },
       baseSize = 4;
 
@@ -106,7 +106,7 @@ class Hero extends React.Component {
 
   // Homebase needs this
   // This method changes the hero's color
-  changeColor = newColor => {
+  changeColor = (newColor) => {
     const hero = { ...this.state.hero };
     hero.color = newColor;
 
@@ -118,9 +118,9 @@ class Hero extends React.Component {
     this.props.showAlert("inGameInstructions", true, false);
   };
 
-  animateStrike = field => {
+  animateStrike = (field) => {
     // Play sound
-    this.props.playSound("strike", 0, 0.5);
+    this.props.handleSound("strike", 0, 0.5);
 
     // Find out direction to strike (up, left, down, right)
     let x = 0,
@@ -172,12 +172,12 @@ class Hero extends React.Component {
     tl.to(".hero", {
       duration: 0.1,
       x,
-      y
+      y,
     });
     tl.to(".hero", {
       duration: 0.1,
       x: 0,
-      y: 0
+      y: 0,
     });
 
     // Flip orientation
@@ -217,12 +217,10 @@ class Hero extends React.Component {
   render() {
     return (
       <div
-        className={`hero hero--${this.state.orientation} hero--${
-          this.props.color
-        }`}
+        className={`hero hero--${this.state.orientation} hero--${this.props.color}`}
         style={{
           "--hero-x": this.state.x,
-          "--hero-y": this.state.y
+          "--hero-y": this.state.y,
         }}
       >
         <svg viewBox="0 0 40 40">

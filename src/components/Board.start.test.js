@@ -6,7 +6,7 @@ import Board from "./Board";
 describe("Board", () => {
   const wrapper = shallow(
       <Board
-        playSound={jest.fn()}
+        handleSound={jest.fn()}
         updateAlert={jest.fn()}
         showAlert={jest.fn()}
         changeMusic={jest.fn()}

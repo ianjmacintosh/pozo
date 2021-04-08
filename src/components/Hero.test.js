@@ -9,7 +9,7 @@ describe("Hero", () => {
       <Hero
         showAlert={mockedShowAlert}
         canMove={true}
-        playSound={jest.fn()}
+        handleSound={jest.fn()}
         handleStrikeCall={jest.fn()}
         // color={this.state.heroColor}
         // longQueueSize={this.props.longQueueSize}
@@ -57,7 +57,7 @@ describe("Hero", () => {
       <Hero
         showAlert={mockedShowAlert}
         canMove={true}
-        playSound={jest.fn()}
+        handleSound={jest.fn()}
         handleStrikeCall={jest.fn()}
       />
     ).instance();
