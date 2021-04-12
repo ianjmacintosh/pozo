@@ -18,3 +18,37 @@ export function isMonster(item) {
 export function isGhost(item) {
   return item.type === "ghost";
 }
+
+export const stages = [
+  {
+    monsters: 5,
+    creationRate: 3,
+    waveDuration: 10,
+    rateMultiplier: 1.25,
+  },
+  {
+    monsters: 10,
+    creationRate: 2,
+    waveDuration: 5,
+    rateMultiplier: 1.1,
+  },
+  {
+    monsters: 25,
+    creationRate: 2,
+    waveDuration: 10,
+    rateMultiplier: 1.75,
+  },
+  {
+    monsters: 50,
+    creationRate: 2,
+    waveDuration: 5,
+    rateMultiplier: 1.1,
+  },
+];
+
+export const directionMap = {
+  0: "up",
+  1: "left",
+  2: "right",
+  3: "down",
+};

@@ -13,7 +13,9 @@ import ControlPanel from "./ControlPanel"; // Allows players to change settings
 import Counter from "./Counter"; // Shows how many monsters remain on this stage
 import AudioPlayer from "./AudioPlayer"; // Handles playing sounds
 import { changeMusic } from "./AudioPlayer"; // Handles playing music
-import { getRandomInt, isMonster } from "../helpers"; // RNG and filter helper function
+
+// RNG, monster filter helper, stage definitions, direction-to-keys mapping
+import { getRandomInt, isMonster, stages, directionMap } from "../helpers";
 
 /*
 
@@ -34,40 +36,6 @@ import { getRandomInt, isMonster } from "../helpers"; // RNG and filter helper f
           longQueueSize={8}
           shortQueueSize={5}
 */
-
-const stages = [
-  {
-    monsters: 5,
-    creationRate: 3,
-    waveDuration: 10,
-    rateMultiplier: 1.25,
-  },
-  {
-    monsters: 10,
-    creationRate: 2,
-    waveDuration: 5,
-    rateMultiplier: 1.1,
-  },
-  {
-    monsters: 25,
-    creationRate: 2,
-    waveDuration: 10,
-    rateMultiplier: 1.75,
-  },
-  {
-    monsters: 50,
-    creationRate: 2,
-    waveDuration: 5,
-    rateMultiplier: 1.1,
-  },
-];
-
-const directionMap = {
-  0: "up",
-  1: "left",
-  2: "right",
-  3: "down",
-};
 
 class Board extends React.Component {
   state = {
