@@ -5,23 +5,29 @@ import PropTypes from "prop-types";
 
 class Alert extends React.Component {
   static propTypes = {
-    shown: PropTypes.bool
+    shown: PropTypes.bool,
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.content !== prevProps.content) {
-      if (this.props.autodismiss) {
+    if (this.props.settings.content !== prevProps.settings.content) {
+      if (this.props.settings.autodismiss) {
         window.setTimeout(() => {
           this.props.dismissAlert(this.props.name);
         }, 1500);
       }
     }
 
-    if (this.props.shown !== prevProps.shown) {
-      if (this.props.shown === false && prevProps.shown === true) {
+    if (this.props.settings.shown !== prevProps.settings.shown) {
+      if (
+        this.props.settings.shown === false &&
+        prevProps.settings.shown === true
+      ) {
         this.handleClose();
       }
-      if (this.props.shown === true && prevProps.shown === false) {
+      if (
+        this.props.settings.shown === true &&
+        prevProps.settings.shown === false
+      ) {
         this.setState({ shown: true });
       }
     }
@@ -29,7 +35,7 @@ class Alert extends React.Component {
 
   state = {
     animatingOut: false,
-    shown: this.props.shown
+    shown: this.props.settings.shown,
   };
 
   handleClose = () => {
@@ -44,8 +50,9 @@ class Alert extends React.Component {
   render() {
     let content;
     let menu;
-    if (this.props.content) {
-      content = this.props.content;
+
+    if (this.props.settings.content) {
+      content = this.props.settings.content;
     }
     if (this.props.menu) {
       menu = (

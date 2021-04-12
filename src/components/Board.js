@@ -5,6 +5,7 @@ import React from "react";
 import "./Board.css";
 import "./Alert.css";
 
+import Alert from "./Alert"; // Displays in-game announcements
 import Scoreboard from "./Scoreboard"; // Shows the current score
 import Field from "./Field"; // Fields store queues, which may contain monsters
 import Homebase from "./Homebase"; // The area the hero protects
@@ -25,13 +26,7 @@ import { getRandomInt, isMonster, stages, directionMap } from "../helpers";
           showAlert={this.showAlert}
           updateAlert={this.updateAlert}
           setStage={this.setStage}
-          toggleMute={this.toggleMute}
-          toggleSfxMute={this.toggleSfxMute}
-          toggleMusicMute={this.toggleMusicMute}
           isGameActive={this.state.gameActive}
-          muted={this.state.muted}
-          sfxMuted={this.state.sfxMuted}
-          musicMuted={this.state.musicMuted}
           stage={this.state.stage}
           longQueueSize={8}
           shortQueueSize={5}
@@ -101,6 +96,18 @@ class Board extends React.Component {
     window.addEventListener("keydown", this.handleKeypress);
   }
 
+  alertSettings = {
+    content: "",
+    persistent: false,
+    shown: false,
+    autodismiss: true,
+  };
+
+  showAlert = (settings) => {
+    console.table(settings);
+    this.alertSettings = { settings };
+  };
+
   // Counter needs this
   // This method updates the counter when a monster is eliminated
   updateCounter = (monsterCount) => {
@@ -155,11 +162,7 @@ class Board extends React.Component {
     let paused = this.state.paused;
 
     if (paused) {
-      this.props.showAlert(
-        <React.Fragment>
-          <h1>Go!</h1>
-        </React.Fragment>
-      );
+      this.showAlert({ content: "Paused" });
 
       // Resume the timers
       this.monsterTimer = window.setInterval(
@@ -180,11 +183,7 @@ class Board extends React.Component {
       }, this.state.stageSettings.waveDuration * 1000);
     } else {
       // Save the time remaining on monsterTimer
-      this.props.showAlert(
-        <React.Fragment>
-          <h1>Paused</h1>
-        </React.Fragment>
-      );
+      this.showAlert({ content: "Paused" });
       // Clear the timers
       clearInterval(this.monsterTimer);
       clearInterval(this.waveTimer);
@@ -395,13 +394,13 @@ class Board extends React.Component {
       } else {
         this.props.changeGameActive(false);
         this.props.handleSound("victory");
-        this.props.showAlert("victory", false);
+        this.showAlert({ content: "Victory" });
       }
     } else {
       this.props.setStage(1);
       this.props.changeGameActive(false);
       this.props.handleSound("gameOver");
-      this.props.showAlert("gameOver", false);
+      this.showAlert({ content: "Game Over" }, false);
     }
   };
 
@@ -478,12 +477,13 @@ class Board extends React.Component {
     this.props.updateAlert("stageAnnouncement", {
       content: <h1>{`Stage ${stageNumber}`}</h1>,
     });
-    this.props.showAlert("stageAnnouncement");
+    this.showAlert({ content: "stageAnnouncement" });
   };
 
   render() {
     return (
       <div className="board">
+        <Alert settings={this.alertSettings}></Alert>
         <header>
           <Scoreboard score={this.state.score} />
         </header>
@@ -519,7 +519,7 @@ class Board extends React.Component {
           <Homebase handleKeypress={this.handleKeypress}>
             <Hero
               squareSize={this.state.squareSize}
-              showAlert={this.props.showAlert}
+              showAlert={this.showAlert}
               color={this.state.heroColor}
               canMove={this.props.isGameActive}
               handleSound={this.props.handleSound}

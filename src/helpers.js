@@ -52,3 +52,29 @@ export const directionMap = {
   2: "right",
   3: "down",
 };
+
+export function showAlert(content, autodismiss = true, persistent = false) {
+  let alerts = this.state.alerts;
+  let alert = this.state.alert;
+
+  if (this.state.alerts[content]) {
+    if (content === "gameOver") {
+      this.setState({ activeMenuName: "gameOver" });
+    }
+    if (content === "victory") {
+      this.setState({ activeMenuName: "victory" });
+    }
+    if (content === "inGameInstructions") {
+      this.setState({ activeMenuName: "inGameInstructions" });
+    }
+    alerts[content].shown = true;
+  } else {
+    alert = {
+      content,
+      persistent,
+      shown: true,
+      autodismiss,
+    };
+  }
+  this.setState({ alerts, alert });
+}
