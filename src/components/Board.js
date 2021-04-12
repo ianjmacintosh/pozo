@@ -5,30 +5,16 @@ import React from "react";
 import "./Board.css";
 import "./Alert.css";
 
-// Scoreboard shows the current score
-import Scoreboard from "./Scoreboard";
+import Scoreboard from "./Scoreboard"; // Shows the current score
+import Field from "./Field"; // Fields store queues, which may contain monsters
+import Homebase from "./Homebase"; // The area the hero protects
+import Hero from "./Hero"; // Shows the player's position, orientation, and color
+import ControlPanel from "./ControlPanel"; // Allows players to change settings
+import Counter from "./Counter"; // Shows how many monsters remain on this stage
+import AudioPlayer from "./AudioPlayer"; // Handles playing sounds
+import { changeMusic } from "./AudioPlayer"; // Handles playing music
+import { getRandomInt, isMonster } from "../helpers"; // RNG and filter helper function
 
-// Fields store queues, which may contain monsters
-import Field from "./Field";
-
-// Homebase stores the hero
-import Homebase from "./Homebase";
-
-// Hero represents the player's status (position, orientation, color)
-import Hero from "./Hero";
-
-// Control Panel allows players to change settings
-import ControlPanel from "./ControlPanel";
-
-// Counter shows how many monsters remain on this stage
-import Counter from "./Counter";
-
-import AudioPlayer from "./AudioPlayer";
-import { changeMusic } from "./AudioPlayer";
-
-// getRandomInt is a random number generator
-// isMonster is a filter to check if a queue item is a monster
-import { getRandomInt, isMonster } from "../helpers";
 
 const stages = [
   {
