@@ -15,6 +15,25 @@ import AudioPlayer from "./AudioPlayer"; // Handles playing sounds
 import { changeMusic } from "./AudioPlayer"; // Handles playing music
 import { getRandomInt, isMonster } from "../helpers"; // RNG and filter helper function
 
+/*
+
+          handleSound={this.handleSound}
+          changeMusic={this.changeMusic}
+          changeGameActive={this.changeGameActive}
+          showAlert={this.showAlert}
+          updateAlert={this.updateAlert}
+          setStage={this.setStage}
+          toggleMute={this.toggleMute}
+          toggleSfxMute={this.toggleSfxMute}
+          toggleMusicMute={this.toggleMusicMute}
+          isGameActive={this.state.gameActive}
+          muted={this.state.muted}
+          sfxMuted={this.state.sfxMuted}
+          musicMuted={this.state.musicMuted}
+          stage={this.state.stage}
+          longQueueSize={8}
+          shortQueueSize={5}
+*/
 
 const stages = [
   {
