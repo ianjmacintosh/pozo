@@ -482,81 +482,80 @@ class Board extends React.Component {
   };
 
   render() {
-    if (!this.props.isGameActive) {
-      return null;
-    } else {
-      return (
-        <div className="board">
-          <header>
-            <Scoreboard score={this.state.score} />
-          </header>
-          <main>
-            <Field
-              direction="up"
-              queues={this.state.fields.up.queues}
-              handleKeypress={() => {
-                this.handleKeypress({ key: "ArrowUp" });
-              }}
+    return (
+      <div className="board">
+        <header>
+          <Scoreboard score={this.state.score} />
+        </header>
+        <main>
+          <Field
+            direction="up"
+            queues={this.state.fields.up.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowUp" });
+            }}
+          />
+          <Field
+            direction="left"
+            queues={this.state.fields.left.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowLeft" });
+            }}
+          />
+          <Field
+            direction="right"
+            queues={this.state.fields.right.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowRight" });
+            }}
+          />
+          <Field
+            direction="down"
+            queues={this.state.fields.down.queues}
+            handleKeypress={() => {
+              this.handleKeypress({ key: "ArrowDown" });
+            }}
+          />
+          <Homebase handleKeypress={this.handleKeypress}>
+            <Hero
+              squareSize={this.state.squareSize}
+              showAlert={this.props.showAlert}
+              color={this.state.heroColor}
+              canMove={this.props.isGameActive}
+              handleSound={this.props.handleSound}
+              longQueueSize={this.props.longQueueSize}
+              shortQueueSize={this.props.shortQueueSize}
+              handleStrikeCall={this.handleStrikeCall}
             />
-            <Field
-              direction="left"
-              queues={this.state.fields.left.queues}
-              handleKeypress={() => {
-                this.handleKeypress({ key: "ArrowLeft" });
-              }}
-            />
-            <Field
-              direction="right"
-              queues={this.state.fields.right.queues}
-              handleKeypress={() => {
-                this.handleKeypress({ key: "ArrowRight" });
-              }}
-            />
-            <Field
-              direction="down"
-              queues={this.state.fields.down.queues}
-              handleKeypress={() => {
-                this.handleKeypress({ key: "ArrowDown" });
-              }}
-            />
-            <Homebase handleKeypress={this.handleKeypress}>
-              <Hero
-                squareSize={this.state.squareSize}
-                showAlert={this.props.showAlert}
-                color={this.state.heroColor}
-                canMove={this.props.isGameActive}
-                handleSound={this.props.handleSound}
-                longQueueSize={this.props.longQueueSize}
-                shortQueueSize={this.props.shortQueueSize}
-                handleStrikeCall={this.handleStrikeCall}
-              />
-            </Homebase>
-          </main>
-          <footer>
-            <ControlPanel
-              muted={this.props.muted}
-              sfxMuted={this.props.sfxMuted}
-              musicMuted={this.props.musicMuted}
-              toggleMute={this.props.toggleMute}
-              toggleSfxMute={this.props.toggleSfxMute}
-              toggleMusicMute={this.props.toggleMusicMute}
-            />
-            <Counter count={this.state.monstersRemaining} />
-          </footer>
-          <nav className="self-promo" role="navigation">
-            Made by{" "}
-            <a
-              href="https://www.ianjmacintosh.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ian J. MacIntosh
-            </a>
-          </nav>
-          <AudioPlayer sfxMuted={this.state.sfxMuted}></AudioPlayer>
-        </div>
-      );
-    }
+          </Homebase>
+        </main>
+        <footer>
+          <ControlPanel
+            muted={this.props.muted}
+            sfxMuted={this.props.sfxMuted}
+            musicMuted={this.props.musicMuted}
+            toggleMute={this.props.toggleMute}
+            toggleSfxMute={this.props.toggleSfxMute}
+            toggleMusicMute={this.props.toggleMusicMute}
+          />
+          <Counter count={this.state.monstersRemaining} />
+        </footer>
+        <nav className="self-promo" role="navigation">
+          Made by{" "}
+          <a
+            href="https://www.ianjmacintosh.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ian J. MacIntosh
+          </a>
+        </nav>
+        <AudioPlayer
+          sfxMuted={this.state.sfxMuted}
+          musicMuted={this.state.musicMuted}
+        ></AudioPlayer>
+      </div>
+    );
   }
 }
 export default Board;
