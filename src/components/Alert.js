@@ -9,6 +9,10 @@ class Alert extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
+    console.log("Previously:");
+    console.table(prevProps.settings);
+    console.log("Now:");
+    console.table(this.props.settings);
     if (this.props.settings.content !== prevProps.settings.content) {
       if (this.props.settings.autodismiss) {
         window.setTimeout(() => {
@@ -35,7 +39,7 @@ class Alert extends React.Component {
 
   state = {
     animatingOut: false,
-    shown: this.props.settings.shown,
+    shown: false,
   };
 
   handleClose = () => {
