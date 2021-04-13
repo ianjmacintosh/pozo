@@ -344,8 +344,7 @@ class App extends React.Component {
                 action: () => {
                   let alerts = this.state.alerts;
                   alerts.mainMenu.shown = false;
-                  console.log("You clicked on 'Start Game!'");
-                  this.setState({ activeMenuName: "game", gameActive: true });
+                  this.props.history.push("/play");
                 },
               },
               {
