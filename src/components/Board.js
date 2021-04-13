@@ -5,32 +5,64 @@ import React from "react";
 import "./Board.css";
 import "./Alert.css";
 
-import Alert from "./Alert"; // Displays in-game announcements
-import Scoreboard from "./Scoreboard"; // Shows the current score
-import Field from "./Field"; // Fields store queues, which may contain monsters
-import Homebase from "./Homebase"; // The area the hero protects
-import Hero from "./Hero"; // Shows the player's position, orientation, and color
-import ControlPanel from "./ControlPanel"; // Allows players to change settings
-import Counter from "./Counter"; // Shows how many monsters remain on this stage
-import AudioPlayer from "./AudioPlayer"; // Handles playing sounds
-import { changeMusic } from "./AudioPlayer"; // Handles playing music
+// Scoreboard shows the current score
+import Scoreboard from "./Scoreboard";
 
-// RNG, monster filter helper, stage definitions, direction-to-keys mapping
-import { getRandomInt, isMonster, stages, directionMap } from "../helpers";
+// Fields store queues, which may contain monsters
+import Field from "./Field";
 
-/*
+// Homebase stores the hero
+import Homebase from "./Homebase";
 
-          handleSound={this.handleSound}
-          changeMusic={this.changeMusic}
-          changeGameActive={this.changeGameActive}
-          showAlert={this.showAlert}
-          updateAlert={this.updateAlert}
-          setStage={this.setStage}
-          isGameActive={this.state.gameActive}
-          stage={this.state.stage}
-          longQueueSize={8}
-          shortQueueSize={5}
-*/
+// Hero represents the player's status (position, orientation, color)
+import Hero from "./Hero";
+
+// Control Panel allows players to change settings
+import ControlPanel from "./ControlPanel";
+
+// Counter shows how many monsters remain on this stage
+import Counter from "./Counter";
+
+import AudioPlayer from "./AudioPlayer";
+import { changeMusic } from "./AudioPlayer";
+
+// getRandomInt is a random number generator
+// isMonster is a filter to check if a queue item is a monster
+import { getRandomInt, isMonster } from "../helpers";
+
+const stages = [
+  {
+    monsters: 5,
+    creationRate: 3,
+    waveDuration: 10,
+    rateMultiplier: 1.25,
+  },
+  {
+    monsters: 10,
+    creationRate: 2,
+    waveDuration: 5,
+    rateMultiplier: 1.1,
+  },
+  {
+    monsters: 25,
+    creationRate: 2,
+    waveDuration: 10,
+    rateMultiplier: 1.75,
+  },
+  {
+    monsters: 50,
+    creationRate: 2,
+    waveDuration: 5,
+    rateMultiplier: 1.1,
+  },
+];
+
+const directionMap = {
+  0: "up",
+  1: "left",
+  2: "right",
+  3: "down",
+};
 
 class Board extends React.Component {
   state = {
@@ -96,18 +128,6 @@ class Board extends React.Component {
     window.addEventListener("keydown", this.handleKeypress);
   }
 
-  alertSettings = {
-    content: "",
-    persistent: false,
-    shown: false,
-    autodismiss: true,
-  };
-
-  showAlert = (settings) => {
-    console.table(settings);
-    this.alertSettings = { settings };
-  };
-
   // Counter needs this
   // This method updates the counter when a monster is eliminated
   updateCounter = (monsterCount) => {
@@ -162,7 +182,11 @@ class Board extends React.Component {
     let paused = this.state.paused;
 
     if (paused) {
-      this.showAlert({ content: "Paused" });
+      this.props.showAlert(
+        <React.Fragment>
+          <h1>Go!</h1>
+        </React.Fragment>
+      );
 
       // Resume the timers
       this.monsterTimer = window.setInterval(
@@ -183,7 +207,11 @@ class Board extends React.Component {
       }, this.state.stageSettings.waveDuration * 1000);
     } else {
       // Save the time remaining on monsterTimer
-      this.showAlert({ content: "Paused" });
+      this.props.showAlert(
+        <React.Fragment>
+          <h1>Paused</h1>
+        </React.Fragment>
+      );
       // Clear the timers
       clearInterval(this.monsterTimer);
       clearInterval(this.waveTimer);
@@ -394,13 +422,13 @@ class Board extends React.Component {
       } else {
         this.props.changeGameActive(false);
         this.props.handleSound("victory");
-        this.showAlert({ content: "Victory" });
+        this.props.showAlert("victory", false);
       }
     } else {
       this.props.setStage(1);
       this.props.changeGameActive(false);
       this.props.handleSound("gameOver");
-      this.showAlert({ content: "Game Over" }, false);
+      this.props.showAlert("gameOver", false);
     }
   };
 
@@ -477,85 +505,85 @@ class Board extends React.Component {
     this.props.updateAlert("stageAnnouncement", {
       content: <h1>{`Stage ${stageNumber}`}</h1>,
     });
-    this.showAlert({ content: "stageAnnouncement" });
+    this.props.showAlert("stageAnnouncement");
   };
 
   render() {
-    return (
-      <div className="board">
-        <Alert settings={this.alertSettings}></Alert>
-        <header>
-          <Scoreboard score={this.state.score} />
-        </header>
-        <main>
-          <Field
-            direction="up"
-            queues={this.state.fields.up.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowUp" });
-            }}
-          />
-          <Field
-            direction="left"
-            queues={this.state.fields.left.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowLeft" });
-            }}
-          />
-          <Field
-            direction="right"
-            queues={this.state.fields.right.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowRight" });
-            }}
-          />
-          <Field
-            direction="down"
-            queues={this.state.fields.down.queues}
-            handleKeypress={() => {
-              this.handleKeypress({ key: "ArrowDown" });
-            }}
-          />
-          <Homebase handleKeypress={this.handleKeypress}>
-            <Hero
-              squareSize={this.state.squareSize}
-              showAlert={this.showAlert}
-              color={this.state.heroColor}
-              canMove={this.props.isGameActive}
-              handleSound={this.props.handleSound}
-              longQueueSize={this.props.longQueueSize}
-              shortQueueSize={this.props.shortQueueSize}
-              handleStrikeCall={this.handleStrikeCall}
+    if (!this.props.isGameActive) {
+      return null;
+    } else {
+      return (
+        <div className="board">
+          <header>
+            <Scoreboard score={this.state.score} />
+          </header>
+          <main>
+            <Field
+              direction="up"
+              queues={this.state.fields.up.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowUp" });
+              }}
             />
-          </Homebase>
-        </main>
-        <footer>
-          <ControlPanel
-            muted={this.props.muted}
-            sfxMuted={this.props.sfxMuted}
-            musicMuted={this.props.musicMuted}
-            toggleMute={this.props.toggleMute}
-            toggleSfxMute={this.props.toggleSfxMute}
-            toggleMusicMute={this.props.toggleMusicMute}
-          />
-          <Counter count={this.state.monstersRemaining} />
-        </footer>
-        <nav className="self-promo" role="navigation">
-          Made by{" "}
-          <a
-            href="https://www.ianjmacintosh.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ian J. MacIntosh
-          </a>
-        </nav>
-        <AudioPlayer
-          sfxMuted={this.state.sfxMuted}
-          musicMuted={this.state.musicMuted}
-        ></AudioPlayer>
-      </div>
-    );
+            <Field
+              direction="left"
+              queues={this.state.fields.left.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowLeft" });
+              }}
+            />
+            <Field
+              direction="right"
+              queues={this.state.fields.right.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowRight" });
+              }}
+            />
+            <Field
+              direction="down"
+              queues={this.state.fields.down.queues}
+              handleKeypress={() => {
+                this.handleKeypress({ key: "ArrowDown" });
+              }}
+            />
+            <Homebase handleKeypress={this.handleKeypress}>
+              <Hero
+                squareSize={this.state.squareSize}
+                showAlert={this.props.showAlert}
+                color={this.state.heroColor}
+                canMove={this.props.isGameActive}
+                handleSound={this.props.handleSound}
+                longQueueSize={this.props.longQueueSize}
+                shortQueueSize={this.props.shortQueueSize}
+                handleStrikeCall={this.handleStrikeCall}
+              />
+            </Homebase>
+          </main>
+          <footer>
+            <ControlPanel
+              muted={this.props.muted}
+              sfxMuted={this.props.sfxMuted}
+              musicMuted={this.props.musicMuted}
+              toggleMute={this.props.toggleMute}
+              toggleSfxMute={this.props.toggleSfxMute}
+              toggleMusicMute={this.props.toggleMusicMute}
+            />
+            <Counter count={this.state.monstersRemaining} />
+          </footer>
+          <nav className="self-promo" role="navigation">
+            Made by{" "}
+            <a
+              href="https://www.ianjmacintosh.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ian J. MacIntosh
+            </a>
+          </nav>
+          <AudioPlayer sfxMuted={this.state.sfxMuted}></AudioPlayer>
+        </div>
+      );
+    }
   }
 }
 export default Board;

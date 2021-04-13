@@ -115,7 +115,7 @@ class Hero extends React.Component {
   };
 
   showInGameInstructions = () => {
-    this.props.showAlert({ content: "In-Game Instructions", shown: true });
+    this.props.showAlert("inGameInstructions", true, false);
   };
 
   animateStrike = (field) => {

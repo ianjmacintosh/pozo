@@ -5,33 +5,23 @@ import PropTypes from "prop-types";
 
 class Alert extends React.Component {
   static propTypes = {
-    shown: PropTypes.bool,
+    shown: PropTypes.bool
   };
 
   componentDidUpdate(prevProps) {
-    console.log("Previously:");
-    console.table(prevProps.settings);
-    console.log("Now:");
-    console.table(this.props.settings);
-    if (this.props.settings.content !== prevProps.settings.content) {
-      if (this.props.settings.autodismiss) {
+    if (this.props.content !== prevProps.content) {
+      if (this.props.autodismiss) {
         window.setTimeout(() => {
           this.props.dismissAlert(this.props.name);
         }, 1500);
       }
     }
 
-    if (this.props.settings.shown !== prevProps.settings.shown) {
-      if (
-        this.props.settings.shown === false &&
-        prevProps.settings.shown === true
-      ) {
+    if (this.props.shown !== prevProps.shown) {
+      if (this.props.shown === false && prevProps.shown === true) {
         this.handleClose();
       }
-      if (
-        this.props.settings.shown === true &&
-        prevProps.settings.shown === false
-      ) {
+      if (this.props.shown === true && prevProps.shown === false) {
         this.setState({ shown: true });
       }
     }
@@ -39,7 +29,7 @@ class Alert extends React.Component {
 
   state = {
     animatingOut: false,
-    shown: false,
+    shown: this.props.shown
   };
 
   handleClose = () => {
@@ -54,9 +44,8 @@ class Alert extends React.Component {
   render() {
     let content;
     let menu;
-
-    if (this.props.settings.content) {
-      content = this.props.settings.content;
+    if (this.props.content) {
+      content = this.props.content;
     }
     if (this.props.menu) {
       menu = (

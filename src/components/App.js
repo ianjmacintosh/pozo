@@ -1,6 +1,7 @@
 import React from "react";
 
 import Alert from "./Alert";
+import Board from "./Board";
 import { playSound, changeMusic } from "./AudioPlayer";
 import AudioPlayer from "./AudioPlayer";
 
@@ -465,6 +466,25 @@ class App extends React.Component {
           shown={this.state.alert.shown}
           autodismiss={this.state.alert.autodismiss}
           dismissAlert={this.dismissAlert}
+        />
+
+        <Board
+          handleSound={this.handleSound}
+          changeMusic={this.changeMusic}
+          changeGameActive={this.changeGameActive}
+          showAlert={this.showAlert}
+          updateAlert={this.updateAlert}
+          setStage={this.setStage}
+          toggleMute={this.toggleMute}
+          toggleSfxMute={this.toggleSfxMute}
+          toggleMusicMute={this.toggleMusicMute}
+          isGameActive={this.state.gameActive}
+          muted={this.state.muted}
+          sfxMuted={this.state.sfxMuted}
+          musicMuted={this.state.musicMuted}
+          stage={this.state.stage}
+          longQueueSize={8}
+          shortQueueSize={5}
         />
       </div>
     );
